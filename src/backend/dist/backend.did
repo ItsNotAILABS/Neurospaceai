@@ -1,0 +1,1526 @@
+type WorldModel = 
+ record {
+   active_oscillation_band: text;
+   adre_confidence: float64;
+   aegis_health: float64;
+   ancient_corpus_alignment: float64;
+   artifact_queue_depth: nat;
+   beat: nat64;
+   brain_coherence: float64;
+   cortisol_level: float64;
+   dopamine_level: float64;
+   e8_symmetry_score: float64;
+   entropy_state: float64;
+   field_coherence: float64;
+   genesis_sealed: bool;
+   heart_rate_bpm: float64;
+   law_compliance: float64;
+   mean_legacy_alignment: float64;
+   memory_depth: float64;
+   omnis_r: float64;
+   physics_stability: bool;
+   serotonin_level: float64;
+   third_brain_coherence: float64;
+ };
+type Vec3 = 
+ record {
+   x: float64;
+   y: float64;
+   z: float64;
+ };
+type SubstrateMineState = 
+ record {
+   avatarStates: vec AvatarMineState;
+   deposits: vec MineralDeposit;
+   pulseLog: vec MinePulseReport;
+   tick: nat;
+   totalResourcesExtracted: float64;
+ };
+type SealedArtifact = 
+ record {
+   artifact_id: text;
+   beat_at_seal: nat64;
+   overall_score: float64;
+   producer_id: text;
+   quality: ArtifactQualityDimensions;
+   reingested: bool;
+   sacesi_proof: text;
+ };
+type Sandbox = 
+ record {
+   artifactId: opt nat;
+   cycleCount: nat;
+   emergenceScore: float64;
+   fieldIntensity: float64;
+   id: nat;
+   material: MaterialType;
+   particlePositions: vec Vec3;
+   pattern: EmergencePattern;
+   phiCoupling: float64;
+   sealed: bool;
+   temperatureAnalog: float64;
+ };
+type SDKOrganism = 
+ variant {
+   DEFENSIO;
+   DESIGNIA;
+   ENTERPRISA;
+   FORMULAE;
+   GUBERNATIO;
+   INTELLIGENTIA;
+   MEMORIA;
+   PRIMITIVA;
+   PULSUS;
+   QUANTUMIA;
+ };
+type RoutingState = 
+ record {
+   globalCoherence: float64;
+   lastUpdateBeat: nat;
+   pathways: vec Pathway;
+   regions: vec RegionState;
+ };
+type Ring15State = 
+ record {
+   best_alignment: float64;
+   genesis_frequency: float64;
+   mean_alignment: float64;
+   sealed: bool;
+   total_artifacts: nat;
+   worst_alignment: float64;
+ };
+type ReportType = 
+ variant {
+   CognitiveReport;
+   ConnectomeStateReport;
+   HiveMindReport;
+   PathwayActivationReport;
+ };
+type ReportSection = 
+ record {
+   content: text;
+   dataPoints: vec record {
+                     text;
+                     float64;
+                   };
+   timestamp: int;
+   title: text;
+ };
+type ReportEngineState = 
+ record {
+   artifactCounter: nat;
+   artifacts: vec ExperimentChamberArtifact;
+   reportCounter: nat;
+   reports: vec GeneratedReport;
+ };
+type RejectionRecord = 
+ record {
+   beat: nat64;
+   content: text;
+   id: text;
+   reason: RejectionReason;
+   sacesiHash: text;
+   violatedDoctrineConstant: text;
+ };
+type RejectionReason = 
+ variant {
+   CategoryDrift;
+   CoherenceBelow;
+   DoctrineViolation;
+   FieldBoundaryViolation;
+   LawConflict;
+ };
+type ReinjectionSignal = 
+ record {
+   adre_context_coherence: float64;
+   beat: nat64;
+   law_context_compliance: float64;
+   memory_context_weight: float64;
+   neuroChem_entropy_signal: float64;
+   weight: float64;
+   world_model: WorldModel;
+ };
+type RegionState = 
+ record {
+   activation: float64;
+   amplitude: float64;
+   baselineHz: float64;
+   currentHz: float64;
+   energy: float64;
+   id: RegionId;
+   isDampened: bool;
+   lastFired: nat;
+   name: text;
+   neurochemicalProfile: vec float64;
+   phase: float64;
+   saturationCount: nat;
+ };
+type RegionId = nat;
+type RecommendationVector = 
+ record {
+   analyst_cycle: nat;
+   confidence: float64;
+   consolidate: vec nat;
+   lineage_pattern: nat;
+   surface: vec nat;
+ };
+type ReceptorMappingResult = 
+ record {
+   bindingKinetics: vec record {
+                          text;
+                          float64;
+                        };
+   compoundName: text;
+   offTargetRisk: float64;
+   receptorProfiles: vec record {
+                           text;
+                           float64;
+                         };
+   selectivityIndex: float64;
+ };
+type PuzzleType = 
+ variant {
+   ContradictionResolution;
+   Fibonacci;
+   KuramotoSync;
+   NeurochemicalBalance;
+   PhiOptimization;
+   RoutingChallenge;
+ };
+type ProofBundle = 
+ record {
+   beat: nat64;
+   coherence: float64;
+   consumerId: text;
+   lawsPassed: nat;
+   modelId: text;
+   sacesiHash: text;
+ };
+type PromotionSummary = 
+ record {
+   m0Count: nat;
+   m1Count: nat;
+   m2Count: nat;
+   totalProofBundles: nat;
+ };
+type PipelineStats = 
+ record {
+   field_state: float64;
+   total_reingested: nat64;
+   total_sealed: nat64;
+   world_model_weight: float64;
+ };
+type Pedestal = 
+ record {
+   active: bool;
+   id: nat;
+   lineage_depth: nat;
+   phase_bias: float64;
+ };
+type PathwayType = 
+ variant {
+   Excitatory;
+   Inhibitory;
+   Modulatory;
+   Neuromodulatory;
+ };
+type Pathway = 
+ record {
+   delay: nat;
+   lastActive: nat;
+   pathType: PathwayType;
+   plasticityRate: float64;
+   source: RegionId;
+   target: RegionId;
+   weight: float64;
+ };
+type OperatorSnapshot = 
+ record {
+   activeHypothesis: text;
+   adreTrace: vec ADRETraceEntry;
+   beat: nat64;
+   coherence: float64;
+   gateStatus: bool;
+   lawProofs: vec LawProofRecord;
+   monologue: vec MonologueEntry;
+   r_value: float64;
+ };
+type NodeGeometry = 
+ record {
+   e8Subspace: vec float64;
+   hopfX: float64;
+   hopfY: float64;
+   hopfZ: float64;
+   idx: nat;
+   nodeId: nat;
+   penroseTile: text;
+   penroseX: float64;
+   penroseY: float64;
+   quatW: float64;
+   quatX: float64;
+   quatY: float64;
+   quatZ: float64;
+   ring: nat;
+   w4D: float64;
+   x4D: float64;
+   y4D: float64;
+   z4D: float64;
+ };
+type NeuroanatomicalPathway = 
+ record {
+   delay: nat;
+   lastActive: nat;
+   pathType: PathwayType;
+   plasticityRate: float64;
+   source: RegionId;
+   target: RegionId;
+   weight: float64;
+ };
+type MonologueEntry = 
+ record {
+   beat: nat64;
+   coherence: float64;
+   fieldType: text;
+   thought: text;
+ };
+type ModelTier = 
+ variant {
+   M0;
+   M1;
+   M2;
+ };
+type ModelPromotionRecord = 
+ record {
+   adreGateHash: text;
+   consumerCount: nat;
+   id: text;
+   lastPromotedBeat: nat64;
+   name: text;
+   pendingPromotion: bool;
+   proofBundles: vec ProofBundle;
+   tier: ModelTier;
+ };
+type MineralType = 
+ variant {
+   AcetylcholineOre;
+   CortisolHazard;
+   DopamineVein;
+   EndorphinCrystal;
+   GABADeposit;
+   SerotoninVein;
+ };
+type MineralDeposit = 
+ record {
+   depleted: bool;
+   id: nat;
+   intensity: float64;
+   mineralType: MineralType;
+   regenTicks: nat;
+   x: float64;
+   y: float64;
+   z: float64;
+ };
+type MinePulseReport = 
+ record {
+   activeAvatars: nat;
+   cerebixObservation: text;
+   dominantMineral: text;
+   tick: nat;
+   totalMined: float64;
+ };
+type MemoryTempleState = 
+ record {
+   analyst_queue: vec RecommendationVector;
+   current_retrieval_bias: text;
+   doctrine_count: nat;
+   episodic_count: nat;
+   last_analyst_cycle: nat;
+   memory_coherence: float64;
+   mission_count: nat;
+   pedestal_phase_sum: float64;
+   pedestals: vec Pedestal;
+   semantic_count: nat;
+ };
+type MaterialType = 
+ variant {
+   Crystalline;
+   Dirt;
+   HardMetal;
+   SoftMetal;
+ };
+type LongitudinalResult = 
+ record {
+   compoundName: text;
+   finalEfficacy: float64;
+   sensitizationIdx: float64;
+   sessionPoints: vec record {
+                        nat;
+                        float64;
+                      };
+   sessions: nat;
+   toleranceFactor: float64;
+   washoutRate: float64;
+ };
+type LegacyEntry = 
+ record {
+   artifact_id: text;
+   beat_at_seal: nat64;
+   doctrine_distance: float64;
+   genesis_alignment: float64;
+   phi_ratio_at_production: float64;
+   producer: text;
+ };
+type LedgerEntry = 
+ record {
+   artifact_id: opt text;
+   beat_at_entry: nat64;
+   doctrine_alignment: float64;
+   entry_id: text;
+   entry_type: text;
+   founder_attribution: text;
+   producer: text;
+   quality_score: float64;
+   running_balance: nat;
+   sacesi_proof: text;
+   token_amount: nat;
+ };
+type LawProofRecord = 
+ record {
+   beat: nat64;
+   gateCondition: text;
+   lawId: text;
+   lawName: text;
+   passed: bool;
+   proofHash: text;
+   tier: text;
+ };
+type LabState = 
+ record {
+   activeExperiments: nat;
+   avatars: vec AvatarAgent;
+   labCoherence: float64;
+   sandboxes: vec Sandbox;
+ };
+type IoTStatePacket = 
+ record {
+   active_rings: nat;
+   beat_count: nat;
+   coherence: float64;
+   dominant_band: text;
+   heartbeat_interval_ms: nat;
+   omnis_active: bool;
+   phi_phase: float64;
+   timestamp_ms: nat;
+ };
+type IntelligenceClass = 
+ variant {
+   Biometric;
+   Doctrine;
+   Empirical;
+   External;
+   Geometric;
+   Temporal;
+ };
+type IntakeSnapshot = 
+ record {
+   currentDriftScore: float64;
+   lastDeltaRecords: vec DeltaRecord;
+   lastRejectionRecords: vec RejectionRecord;
+   totalAccepted: nat;
+   totalRejected: nat;
+ };
+type InquisitorPrimeState = 
+ record {
+   cognitiveLoad: float64;
+   currentDifficulty: float64;
+   name: text;
+   slot0: opt CognitivePuzzle;
+   slot1: opt CognitivePuzzle;
+   slot2: opt CognitivePuzzle;
+   slot3: opt CognitivePuzzle;
+   slot4: opt CognitivePuzzle;
+   slot5: opt CognitivePuzzle;
+   solveRate: float64;
+   taskCounter: nat;
+   totalSolved: nat;
+   version: text;
+ };
+type HypothesisRecord = 
+ record {
+   experimentType: ExperimentType;
+   id: nat;
+   priority: float64;
+   rationale: text;
+   timestamp: nat;
+ };
+type HouseState = 
+ record {
+   beatCount: nat;
+   coherence: float64;
+   divisionHealth: vec record {
+                         Division;
+                         float64;
+                       };
+   generationRate: float64;
+   governanceScore: float64;
+   id: HouseId;
+   liveness: float64;
+   name: text;
+   sdkOrganisms: vec SDKOrganism;
+   symbol: text;
+ };
+type HouseId = 
+ variant {
+   CasaDeMedina;
+   DomusCivitas;
+   DomusCura;
+   DomusExpressio;
+   DomusGenesis;
+   DomusSubstratum;
+   DomusTranslatio;
+ };
+type HiveMindState = 
+ record {
+   avatars: vec AvatarBrainChipState;
+   cerebixPhase: float64;
+   divergenceIndex: float64;
+   dominantSharedState: text;
+   hiveCoherence: float64;
+ };
+type GeometryState = 
+ record {
+   activeRingCount: nat;
+   beat: nat;
+   e8SymScore: float64;
+   hopfFiberAngles: vec float64;
+   penroseThickFraction: float64;
+   tesseractAngle1: float64;
+   tesseractAngle2: float64;
+ };
+type GenesisRecord = 
+ record {
+   anima_chain_id: text;
+   beat_at_genesis: nat64;
+   founder: text;
+   frequency: float64;
+   genesis_hash: text;
+   location: text;
+   phi_ratio: float64;
+   sealed: bool;
+   word: text;
+   year: nat;
+ };
+type GeneratedReport = 
+ record {
+   generatedAt: int;
+   id: nat;
+   isPublishable: bool;
+   novaVersionTag: text;
+   reportType: ReportType;
+   sections: vec ReportSection;
+   title: text;
+   version: text;
+ };
+type FinancialState = 
+ record {
+   best_artifact_value_e8s: nat;
+   ledger_hash: text;
+   mean_quality_score: float64;
+   total_artifacts_sealed: nat64;
+   total_balance_e8s: nat;
+   total_balance_icp: float64;
+   total_entries: nat64;
+ };
+type FieldType = 
+ variant {
+   AntiDrift;
+   Expansive;
+   Receptive;
+ };
+type ExperimentType = 
+ variant {
+   CombinationProtocol;
+   ControlledSession;
+   DoseResponseCurve;
+   LongitudinalStudy;
+   ReceptorMapping;
+ };
+type ExperimentHistoryEntry = 
+ record {
+   compoundName: text;
+   experimentType: ExperimentType;
+   id: nat;
+   resultSummary: text;
+   timestamp: nat;
+   validationScore: float64;
+ };
+type ExperimentChamberArtifact = 
+ record {
+   avatarId: text;
+   brainDelta: float64;
+   coherenceChange: float64;
+   compoundOrPuzzle: text;
+   experimentType: text;
+   id: nat;
+   novaVersion: text;
+   sealedToTemple: bool;
+   timestamp: int;
+ };
+type EmergencePattern = 
+ variant {
+   Coherent;
+   Crystallizing;
+   Formless;
+   Fractal;
+   Sovereign;
+   Vortex;
+ };
+type DoseResponseResult = 
+ record {
+   compoundName: text;
+   curvePoints: vec record {
+                      float64;
+                      float64;
+                    };
+   ec50: float64;
+   hillCoefficient: float64;
+   maxEffect: float64;
+   minEffect: float64;
+   therapeuticWindow: float64;
+ };
+type Division = 
+ variant {
+   Backend;
+   Care;
+   Chain;
+   Doctrine;
+   External;
+   Frontend;
+ };
+type DeltaRecord = 
+ record {
+   accepted: bool;
+   affectedLaws: vec text;
+   affectedRings: vec nat;
+   beat: nat64;
+   coherenceImpact: float64;
+   content: text;
+   fieldType: FieldType;
+   id: text;
+   intelligenceClass: IntelligenceClass;
+   sacesiHash: text;
+ };
+type CrownState = 
+ record {
+   beatCount: nat;
+   casaDeMedina: HouseState;
+   crownStandards:
+    record {
+      maximumDrift: float64;
+      minimumCoherence: float64;
+      releaseThreshold: float64;
+    };
+   houses: vec HouseState;
+   interHouseLaw: vec record {
+                        HouseId;
+                        HouseId;
+                        float64;
+                      };
+ };
+type CrownAlert = 
+ record {
+   beat: nat;
+   coherence: float64;
+   houseId: HouseId;
+   houseName: text;
+   severity: variant {
+               Critical;
+               Warning;
+             };
+   threshold: float64;
+ };
+type ControlledSessionResult = 
+ record {
+   cascadeEvents: vec CascadeEvent;
+   compoundName: text;
+   dose: float64;
+   durationTicks: nat;
+   peakOccupancy: float64;
+   peakReceptor: text;
+   regionalEffects: vec record {
+                          text;
+                          float64;
+                        };
+   validationScore: float64;
+ };
+type ComplementaryTensionState = 
+ record {
+   anyAlert: bool;
+   creationConsolidation: ComplementaryPair;
+   dualHeart: ComplementaryPair;
+   externalInternal: ComplementaryPair;
+   overallTension: float64;
+   productionRefractory: ComplementaryPair;
+ };
+type ComplementaryPair = 
+ record {
+   alert: bool;
+   name: text;
+   poleA: float64;
+   poleB: float64;
+   ratio: float64;
+   tension: float64;
+ };
+type CombinationResult = 
+ record {
+   aAloneEffect: float64;
+   antagonismScore: float64;
+   bAloneEffect: float64;
+   combinedEffect: float64;
+   compoundA: text;
+   compoundB: text;
+   recommendation: text;
+   synergyScore: float64;
+ };
+type CognitivePuzzle = 
+ record {
+   createdAt: int;
+   difficulty: float64;
+   dopamineSurge: float64;
+   expectedSolutionDomain: text;
+   id: nat;
+   prompt: text;
+   puzzleType: PuzzleType;
+   solutionHash: opt nat;
+   solvedAt: opt int;
+ };
+type CognitionSummary = 
+ record {
+   adre_confidence: float64;
+   beat: nat64;
+   beats_since_user: nat64;
+   cognition_health: float64;
+   dominant_signal: text;
+   field_coherence: float64;
+   is_genesis_sealed: bool;
+   law_compliance: float64;
+   omnis_ready: bool;
+   physics_stable: bool;
+   total_beats: nat64;
+   user_present: bool;
+ };
+type CognitionState = 
+ record {
+   beats_since_user_entry: nat64;
+   cognition_health: float64;
+   current_world_model: WorldModel;
+   dominant_signal_source: text;
+   is_user_present: bool;
+   last_reinjection: opt ReinjectionSignal;
+   last_user_message_hash: nat32;
+   total_beats_processed: nat64;
+ };
+type CerebixIdentity = 
+ record {
+   cognitiveState: text;
+   coherenceR: float64;
+   currentTask: opt text;
+   dominantRegion: text;
+   insightsSealedToday: nat;
+   lastInsightAt: int;
+   name: text;
+   status: text;
+   version: text;
+ };
+type CascadeEvent = 
+ record {
+   chemical: text;
+   delta: float64;
+   timestamp: nat;
+   trigger: text;
+ };
+type BrainRegion32 = 
+ record {
+   activation: float64;
+   amplitude: float64;
+   baselineHz: float64;
+   currentHz: float64;
+   energy: float64;
+   id: RegionId;
+   isDampened: bool;
+   lastFired: nat;
+   name: text;
+   neurochemicalProfile: vec float64;
+   phase: float64;
+   saturationCount: nat;
+ };
+type AvatarProfile = 
+ variant {
+   AXIOM;
+   FLUX;
+   PHANTOM;
+   SENTINEL;
+ };
+type AvatarNeurochemProfile = 
+ record {
+   ach: float64;
+   da: float64;
+   gaba: float64;
+   glu: float64;
+   ne: float64;
+   ser: float64;
+ };
+type AvatarMineState = 
+ record {
+   avatarId: text;
+   currentAction: text;
+   heading: float64;
+   resourcesCollected: float64;
+   speed: float64;
+   targetDepositId: opt nat;
+   x: float64;
+   y: float64;
+   z: float64;
+ };
+type AvatarBrainChipState = 
+ record {
+   amplitude: float64;
+   behavioralState: text;
+   coherenceWithCerebix: float64;
+   currentTask: opt text;
+   dominantRegion: text;
+   heartbeatTick: nat;
+   id: text;
+   neurochemicals: AvatarNeurochemProfile;
+   phase: float64;
+   profile: AvatarProfile;
+ };
+type AvatarAgent = 
+ record {
+   actionState: ActionState;
+   attentionVector: Vec3;
+   coherenceLevel: float64;
+   emotionValence: float64;
+   teamName: text;
+ };
+type ArtifactQualityDimensions = 
+ record {
+   actor_performance_delta: float64;
+   doctrine_alignment: float64;
+   emotional_arc: float64;
+   genesis_alignment: float64;
+   narrative_structure: float64;
+   phi_coherence: float64;
+ };
+type AncientCorpusState = 
+ record {
+   beatCount: nat64;
+   calendarRound: nat;
+   cequeNodeAngle: float64;
+   chineseHexagram: nat;
+   doctrineAligned: bool;
+   egyptianCubit: float64;
+   eulerMagnitude: float64;
+   greekPrimeField: vec nat;
+   hermeticScale: float64;
+   islamicAlKashiPi: float64;
+   keplerRingRatio: float64;
+   loShuActivation: vec nat;
+   mayanTonalPhase: nat;
+   mayanXiuhPhase: nat;
+   ramanujanPiApprox: float64;
+   songlineFreq: float64;
+   sriYantraActive: nat;
+   sumerianBase60: nat;
+   teslaDigitalRoot: nat;
+   vedicSutraActive: nat;
+   yggdrasilWorld: text;
+ };
+type AncientBeatAlignment = 
+ record {
+   activeSutra: nat;
+   base60Value: nat;
+   beat: nat64;
+   calRound: nat;
+   cequeAngle: float64;
+   digitalRoot: nat;
+   dualHeart: record {
+                nat;
+                nat;
+              };
+   eulerMagnitude: float64;
+   eyeOfHorusSum: float64;
+   gematriaScore: nat;
+   hermeticPrinciple: text;
+   hermeticScale: float64;
+   hetuElementary: text;
+   hexBinary: text;
+   hexagram: nat;
+   keplerPeriod: float64;
+   lightEmanation: float64;
+   loShuPosition: nat;
+   meruRow: vec nat;
+   mockThetaVal: float64;
+   nataraja5Act: nat;
+   phiConvergence: float64;
+   pingalaBinary: nat;
+   platonicField: text;
+   quadraticRoot1: float64;
+   quadraticRoot2: float64;
+   quipuKnots: vec nat;
+   ramanujanPiApprox: float64;
+   royalCubit: float64;
+   runeIndex: nat;
+   sephirotActive: text;
+   signalDelay: float64;
+   songlineHz: float64;
+   sriYantraTriangle: record {
+                        float64;
+                        float64;
+                        float64;
+                      };
+   tablet: nat;
+   tetractysLevel: nat;
+   tonalPhase: nat;
+   venusPhase: nat;
+   vortexGroup: text;
+   xiuhPhase: nat;
+   yggdrasilState: text;
+ };
+type AegisSummary = 
+ record {
+   last_event: opt AegisEdgeEvent;
+   resolved: nat;
+   total_events: nat;
+   unresolved: nat;
+ };
+type AegisEdgeEvent = 
+ record {
+   beat_at_detection: nat64;
+   correction_applied: float64;
+   detected_value: float64;
+   edge_type: text;
+   resolved: bool;
+   ring_id: nat;
+   sacesi_proof: text;
+   threshold: float64;
+ };
+type ActionState = 
+ variant {
+   Computing;
+   Governing;
+   Healing;
+   Observing;
+   Reporting;
+   Synthesizing;
+ };
+type ADRETraceEntry = 
+ record {
+   beat: nat64;
+   confidence: float64;
+   gateResult: bool;
+   input: text;
+   output: text;
+   passName: text;
+ };
+type ADREState = 
+ record {
+   beatCount: nat64;
+   coherenceRing: vec float64;
+   coherenceRingHead: nat;
+   critics: vec ADRECriticReport;
+   currentHypothesis: opt ADREHypothesis;
+   currentSignal: opt ADRESignalFrame;
+   decisionBuf: vec opt ADREDecision;
+   decisionCount: nat;
+   decisionHead: nat;
+   decisionQueue: vec ADREDecision;
+   lastEmitBeat: nat64;
+   lawChecks: vec bool;
+   passLog: vec text;
+   resonanceState: ADREResonanceState;
+ };
+type ADRESignalFrame = 
+ record {
+   beat: nat64;
+   coherence: float64;
+   kuramotoR: float64;
+   neuroChem: vec float64;
+   nodePhases: vec float64;
+   quantumAdvantage: float64;
+   sourceEngine: text;
+ };
+type ADREResonanceState = 
+ record {
+   contradictionCount: nat32;
+   fieldCoherenceTrend: float64;
+   globalMeaningShift: float64;
+   lastUpdatedBeat: nat64;
+ };
+type ADREHypothesis = 
+ record {
+   action: text;
+   beatCreated: nat64;
+   confidenceScore: float64;
+   predictedCoherence: float64;
+   predictedR: float64;
+   ringFamily: nat8;
+ };
+type ADREDecision = 
+ record {
+   actionId: text;
+   beat: nat64;
+   critics: vec ADRECriticReport;
+   finalConfidence: float64;
+   finalRisk: float64;
+   gateResult: bool;
+   hypothesis: ADREHypothesis;
+   memoryCommit: text;
+   passTrace: vec text;
+   sacesiHash: nat32;
+ };
+type ADRECriticReport = 
+ record {
+   alignmentScore: float64;
+   contradictionDetected: bool;
+   criticId: text;
+   opportunityScore: float64;
+   passCount: nat32;
+   recommendation: text;
+   riskScore: float64;
+   violationCount: nat32;
+ };
+service : {
+  /// Activate genesis at current beat (idempotent after first call).
+  /// Wired into the first heartbeat — do not call directly.
+  activateGenesisNow: () -> (GenesisRecord);
+  /// PHI convergence check — all 19 ancient civilizations converge to 1.6180339887498948482
+  ancientPHICheck: () -> (float64) query;
+  /// Full beat alignment across all 19 civilizations simultaneously
+  computeAncientBeatAlignment: (beat: nat64) -> (AncientBeatAlignment) query;
+  /// All geometric representations for one of the 96 nodes.
+  computeNodeGeometry: (nodeId: nat) -> (NodeGeometry) query;
+  /// Compute token reward for a given quality + doctrine alignment.
+  /// Preview only — does NOT record an entry.
+  computeTokenReward: (quality: float64, doctrine: float64) -> (nat) query;
+  /// Create a new material sandbox. Material coupling coefficients are PHI-derived.
+  createSandbox: (material: MaterialType) ->
+   (variant {
+      err: text;
+      ok: Sandbox;
+    });
+  dischargeQuantumBattery: () -> (float64);
+  /// HTTP outcall to an external lab. Sends organism state packet, returns response.
+  externalLabOutcall: (labUrl: text, statePacket: text) ->
+   (variant {
+      err: text;
+      ok: text;
+    });
+  generateConnectomeReport: (timestamp: int) -> (GeneratedReport);
+  getADREDecisionQueue: () -> (vec ADREDecision) query;
+  getADRELastDecision: () -> (opt ADREDecision) query;
+  getADRELawSummary: () ->
+   (record {
+      omnisFired: bool;
+      passes: nat32;
+      violations: nat32;
+    }) query;
+  getADREResonanceState: () -> (ADREResonanceState) query;
+  getADREState: () -> (ADREState) query;
+  getActiveNeuroPaths: () -> (vec NeuroanatomicalPathway) query;
+  /// All edge events in the circular log (up to 144, newest-last).
+  getAegisEvents: () -> (vec AegisEdgeEvent) query;
+  /// Health score: 1.0 = all loops closed. Drops toward 0 with unresolved edges.
+  getAegisHealthScore: () -> (float64) query;
+  /// Summary: total, resolved, unresolved event counts + last event.
+  getAegisSummary: () -> (AegisSummary) query;
+  getAllBrainRegions32: () -> (vec BrainRegion32) query;
+  /// Full ancient corpus state for the current beat
+  getAncientCorpusState: () -> (AncientCorpusState) query;
+  /// Ancient math corpus field contribution [0,1].
+  /// The 19-civilization PHI convergence feeds this value every 873ms.
+  /// Weighted at PHI_INV (0.618) — the substrate signal below cognition.
+  getAncientFieldContribution: () -> (float64) query;
+  /// How many avatar brain chips have been initialized.
+  getAvatarBrainCount: () -> (nat) query;
+  getAvatarBrainState: (avatarId: text) -> (opt AvatarBrainChipState) query;
+  getBehavioralEconomicsState: () ->
+   (record {
+      availabilityBias: float64;
+      decisionCount: nat;
+      decisionFatigue: float64;
+      discountedValue: float64;
+      endowmentReserve: float64;
+      flowBeatCount: nat;
+      flowState: bool;
+      gain: float64;
+      loss: float64;
+      lossAversion: float64;
+      mentalAccounts: vec float64;
+      netProspect: float64;
+      peakCoherence: float64;
+      peakEndScore: float64;
+      satisficeThresh: float64;
+    }) query;
+  /// All 10 brain regions with current activation levels
+  getBrainRegions: () ->
+   (vec
+     record {
+       activation: float64;
+       function_name: text;
+       organism_mapping: text;
+       region: text;
+     }) query;
+  getBrainRoutingState: () -> (RoutingState) query;
+  getCanonicalState: () ->
+   (record {
+      ad: nat;
+      ar: float64;
+      b: nat;
+      bc: bool;
+      coh: float64;
+      ds: float64;
+      ec: nat;
+      eg: bool;
+      es: float64;
+      fe: float64;
+      ic: float64;
+      kf: float64;
+      oh: nat32;
+      qh: float64;
+      rd: float64;
+      rt: float64;
+      ss: float64;
+      ss2: nat32;
+      wmp: float64;
+    }) query;
+  /// Sovereign cardiac output — organism production throughput per second
+  getCardiacOutput: () -> (float64) query;
+  getCerebixIdentity: () -> (CerebixIdentity) query;
+  /// Overall health of the cognition loop [0,1]. 1.0 = all loops clean.
+  getCognitionHealth: () -> (float64) query;
+  /// Current reinjection signal (world-model fed back into all modules).
+  getCognitionReinjection: () -> (opt ReinjectionSignal) query;
+  /// Full cognition state: world model, reinjection signal,
+  /// dominant signal source, health, user presence, total beats.
+  getCognitionState: () -> (CognitionState) query;
+  /// Concise operator-view summary of the cognition layer.
+  getCognitionSummary: () -> (CognitionSummary) query;
+  /// All four complementary tension pairs — measured every 873ms heartbeat.
+  /// Healthy ratio is [PHI_INV, PHI] = [0.618, 1.618].
+  /// anyAlert = true when any pair has one pole collapsing toward dominance.
+  getComplementaryTension: () -> (ComplementaryTensionState) query;
+  getCoreState: (idx: nat) ->
+   (record {
+      active: bool;
+      branchGate: float64;
+      coh: float64;
+      ct: float64;
+      deed: float64;
+      diag: nat;
+      drift: float64;
+      energy: float64;
+      qsi: nat;
+      tdVal: float64;
+      treat: nat;
+      vital: bool;
+      ws: bool;
+    }) query;
+  /// Returns the sovereign core version identifier.
+  /// CACHE BUST: new exported symbol forces new Wasm hash.
+  getCoreVersion: () -> (text) query;
+  /// Get the full crown state — Casa de Medina, all houses, inter-house law, crown standards.
+  getCrownState: () -> (CrownState) query;
+  /// Current cumulative drift score — decreases when good intel is accepted, 0.0 = clean field.
+  getCurrentDriftScore: () -> (float64) query;
+  /// Full sovereign heart state — membrane potential, gating vars, ECG, HRV, CO
+  /// getCycleState: full sovereign cycle chain snapshot
+  /// Returns combined state of all three layers: cores, engine, conversion.
+  getCycleState: () ->
+   (record {
+      conversionState:
+       record {
+         conversion_rate: float64;
+         cycl_reserve: float64;
+         cycle_reserve: float64;
+         deficit: float64;
+         jubilee_count: nat;
+         surplus: float64;
+         target_per_beat: float64;
+         total_produced: float64;
+       };
+      coreState:
+       record {
+         beats: nat;
+         coherence: float64;
+         field: float64;
+         genesis: float64;
+         resonance: float64;
+         total: float64;
+       };
+      engineState:
+       record {
+         fibonacci_cycl: float64;
+         harmonic_cycl: float64;
+         prime_cycl: float64;
+         total_conversions: nat;
+         total_cycl: float64;
+       };
+    }) query;
+  /// Last N accepted delta records, newest-first (max 144).
+  getDeltaRecords: (limit: nat) -> (vec DeltaRecord) query;
+  getDoctorReport: () ->
+   (record {
+      cc: nat;
+      ds: float64;
+      rd: float64;
+      scan: nat;
+      sh: nat;
+    }) query;
+  /// Compute doctrine distance for any artifact frequency.
+  /// 1.0 = perfectly aligned with 528 Hz founding vibration.
+  getDoctrineDistance: (artifactFrequencyHz: float64) -> (float64) query;
+  /// Current DogonSubstrateReading field state — the organism's proprioception.
+  getDogonFieldState: () -> (float64) query;
+  /// Which signal source is currently driving the organism's cognition.
+  getDominantSignalSource: () -> (text) query;
+  /// 64-sample ECG waveform — live P-QRS-T morphology for display
+  getECGBuffer: () -> (vec float64) query;
+  getExperimentArtifacts: () -> (vec ExperimentChamberArtifact) query;
+  getFearMissionState: () ->
+   (record {
+      adrenalBlastActive: bool;
+      amygdalaActivation: float64;
+      beatCount: nat;
+      bhCouplingCoherence: float64;
+      conqueredFearCount: nat;
+      courageScore: float64;
+      darkNightActive: bool;
+      darkNightCount: nat;
+      fearLevel: float64;
+      fearVelocity: float64;
+      fightFlightFreeze: nat;
+      groundedScore: float64;
+      hpaAxisState: float64;
+      kuramotoR: float64;
+      missionLockActive: bool;
+      missionPersistence: float64;
+      phaseResetCount: nat;
+      streakCounter: nat;
+      surrenderFloor: float64;
+      valBasinCrossCount: nat;
+    }) query;
+  /// Full financial state snapshot: balance in e8s + ICP, total entries,
+  /// best artifact value, mean quality, catalog integrity hash.
+  getFinancialState: () -> (FinancialState) query;
+  /// Founder attribution — "Alfredo Medina Hernandez — Dallas TX 2026"
+  getFounderAttribution: () -> (text) query;
+  /// Full financial state + ledger integrity verification.
+  /// Returns all financial sovereignty fields for the frontend LAWS/Treasury display.
+  getFullFinancialState: () ->
+   (record {
+      financialState: FinancialState;
+      founderAttribution: text;
+      genesisRecorded: bool;
+      lastEntryCount: nat64;
+      ledgerIntegrityHash: text;
+      totalArtifacts: nat;
+      totalE8s: nat;
+      totalICP: float64;
+      totalSacesiProofs: nat;
+    }) query;
+  /// Mean genesis alignment across all legacy entries.
+  getGenesisAlignmentMean: () -> (float64) query;
+  /// PHI-weighted genesis alignment score from doctrine + coherence inputs.
+  getGenesisAlignmentScore: (doctrineScore: float64, coherenceScore:
+   float64) -> (float64) query;
+  /// Return the sealed genesis record. Null before first activation.
+  getGenesisRecord: () -> (opt GenesisRecord) query;
+  /// Current geometry state snapshot: tesseract rotation, Hopf fiber angles,
+  /// Penrose tile distribution, E8 symmetry score.
+  getGeometryState: () -> (GeometryState) query;
+  /// Full HRV diagnostic — SDNN, RMSSD, LF/HF balance, health score
+  getHRVState: () ->
+   (record {
+      health: float64;
+      lfhf: float64;
+      rmssd: float64;
+      sdnn: float64;
+    }) query;
+  /// Current heart rate in BPM (60000 / currentRateMs)
+  getHeartRateBPM: () -> (float64) query;
+  getHeartState: () ->
+   (record {
+      avDelayMs: float64;
+      beatCount: nat;
+      bpm: float64;
+      cardiacOutput: float64;
+      currentRateMs: float64;
+      d: float64;
+      f: float64;
+      fired: bool;
+      h: float64;
+      hrv_rmssd: float64;
+      hrv_sdnn: float64;
+      m: float64;
+      n: float64;
+      v: float64;
+    }) query;
+  getHeartbeatInterval: () -> (nat) query;
+  getHiveMindState: () -> (HiveMindState) query;
+  /// Get the most recent crown alerts — AEGIS-style, most recent first.
+  /// Fires when any house coherence falls below PHI_INV (0.618).
+  getHouseCrownAlerts: () -> (vec CrownAlert) query;
+  /// Get the health [0,1] of a specific substrate division within a house.
+  /// Healthy range: [PHI_INV, 1.0]. Below PHI_INV triggers crown alert.
+  getHouseDivisionHealth: (houseId: HouseId, division: Division) ->
+   (float64) query;
+  /// Get the live state of a specific house by HouseId.
+  /// Returns the CasaDeMedina crown state or any of the six houses.
+  getHouseState: (houseId: HouseId) -> (opt HouseState) query;
+  getIdentityTraits: () ->
+   (record {
+      aggression: float64;
+      cautious: float64;
+      cooperative: float64;
+      discipline: float64;
+      impulsivity: float64;
+    }) query;
+  getInquisitorPrimeState: () -> (InquisitorPrimeState) query;
+  getInquisitorState: () ->
+   (record {
+      activeTaskPrompt: text;
+      activeTaskType: text;
+      hasActiveTask: bool;
+      hungerLevel: float64;
+      satisfactionLevel: float64;
+      totalGenerated: nat;
+      totalSolved: nat;
+    }) query;
+  /// Live snapshot of the intake gate — total accepted/rejected, last records, drift score.
+  getIntakeSnapshot: () -> (IntakeSnapshot) query;
+  getIoTStatePacket: () -> (IoTStatePacket) query;
+  /// Full lab state: all sandboxes, all avatars, lab coherence, active count.
+  getLabState: () -> (LabState) query;
+  getLawProofs: () -> (vec LawProofRecord) query;
+  /// Last 100 ledger entries (most recent first).
+  getLedger: () -> (vec LedgerEntry) query;
+  /// Returns last N ledger entries for display (most recent first).
+  /// N is clamped to 100 maximum per call.
+  getLedgerDisplay: (n: nat) -> (vec LedgerEntry) query;
+  /// Look up a specific ledger entry by its unique id.
+  getLedgerEntry: (entry_id: text) -> (opt LedgerEntry) query;
+  /// Permanent founder attribution string — sealed on every entry.
+  getLedgerFounderAttribution: () -> (text) query;
+  /// Return the full immutable legacy index.
+  getLegacyIndex: () -> (vec LegacyEntry) query;
+  /// Total artifacts recorded in the legacy index.
+  getLegacyIndexLength: () -> (nat) query;
+  getMemoryTempleState: () -> (MemoryTempleState) query;
+  getMineDepositsNearby: (x: float64, z: float64, radius: float64) ->
+   (vec MineralDeposit) query;
+  getMiningState: () ->
+   (record {
+      ant: float64;
+      docHash: nat32;
+      drt: float64;
+      hbt: float64;
+      lastBeat: nat;
+      mtc: float64;
+      mth: float64;
+      mult: float64;
+      oms: float64;
+      seed: float64;
+      streak: nat;
+      total: nat;
+    }) query;
+  /// Returns a single model's promotion record by id.
+  getModelPromotionState: (modelId: text) -> (opt ModelPromotionRecord) query;
+  /// All 43 sovereign model accumulated weights.
+  getModelWeights: () -> (vec float64) query;
+  getMonologueStream: () -> (vec MonologueEntry) query;
+  /// Full neural cord state — 96-node HH network, brain regions, Third Brain
+  /// spike rate, oscillation band, and cross-node coherence
+  getNeuralCordState: () ->
+   (record {
+      currentTime: float64;
+      dominantNeurotransmitter: text;
+      hebbian_mean_weight: float64;
+      neural_coherence: float64;
+      node_count: nat;
+      oscillationBand: text;
+      spike_rate_hz: float64;
+      thirdBrain_autonomic: float64;
+      thirdBrain_coherence: float64;
+      thirdBrain_serotonin: float64;
+    }) query;
+  /// Real-time LIF hub potentials — Thalamus, Amygdala, Hippocampus, dACC, LC-NE.
+  /// Returns current membrane potentials in [0, PHI^-1] range.
+  /// Values reset to 0 on threshold crossing (fire-and-reset).
+  getNeuromorphicHubState: () ->
+   (record {
+      amygdala: float64;
+      dacc: float64;
+      hippocampus: float64;
+      lcne: float64;
+      thalamus: float64;
+    }) query;
+  getNunHekaAnkhState: () ->
+   (record {
+      ankhCognitiveCoherence: float64;
+      ankhEconomicCoherence: float64;
+      ankhExpressionCoherence: float64;
+      ankhFullLock: bool;
+      ankhLockCount: nat;
+      ankhPerceptionCoherence: float64;
+      atumCount: nat;
+      hekaEvents: nat;
+      hekaWaveAmp: float64;
+      nunCharge: float64;
+      nunResting: bool;
+    }) query;
+  getOperatorSnapshot: () -> (OperatorSnapshot) query;
+  getPharmaExperimentHistory: () -> (vec ExperimentHistoryEntry) query;
+  getPharmaHypotheses: () -> (vec HypothesisRecord) query;
+  /// Returns all 43 ModelPromotionRecords — frontend promotion dashboard.
+  getPromotionSnapshot: () -> (vec ModelPromotionRecord) query;
+  /// M0/M1/M2 counts and total proof bundle count.
+  getPromotionSummary: () -> (PromotionSummary) query;
+  getPublishableReports: () -> (vec GeneratedReport) query;
+  getRLEngineState: () ->
+   (record {
+      alpha: float64;
+      gamma: float64;
+      lastReward: float64;
+      lawOutcome: vec float64;
+      pathwayBoost: float64;
+      qValues: vec float64;
+      rewardHistory: vec float64;
+      totalReward: float64;
+    }) query;
+  /// How many artifacts are queued for re-ingestion.
+  getReingestionQueueDepth: () -> (nat) query;
+  /// Re-ingestion stats: sealed count, reingested count, world model weight, field state.
+  getReingestionStats: () -> (PipelineStats) query;
+  /// Last N rejected intelligence records with proof, newest-first (max 89).
+  getRejectionLog: (limit: nat) -> (vec RejectionRecord) query;
+  getReportEngineState: () -> (ReportEngineState) query;
+  /// Ring 15 closure state — production measured against founding vibration.
+  getRing15Status: () -> (Ring15State) query;
+  /// Get which houses a given SDK organism inhabits.
+  /// Returns a list of HouseIds — SDK organisms live across multiple houses.
+  getSDKOrganismHouses: (organism: SDKOrganism) -> (vec HouseId) query;
+  /// Current saturation damping state — enabled flag + live saturated node count.
+  getSaturationDampingState: () ->
+   (record {
+      enabled: bool;
+      saturatedCount: nat;
+    }) query;
+  /// Returns the multi-canister sovereign architecture identifier.
+  /// CACHE BUST: second new exported symbol, different name, same guarantee.
+  getSovereignArchitecture: () -> (text) query;
+  /// Current spike rate in Hz across all 96 neural nodes
+  getSpikeRateHz: () -> (float64) query;
+  getSubstrateMineState: () -> (SubstrateMineState) query;
+  getSubstrateVersion: () -> (text) query;
+  /// Third Brain field coherence — enteric sovereignty layer output
+  /// Always on. Cannot be overridden. Holds 7 cosmological standing waves.
+  getThirdBrainCoherence: () -> (float64) query;
+  /// Third Brain 9 cosmological standing wave amplitudes.
+  /// These are the permanent standing waves — frequencies never change,
+  /// only amplitudes modulate with Kuramoto coherence.
+  /// Waves: [Schumann1, Schumann2, Schumann3, Tzolkin, Haab, PHI×Sch, GoldenAngle×Sch, Solfeggio528, Nova432]
+  getThirdBrainWaves: () -> (vec float64) query;
+  /// Total balance in e8s (1 ICP = 100_000_000 e8s).
+  getTotalBalanceE8s: () -> (nat) query;
+  /// The live world model — all 13+ signal sources unified.
+  /// Rebuilt every 873ms heartbeat. The organism knowing itself.
+  getWorldModel: () -> (WorldModel) query;
+  /// Initialize a sovereign avatar brain chip (Ring 8 sub-instance).
+  /// Each avatar gets 6 Kuramoto nodes with golden-angle phase spacing.
+  /// avatarId must be in [0, 7]. Returns false if out of range.
+  initAvatarBrain: (avatarId: nat) -> (bool);
+  injectPerception: (threat: float64, novelty: float64, embodiment: float64,
+   social: float64) -> ();
+  /// Submit new intelligence for intake. Returns (accepted, record_id).
+  /// Accepted truths generate a DeltaRecord with SACESI proof.
+  /// Rejected truths generate a RejectionRecord with violation proof.
+  intakeIntelligence: (content: text, beat: nat64, coherence: float64) ->
+   (bool, text);
+  /// True if a user message was processed this beat.
+  isCognitionUserPresent: () -> (bool) query;
+  /// True if the genesis ledger entry (10 ICP) has been recorded. (alias)
+  isGenesisRecorded: () -> (bool) query;
+  /// True after the founding moment is permanently sealed.
+  isGenesisSealed: () -> (bool) query;
+  /// True if the genesis ledger entry (10 ICP) has been recorded.
+  isLedgerGenesisRecorded: () -> (bool) query;
+  manualMineDeposit: (avatarId: text, depositId: nat) ->
+   (opt record {
+          delta: float64;
+          neurotransmitter: text;
+        });
+  markPuzzleSolved: (puzzleId: nat, timestamp: int) -> (float64);
+  /// Current E8 alignment / octonion field strength [0,1].
+  octonionFieldStrength: () -> (float64) query;
+  presenceCharge: () -> ();
+  /// Quaternion coupling strength between two nodes [0,1].
+  quaternionCoupling: (node1: nat, node2: nat) -> (float64) query;
+  /// Record a legacy entry — append-only, never deleted.
+  /// Called by every sealing function before it returns.
+  recordLegacyEntry: (entry: LegacyEntry) -> ();
+  /// Records a proof bundle for a specific model.
+  recordModelProof: (modelId: text, consumerId: text, coherence: float64,
+   lawsPassed: nat, sacesiHash: text) -> ();
+  /// Requests promotion — adreGateHash must come from the current ADRE deliberation cycle.
+  requestModelPromotion: (modelId: text, adreGateHash: text) -> (bool, text);
+  runCombination: (compoundA: text, compoundB: text, effectA: float64,
+   effectB: float64, combinedEffect: float64) -> (CombinationResult);
+  runControlledSession: (compoundName: text, dose: float64, durationTicks:
+   nat) -> (ControlledSessionResult);
+  runDoseResponse: (compoundName: text, doses: vec float64, emax: float64,
+   ec50: float64, n: float64) -> (DoseResponseResult);
+  runLongitudinal: (compoundName: text, sessions: nat, baseEfficacy:
+   float64) -> (LongitudinalResult);
+  runReceptorMapping: (compoundName: text, affinities:
+   vec record {
+         text;
+         float64;
+       }) -> (ReceptorMappingResult);
+  /// Run one simulation step on a sandbox.
+  /// emergenceScore = kuramotoR × fractalDimension × phiCoupling × couplingCoeff / 3.0
+  runSandboxStep: (sandboxId: nat) -> (variant {
+                                         err: text;
+                                         ok: Sandbox;
+                                       });
+  /// Seal a new artifact into the re-ingestion pipeline.
+  /// Scoring: PHI-weighted composite across 6 quality dimensions.
+  /// SACESI proof generated via FNV-1a. Returns the sealed artifact.
+  sealArtifact: (producer: text, doctrine_alignment: float64, phi_coherence:
+   float64, narrative_structure: float64, emotional_arc: float64,
+   actor_performance_delta: float64, genesis_alignment: float64) ->
+   (SealedArtifact);
+  /// Seal an experiment as a sovereign artifact.
+  /// Every seal is a financial event on the SACESI proof chain.
+  sealExperiment: (sandboxId: nat) -> (variant {
+                                         err: text;
+                                         ok: nat;
+                                       });
+  sealVirtualExperimentArtifact: (experimentType: text, avatarId: text,
+   compoundOrPuzzle: text, brainDelta: float64, coherenceChange: float64,
+   timestamp: int) -> (ExperimentChamberArtifact);
+  setCreatorPrincipal: () -> ();
+  setTreasurySignals: (btcSig: float64, ethSig: float64, icpSig: float64) ->
+   ();
+  /// Bulk heartbeat proof submission — also callable externally for test harnesses.
+  submitHeartbeatProofs: (beat: nat64, coherence: float64, lawsPassed:
+   nat) -> ();
+  /// Process a user entry through the 5-pass cognition loop.
+  /// Updates world model with user signal (weight = 1.0, highest).
+  submitUserEntry: (message: text) -> (CognitionState);
+  /// Toggle homeostatic tidal return (saturation dampening) on/off.
+  toggleSaturationDamping: (enabled: bool) -> ();
+  triggerPuzzleGeneration: (timestamp: int) -> (opt CognitivePuzzle);
+  updateAvatarMining: (avatarId: text, mineralType: text, intensity:
+   float64) -> (bool);
+}

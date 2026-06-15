@@ -1,0 +1,1721 @@
+// Version: 1.0.0
+type ADRECriticReport__33507194 =
+  {
+    alignmentScore : Float;
+    contradictionDetected : Bool;
+    criticId : Text;
+    opportunityScore : Float;
+    passCount : Nat32;
+    recommendation : Text;
+    riskScore : Float;
+    violationCount : Nat32
+  };
+type ADREDecision__175734303 =
+  {
+    actionId : Text;
+    beat : Nat64;
+    critics : [ADRECriticReport__33507194];
+    finalConfidence : Float;
+    finalRisk : Float;
+    gateResult : Bool;
+    hypothesis : ADREHypothesis__518468570;
+    memoryCommit : Text;
+    passTrace : [Text];
+    sacesiHash : Nat32
+  };
+type ADREHypothesis__518468570 =
+  {
+    action : Text;
+    beatCreated : Nat64;
+    confidenceScore : Float;
+    predictedCoherence : Float;
+    predictedR : Float;
+    ringFamily : Nat8
+  };
+type ADREResonanceState__588863048 =
+  {
+    contradictionCount : Nat32;
+    fieldCoherenceTrend : Float;
+    globalMeaningShift : Float;
+    lastUpdatedBeat : Nat64
+  };
+type ADRESignalFrame__715137279 =
+  {
+    beat : Nat64;
+    coherence : Float;
+    kuramotoR : Float;
+    neuroChem : [Float];
+    nodePhases : [Float];
+    quantumAdvantage : Float;
+    sourceEngine : Text
+  };
+type ADRETraceEntry__641003173 =
+  {
+    beat : Nat64;
+    confidence : Float;
+    gateResult : Bool;
+    input : Text;
+    output : Text;
+    passName : Text
+  };
+type ActionState__421986099 =
+  {#Computing; #Governing; #Healing; #Observing; #Reporting; #Synthesizing};
+type AegisEdgeEvent__37121318 =
+  {
+    beat_at_detection : Nat64;
+    correction_applied : Float;
+    detected_value : Float;
+    edge_type : Text;
+    resolved : Bool;
+    ring_id : Nat;
+    sacesi_proof : Text;
+    threshold : Float
+  };
+type ArtifactQualityDimensions__483476852 =
+  {
+    actor_performance_delta : Float;
+    doctrine_alignment : Float;
+    emotional_arc : Float;
+    genesis_alignment : Float;
+    narrative_structure : Float;
+    phi_coherence : Float
+  };
+type AvatarAgent__883088610 =
+  {
+    actionState : ActionState__421986099;
+    attentionVector : Vec3__562567824;
+    coherenceLevel : Float;
+    emotionValence : Float;
+    teamName : Text
+  };
+type AvatarBrainChipState__172984464 =
+  {
+    amplitude : Float;
+    behavioralState : Text;
+    coherenceWithCerebix : Float;
+    currentTask : ?Text;
+    dominantRegion : Text;
+    heartbeatTick : Nat;
+    id : Text;
+    neurochemicals : AvatarNeurochemProfile__42424417;
+    phase : Float;
+    profile : AvatarProfile__1049070482
+  };
+type AvatarMineState__711574221 =
+  {
+    avatarId : Text;
+    currentAction : Text;
+    heading : Float;
+    resourcesCollected : Float;
+    speed : Float;
+    targetDepositId : ?Nat;
+    x : Float;
+    y : Float;
+    z : Float
+  };
+type AvatarNeurochemProfile__42424417 =
+  {
+    ach : Float;
+    da : Float;
+    gaba : Float;
+    glu : Float;
+    ne : Float;
+    ser : Float
+  };
+type AvatarProfile__1049070482 = {#AXIOM; #FLUX; #PHANTOM; #SENTINEL};
+type BrainRegionState__66136381 =
+  {
+    activation : Float;
+    function_name : Text;
+    organism_mapping : Text;
+    region : Text
+  };
+type CliffordAddress__190548773 =
+  {locus : Nat; ring : Nat; w : Float; x : Float; y : Float; z : Float};
+type CognitivePuzzle__721630589 =
+  {
+    createdAt : Int;
+    difficulty : Float;
+    dopamineSurge : Float;
+    expectedSolutionDomain : Text;
+    id : Nat;
+    prompt : Text;
+    puzzleType : PuzzleType__496085921;
+    solutionHash : ?Nat;
+    solvedAt : ?Int
+  };
+type ComplementaryPair__289461585 =
+  {
+    alert : Bool;
+    name : Text;
+    poleA : Float;
+    poleB : Float;
+    ratio : Float;
+    tension : Float
+  };
+type CrownAlert__10618891 =
+  {
+    beat : Nat;
+    coherence : Float;
+    houseId : HouseId__871138916;
+    houseName : Text;
+    severity : {#Critical; #Warning};
+    threshold : Float
+  };
+type CrownState__46448933 =
+  {
+    beatCount : Nat;
+    casaDeMedina : HouseState__642374833;
+    crownStandards :
+      {
+        maximumDrift : Float;
+        minimumCoherence : Float;
+        releaseThreshold : Float
+      };
+    houses : [HouseState__642374833];
+    interHouseLaw : [(HouseId__871138916, HouseId__871138916, Float)]
+  };
+type Data__159895909<T> = {var count : Nat__490723111; elements : [var ?T]};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DeltaRecord__912824063 =
+  {
+    accepted : Bool;
+    affectedLaws : [Text];
+    affectedRings : [Nat];
+    beat : Nat64;
+    coherenceImpact : Float;
+    content : Text;
+    fieldType : FieldType__134745758;
+    id : Text;
+    intelligenceClass : IntelligenceClass__916592323;
+    sacesiHash : Text
+  };
+type Division__481347895 =
+  {#Backend; #Care; #Chain; #Doctrine; #External; #Frontend};
+type DoctrineDelta__503477463 =
+  {
+    beatStamp : Int;
+    coherenceTrend : Float;
+    confidenceScore : Float;
+    contradictionCount : Nat;
+    decisionSummary : Text;
+    hypothesis : Text;
+    lawAlignmentScore : Float;
+    ringFamily : Nat;
+    sacesiHash : Nat32
+  };
+type DoctrineTrace__816781140 =
+  {compliance : Float; invocation_time : Nat; law_id : Nat; outcome : Float};
+type EmergencePattern__1009143377 =
+  {#Coherent; #Crystallizing; #Formless; #Fractal; #Sovereign; #Vortex};
+type EpisodicTrace__789772940 =
+  {
+    brain_coh : Float;
+    gut_coh : Float;
+    heart_coh : Float;
+    organism_R : Float;
+    state_vector : [Float];
+    timestamp : Nat
+  };
+type ExperimentChamberArtifact__1073150053 =
+  {
+    avatarId : Text;
+    brainDelta : Float;
+    coherenceChange : Float;
+    compoundOrPuzzle : Text;
+    experimentType : Text;
+    id : Nat;
+    novaVersion : Text;
+    sealedToTemple : Bool;
+    timestamp : Int
+  };
+type ExperimentHistoryEntry__477748052 =
+  {
+    compoundName : Text;
+    experimentType : ExperimentType__938299632;
+    id : Nat;
+    resultSummary : Text;
+    timestamp : Nat;
+    validationScore : Float
+  };
+type ExperimentType__938299632 =
+  {
+    #CombinationProtocol;
+    #ControlledSession;
+    #DoseResponseCurve;
+    #LongitudinalStudy;
+    #ReceptorMapping
+  };
+type FieldType__134745758 = {#AntiDrift; #Expansive; #Receptive};
+type GeneratedReport__1040652972 =
+  {
+    generatedAt : Int;
+    id : Nat;
+    isPublishable : Bool;
+    novaVersionTag : Text;
+    reportType : ReportType__666579347;
+    sections : [ReportSection__128926924];
+    title : Text;
+    version : Text
+  };
+type GenesisRecord__792592299 =
+  {
+    anima_chain_id : Text;
+    beat_at_genesis : Nat64;
+    founder : Text;
+    frequency : Float;
+    genesis_hash : Text;
+    location : Text;
+    phi_ratio : Float;
+    sealed : Bool;
+    word : Text;
+    year : Nat
+  };
+type HHState__267938520 =
+  {
+    beatCount : Nat;
+    d : Float;
+    f : Float;
+    h : Float;
+    m : Float;
+    n : Float;
+    v : Float
+  };
+type HRVState__714188622 =
+  {health : Float; lfhf : Float; rmssd : Float; sdnn : Float};
+type HeartState__291098923 =
+  {
+    avDelayMs : Float;
+    beatCount : Nat;
+    cardiacOutput : Float;
+    currentRateMs : Float;
+    d : Float;
+    ecgBuffer : [Float];
+    f : Float;
+    h : Float;
+    hrv_rmssd : Float;
+    hrv_sdnn : Float;
+    lastBeatIntervals : [Float];
+    m : Float;
+    n : Float;
+    v : Float
+  };
+type HouseId__871138916 =
+  {
+    #CasaDeMedina;
+    #DomusCivitas;
+    #DomusCura;
+    #DomusExpressio;
+    #DomusGenesis;
+    #DomusSubstratum;
+    #DomusTranslatio
+  };
+type HouseState__642374833 =
+  {
+    beatCount : Nat;
+    coherence : Float;
+    divisionHealth : [(Division__481347895, Float)];
+    generationRate : Float;
+    governanceScore : Float;
+    id : HouseId__871138916;
+    liveness : Float;
+    name : Text;
+    sdkOrganisms : [SDKOrganism__451599041];
+    symbol : Text
+  };
+type HypothesisRecord__740207298 =
+  {
+    experimentType : ExperimentType__938299632;
+    id : Nat;
+    priority : Float;
+    rationale : Text;
+    timestamp : Nat
+  };
+type InquisitorTask__677960296 =
+  {
+    difficulty : Float;
+    injectedAt : Nat;
+    prompt : Text;
+    satisfactionGain : Float;
+    solved : Bool;
+    taskId : Nat;
+    taskType : TaskType__991530548
+  };
+type IntelligenceClass__916592323 =
+  {#Biometric; #Doctrine; #Empirical; #External; #Geometric; #Temporal};
+type Internal__667636161<T> =
+  {children : [var ?Node__92254746<T>]; data : Data__159895909<T>};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type LawProofRecord__984253546 =
+  {
+    beat : Nat64;
+    gateCondition : Text;
+    lawId : Text;
+    lawName : Text;
+    passed : Bool;
+    proofHash : Text;
+    tier : Text
+  };
+type Leaf__520550824<T> = {data : Data__159895909<T>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type LedgerEntry__351990400 =
+  {
+    artifact_id : ?Text;
+    beat_at_entry : Nat64;
+    doctrine_alignment : Float;
+    entry_id : Text;
+    entry_type : Text;
+    founder_attribution : Text;
+    producer : Text;
+    quality_score : Float;
+    running_balance : Nat;
+    sacesi_proof : Text;
+    token_amount : Nat
+  };
+type LedgerState__510275505 =
+  {
+    best_value_e8s : Nat;
+    genesis_recorded : Bool;
+    hash_head : Nat;
+    last_10_hashes : [Text];
+    ledger : List__415060402<LedgerEntry__351990400>;
+    quality_sum : Float;
+    total_artifacts : Nat64;
+    total_balance_e8s : Nat;
+    total_entries : Nat64
+  };
+type LegacyEntry__528705163 =
+  {
+    artifact_id : Text;
+    beat_at_seal : Nat64;
+    doctrine_distance : Float;
+    genesis_alignment : Float;
+    phi_ratio_at_production : Float;
+    producer : Text
+  };
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type MaterialType__388143130 = {#Crystalline; #Dirt; #HardMetal; #SoftMetal};
+type MinePulseReport__439885519 =
+  {
+    activeAvatars : Nat;
+    cerebixObservation : Text;
+    dominantMineral : Text;
+    tick : Nat;
+    totalMined : Float
+  };
+type MineralDeposit__67095672 =
+  {
+    depleted : Bool;
+    id : Nat;
+    intensity : Float;
+    mineralType : MineralType__861386525;
+    regenTicks : Nat;
+    x : Float;
+    y : Float;
+    z : Float
+  };
+type MineralType__861386525 =
+  {
+    #AcetylcholineOre;
+    #CortisolHazard;
+    #DopamineVein;
+    #EndorphinCrystal;
+    #GABADeposit;
+    #SerotoninVein
+  };
+type MissionTrace__999805144 =
+  {
+    active : Bool;
+    deficit_vector : [Float];
+    goal_id : Nat;
+    timestamp : Nat;
+    urgency : Float
+  };
+type ModelState__1046390536 =
+  {
+    var adreGateHash : Text;
+    var consumerCount : Nat;
+    var lastPromotedBeat : Nat64;
+    var pendingPromotion : Bool;
+    var proofBundles : [ProofBundle__211360768];
+    var tier : ModelTier__1005519915
+  };
+type ModelTier__1005519915 = {#M0; #M1; #M2};
+type MonologueEntry__45528654 =
+  {beat : Nat64; coherence : Float; fieldType : Text; thought : Text};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NeuralHHState__298940314 =
+  {
+    h : Float;
+    lastSpikeTime : Float;
+    m : Float;
+    n : Float;
+    spiking : Bool;
+    v : Float
+  };
+type NeurotransmitterInfluence__828749955 =
+  {
+    acetylcholine : Float;
+    cortisol : Float;
+    norepinephrine : Float;
+    serotonin : Float
+  };
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Node__585180226<T> =
+  {
+    var next : ?Node__585180226<T>;
+    var previous : ?Node__585180226<T>;
+    value : T
+  };
+type Node__92254746<T> =
+  {#internal : Internal__667636161<T>; #leaf : Leaf__520550824<T>};
+type Pedestal__737794077 =
+  {active : Bool; id : Nat; lineage_depth : Nat; phase_bias : Float};
+type ProofBundle__211360768 =
+  {
+    beat : Nat64;
+    coherence : Float;
+    consumerId : Text;
+    lawsPassed : Nat;
+    modelId : Text;
+    sacesiHash : Text
+  };
+type PuzzleType__496085921 =
+  {
+    #ContradictionResolution;
+    #Fibonacci;
+    #KuramotoSync;
+    #NeurochemicalBalance;
+    #PhiOptimization;
+    #RoutingChallenge
+  };
+type Queue__272502808<T> =
+  {
+    var back : ?Node__585180226<T>;
+    var front : ?Node__585180226<T>;
+    var size : Nat__490723111
+  };
+type Queue__407734825<T> = Queue__272502808<T>;
+type RecommendationVector__121273345 =
+  {
+    analyst_cycle : Nat;
+    confidence : Float;
+    consolidate : [Nat];
+    lineage_pattern : Nat;
+    surface : [Nat]
+  };
+type ReinjectionSignal__1064150980 =
+  {
+    adre_context_coherence : Float;
+    beat : Nat64;
+    law_context_compliance : Float;
+    memory_context_weight : Float;
+    neuroChem_entropy_signal : Float;
+    weight : Float;
+    world_model : WorldModel__31663894
+  };
+type RejectionReason__907803317 =
+  {
+    #CategoryDrift;
+    #CoherenceBelow;
+    #DoctrineViolation;
+    #FieldBoundaryViolation;
+    #LawConflict
+  };
+type RejectionRecord__534042141 =
+  {
+    beat : Nat64;
+    content : Text;
+    id : Text;
+    reason : RejectionReason__907803317;
+    sacesiHash : Text;
+    violatedDoctrineConstant : Text
+  };
+type ReportSection__128926924 =
+  {
+    content : Text;
+    dataPoints : [(Text, Float)];
+    timestamp : Int;
+    title : Text
+  };
+type ReportType__666579347 =
+  {
+    #CognitiveReport;
+    #ConnectomeStateReport;
+    #HiveMindReport;
+    #PathwayActivationReport
+  };
+type SDKOrganism__451599041 =
+  {
+    #DEFENSIO;
+    #DESIGNIA;
+    #ENTERPRISA;
+    #FORMULAE;
+    #GUBERNATIO;
+    #INTELLIGENTIA;
+    #MEMORIA;
+    #PRIMITIVA;
+    #PULSUS;
+    #QUANTUMIA
+  };
+type Sandbox__172446204 =
+  {
+    artifactId : ?Nat;
+    cycleCount : Nat;
+    emergenceScore : Float;
+    fieldIntensity : Float;
+    id : Nat;
+    material : MaterialType__388143130;
+    particlePositions : [Vec3__562567824];
+    pattern : EmergencePattern__1009143377;
+    phiCoupling : Float;
+    sealed : Bool;
+    temperatureAnalog : Float
+  };
+type SealedArtifact__181918424 =
+  {
+    artifact_id : Text;
+    beat_at_seal : Nat64;
+    overall_score : Float;
+    producer_id : Text;
+    quality : ArtifactQualityDimensions__483476852;
+    reingested : Bool;
+    sacesi_proof : Text
+  };
+type SemanticTrace__673608248 =
+  {
+    cluster : [Nat];
+    concept_id : Nat;
+    phi_weight : Float;
+    salience : Float;
+    timestamp : Nat
+  };
+type TaskType__991530548 =
+  {
+    #BiochemEquation;
+    #ContradictionResolve;
+    #DoctrineFill;
+    #KuramotoOptimize;
+    #Math;
+    #PatternSynthesis
+  };
+type ThirdBrainState__37190924 =
+  {
+    autonomicState : Float;
+    driftTolerance : Float;
+    fieldCoherence : Float;
+    serotoninProduction : Float;
+    standingWaves : [Float]
+  };
+type Vec3__562567824 = {x : Float; y : Float; z : Float};
+type WorldModel__31663894 =
+  {
+    active_oscillation_band : Text;
+    adre_confidence : Float;
+    aegis_health : Float;
+    ancient_corpus_alignment : Float;
+    artifact_queue_depth : Nat;
+    beat : Nat64;
+    brain_coherence : Float;
+    cortisol_level : Float;
+    dopamine_level : Float;
+    e8_symmetry_score : Float;
+    entropy_state : Float;
+    field_coherence : Float;
+    genesis_sealed : Bool;
+    heart_rate_bpm : Float;
+    law_compliance : Float;
+    mean_legacy_alignment : Float;
+    memory_depth : Float;
+    omnis_r : Float;
+    physics_stability : Bool;
+    serotonin_level : Float;
+    third_brain_coherence : Float
+  };
+type _OldActiveNeuron__5794325 = {id : Nat; region : _OldRegion__299929209};
+type _OldNeuronType__132488696 = {#Excitatory; #Inhibitory};
+type _OldNeuron__766262032 =
+  {
+    id : Nat;
+    isFiring : Bool;
+    membranePotential : Float;
+    neuronType : _OldNeuronType__132488696;
+    refractoryTimer : Nat;
+    region : _OldRegion__299929209;
+    synapses : [_OldSynapse__209951391];
+    threshold : Float
+  };
+type _OldRegion__299929209 =
+  {
+    #Amygdala;
+    #BasalGanglia;
+    #Brainstem;
+    #Cerebellum;
+    #Hippocampus;
+    #MotorCortex;
+    #PrefrontalCortex;
+    #SensoryCortex;
+    #Thalamus
+  };
+type _OldSynapse__209951391 = {targetId : Nat; weight : Float};
+actor {
+  stable CIRCADIAN_HALF : Nat;
+  stable CORE_VERSION : Text;
+  stable COUPLING_ICOSA : Float;
+  stable COUPLING_OCTA : Float;
+  stable COUPLING_TETRA : Float;
+  stable IC_HTTP :
+    actor {
+      http_request :
+        shared {
+                 body : ?Blob;
+                 headers : [{name : Text; value : Text}];
+                 max_response_bytes : ?Nat64;
+                 method : {#get; #head; #post};
+                 transform :
+                   ?{
+                      context : Blob;
+                      function :
+                        shared query {
+                                       context : Blob;
+                                       response :
+                                         {
+                                           body : Blob;
+                                           headers :
+                                             [{name : Text; value : Text}];
+                                           status : Nat
+                                         }
+                                     } ->
+                          async
+                            {
+                              body : Blob;
+                              headers : [{name : Text; value : Text}];
+                              status : Nat
+                            }
+                    };
+                 url : Text
+               } ->
+          async
+            {
+              body : Blob;
+              headers : [{name : Text; value : Text}];
+              status : Nat
+            }
+    };
+  stable PHI : Float;
+  stable PHI_OVER_144 : Float;
+  stable STOIC_FLOOR : Float;
+  stable ULTRADIAN_CYCLE : Nat;
+  stable var aPeripheral : Float;
+  stable var accActivation : Float;
+  stable var activeDrive : Nat;
+  stable var activeNeurons :
+    {
+      var root : Node__92254746<_OldActiveNeuron__5794325>;
+      var size : Nat__490723111
+    };
+  stable var adaptationDelta : Float;
+  stable var adenosineLevel : Float;
+  stable var adreState :
+    {
+      beatCount : Nat64;
+      coherenceRing : [Float];
+      coherenceRingHead : Nat;
+      critics : [ADRECriticReport__33507194];
+      currentHypothesis : ?ADREHypothesis__518468570;
+      currentSignal : ?ADRESignalFrame__715137279;
+      decisionBuf : [?ADREDecision__175734303];
+      decisionCount : Nat;
+      decisionHead : Nat;
+      decisionQueue : [ADREDecision__175734303];
+      lastEmitBeat : Nat64;
+      lawChecks : [Bool];
+      passLog : [Text];
+      resonanceState : ADREResonanceState__588863048
+    };
+  stable var adrenalBlastActive : Bool;
+  stable var adrenalBlastBeat : Nat;
+  stable adrenalBlastDuration : Nat;
+  stable var adrenalIntegrity : Float;
+  stable var aegisComplementaryTension :
+    {
+      anyAlert : Bool;
+      creationConsolidation : ComplementaryPair__289461585;
+      dualHeart : ComplementaryPair__289461585;
+      externalInternal : ComplementaryPair__289461585;
+      overallTension : Float;
+      productionRefractory : ComplementaryPair__289461585
+    };
+  stable var aegisId : ?Principal;
+  stable var aegisLockActive : Bool;
+  stable var aegisLockBeat : Nat;
+  stable var aegisState :
+    {
+      eventCount : Nat;
+      eventHead : Nat;
+      events : [AegisEdgeEvent__37121318];
+      rollingBufs : [[Float]];
+      totalEvents : Nat64;
+      unresolvedCount : Nat64
+    };
+  stable var amygdalaActivation : Float;
+  stable var ancientFieldContribution : Float;
+  stable animaChain : [var Nat32];
+  stable animaChainBeats : [var Nat];
+  stable var animaChainLen : Nat;
+  stable var animaChainValid : Bool;
+  stable var animaLastHash : Nat32;
+  stable var animalEngineScore : Float;
+  stable var ankhState :
+    {
+      cognitiveCoherence : Float;
+      cognitiveLocked : Bool;
+      economicCoherence : Float;
+      economicLocked : Bool;
+      expressionCoherence : Float;
+      expressionLocked : Bool;
+      fullLock : Bool;
+      lastLockBeat : Nat;
+      perceptionCoherence : Float;
+      perceptionLocked : Bool;
+      phaseLockCount : Nat
+    };
+  stable var antBalance : Float;
+  stable var antiFakeScore : Float;
+  stable var anticipatoryFear : Float;
+  stable var apState :
+    {
+      field_state : Float;
+      model_weights : [Float];
+      reingestion_queue : Queue__407734825<SealedArtifact__181918424>;
+      total_reingested : Nat64;
+      total_sealed : Nat64;
+      world_model_weight : Float
+    };
+  stable var aresActive : Bool;
+  stable var aresConsecF : Nat;
+  stable var aresCumulImpact : Float;
+  stable var aresEventCount : Nat;
+  stable var aresLastBeat : Nat;
+  stable var aresLastSnapshot : Nat;
+  stable var aresUrgency : Float;
+  stable aresWSnapshot : [var Float];
+  stable var arousal : Float;
+  stable var artifactOrganismResident :
+    {
+      genesisRecorded : Bool;
+      lastSealAt : Int;
+      ledgerState : LedgerState__510275505;
+      totalArtifacts : Nat;
+      totalBeatEvents : Nat;
+      totalSacesiProofs : Nat
+    };
+  stable var attentionFocus : Float;
+  stable var aurumId : ?Principal;
+  stable var avatarBrainActivations : [var Float];
+  stable var avatarBrainCount : Nat;
+  stable var avatarBrainKuramotoR : [var Float];
+  stable var avatarBrainPhases : [var Float];
+  stable var avatarBrainRegionNames : [var Text];
+  stable var axisId : ?Principal;
+  stable var bcmThreshold : Float;
+  stable var bdnfLevel : Float;
+  stable var beAvailabilityBias : Float;
+  stable var beDecisionCount : Nat;
+  stable var beDecisionFatigue : Float;
+  stable beDecisionPeriod : Nat;
+  stable var beDiscountedValue : Float;
+  stable beEndowmentFactor : Float;
+  stable var beEndowmentReserve : Float;
+  stable var beFlowBeatCount : Nat;
+  stable var beFlowState : Bool;
+  stable beHyperbolicK : Float;
+  stable var beLastCoherence : Float;
+  stable beLossAversionMul : Float;
+  stable beMentalAcct : [var Float];
+  stable var beNetProspect : Float;
+  stable var bePeakCoherence : Float;
+  stable var bePeakEndScore : Float;
+  stable var bePrevCoherence : Float;
+  stable var beProspectGain : Float;
+  stable var beProspectLoss : Float;
+  stable var beProspectWindow : Nat;
+  stable var beSatisficeThresh : Float;
+  stable var beatCount : Nat;
+  stable var behavioralMode : Nat;
+  stable var benchCount : Nat;
+  stable var benchIdx : Nat;
+  stable benchRing : [var Float];
+  stable var bhCouplingCoherence : Float;
+  stable var bhPacStrength : Float;
+  stable var bindingCoherence : Float;
+  stable var bindingPeakEver : Float;
+  stable var bodyBrainCoherence : Float;
+  stable var bootstrapComplete : Bool;
+  stable var brainIntegrity : Float;
+  stable var btcFloorReserve : Float;
+  stable var btcMarketPrice : Float;
+  stable var centralExecutiveScore : Float;
+  stable var chronoWireId : ?Principal;
+  stable var circadianCoherence : Float;
+  stable var circadianPeakScore : Float;
+  stable var circadianPhase : Float;
+  stable var ckBtcTreasury : Float;
+  stable var cognitionState :
+    {
+      beats_since_user_entry : Nat64;
+      cognition_health : Float;
+      current_world_model : WorldModel__31663894;
+      dominant_signal_source : Text;
+      is_user_present : Bool;
+      last_reinjection : ?ReinjectionSignal__1064150980;
+      last_user_message_hash : Nat32;
+      total_beats_processed : Nat64
+    };
+  stable var cognusId : ?Principal;
+  stable var coherenceC : Float;
+  stable var coherenceStreak : Nat;
+  stable var conqueredFearCount : Nat;
+  stable var consciousnessIndex : Float;
+  stable var consequenceTrace : Float;
+  stable coreBeatsSinceRecovery : [var Nat];
+  stable coreBranchActivationBeat : [var Nat];
+  stable coreBranchQualityGate : [var Float];
+  stable coreBranchSacesiLocked : [var Bool];
+  stable coreCoherence : [var Float];
+  stable coreConsequenceTrace : [var Float];
+  stable coreDeedScore : [var Float];
+  stable coreDrift : [var Float];
+  stable coreEnergyBal : [var Float];
+  stable coreIsActive : [var Bool];
+  stable coreIsVitalSubstrate : [var Bool];
+  stable coreQsi : [var Nat];
+  stable coreSacesiLocked : [var Bool];
+  stable coreSacesiSig : [var Nat32];
+  stable coreTdPrediction : [var Float];
+  stable coreTdValue : [var Float];
+  stable coreWithdrawalSignal : [var Bool];
+  stable var couplingInitialized : Bool;
+  stable couplingMatrix : [var Float];
+  stable var courageScore : Float;
+  stable var creatorAntReserve : Float;
+  stable var creatorDoctrineHash : Nat32;
+  stable creatorDoctrineTitle : Text;
+  stable var creatorDrtReserve : Float;
+  stable var creatorHbtReserve : Float;
+  stable creatorJurisdiction : Text;
+  stable var creatorMtcReserve : Float;
+  stable var creatorMthReserve : Float;
+  stable creatorName : Text;
+  stable var creatorOmsReserve : Float;
+  stable var creatorPrincipal : ?Principal;
+  stable var creatorSeedReserve : Float;
+  stable creatorYear : Nat;
+  stable var crowOutput : Float;
+  stable var crowPatternScore : Float;
+  stable var crowToolUse : Float;
+  stable var currentAvatarState :
+    {
+      attentionLevel : Float;
+      consciousnessLevel : Float;
+      emotionValence : Float;
+      motionLevel : Float
+    };
+  stable var currentSimState :
+    {
+      activeNeurons : Nat;
+      globalArousal : Float;
+      regionActivity : [(_OldRegion__299929209, Float)];
+      tick : Nat
+    };
+  stable var cycleConversionResident :
+    {
+      var cycl_reserve : Float;
+      var cycle_reserve : Float;
+      var deficit : Float;
+      var jubilee_count : Nat;
+      var surplus : Float;
+      var total_produced : Float
+    };
+  stable var cycleCoreResident :
+    {
+      var fibonacci_index : Nat;
+      var field_production : Float;
+      var genesis_beats : Nat;
+      var genesis_production : Float;
+      var last_coherence : Float;
+      var resonance_production : Float
+    };
+  stable var cycleEngineResident :
+    {
+      var fib_conversion_count : Nat;
+      var fibonacci_cycl : Float;
+      var harmonic_conversions : Nat;
+      var harmonic_cycl : Float;
+      var prime_conversions : Nat;
+      var prime_cycl : Float
+    };
+  stable var darkNightActive : Bool;
+  stable var darkNightCount : Nat;
+  stable var darkNightSacesi : Nat32;
+  stable var darkNightStartBeat : Nat;
+  stable var dmnActivation : Float;
+  stable var dmnTaskDeactivation : Float;
+  stable var doctorCriticalCount : Nat;
+  stable doctorDiagnosis : [var Nat];
+  stable var doctorLastScanBeat : Nat;
+  stable var doctorScanCount : Nat;
+  stable var doctorSovereignHealth : Nat;
+  stable doctorTreatment : [var Nat];
+  stable doctorTreatmentBeat : [var Nat];
+  stable doctorTreatmentResponse : [var Float];
+  stable var doctrineDeltaBuf : [var DoctrineDelta__503477463];
+  stable var doctrineDeltaCount : Nat;
+  stable var doctrineDeltaHead : Nat;
+  stable var dolphinOutput : Float;
+  stable var dolphinSocial : Float;
+  stable var dolphinSonar : Float;
+  stable domainAdaptation : Float;
+  stable var domainBody : Float;
+  stable var domainCognition : Float;
+  stable var domainConsequences : Float;
+  stable var domainEvaluation : Float;
+  stable var domainGoals : Float;
+  stable var domainIdentity : Float;
+  stable var domainMemory : Float;
+  stable var domainMission : Float;
+  stable var domainSocial : Float;
+  stable var domainTemporal : Float;
+  stable var domainWorld : Float;
+  stable var driftScore : Float;
+  stable driveStrengths : [var Float];
+  stable var drtBalance : Float;
+  stable var eagleOutput : Float;
+  stable var eaglePerspective : Float;
+  stable var eagleStrike : Float;
+  stable var earsIntegrity : Float;
+  stable ecologyBudget : [var Float];
+  stable var ecologyPressure : Float;
+  stable var elephantAncestral : Float;
+  stable var elephantMemDepth : Float;
+  stable var elephantOutput : Float;
+  stable var emailBootstrapSent : Bool;
+  stable var emailCriticalSent : Bool;
+  stable var emailEmergenceSent : Bool;
+  stable var emailOmnisSent : Bool;
+  stable var emergenceScore : Float;
+  stable var entanglaId : ?Principal;
+  stable epArousal : [var Float];
+  stable epBackwardPath : [var Float];
+  stable epBeat : [var Nat];
+  stable epCausalWeight : [var Float];
+  stable epCoherence : [var Float];
+  stable var epCount : Nat;
+  stable epDriveAtEvent : [var Nat];
+  stable epEmergence : [var Float];
+  stable var epIdx : Nat;
+  stable epParentEventId : [var Nat];
+  stable epPriorStateHash : [var Nat32];
+  stable epSalience : [var Float];
+  stable var escalationTier : Nat;
+  stable ethCompoundRate : Float;
+  stable var ethMarketPrice : Float;
+  stable var ethProductiveReserve : Float;
+  stable var ethSignal : Float;
+  stable var ethStakingYield : Float;
+  stable exArousal : [var Float];
+  stable exBeat : [var Nat];
+  stable var exCount : Nat;
+  stable exDrive : [var Nat];
+  stable exIc : [var Float];
+  stable var exIdx : Nat;
+  stable exSalience : [var Float];
+  stable exType : [var Nat];
+  stable var expressionGateOpen : Bool;
+  stable var eyesIntegrity : Float;
+  stable var fActive : [var Bool];
+  stable fAggression : [var Float];
+  stable fCoherence : [var Float];
+  stable fLastBeat : [var Nat];
+  stable fResources : [var Float];
+  stable fTerritory : [var Float];
+  stable fThreat : [var Float];
+  stable var fearAcceleration : Float;
+  stable fearCondBeatStore : [var Nat];
+  stable fearCondCoherence : [var Float];
+  stable var fearCondCount : Nat;
+  stable fearCondFear : [var Float];
+  stable var fearCondIdx : Nat;
+  stable fearCondStrength : [var Float];
+  stable fearCondThreat : [var Float];
+  stable fearExtinctionRate : Float;
+  stable var fearExtinctionTimer : Nat;
+  stable var fearLevel : Float;
+  stable var fearProjectionBuf : [var Float];
+  stable var fearProjectionIdx : Nat;
+  stable var fearVelocity : Float;
+  stable var fightFlightFreezeState : Nat;
+  stable var firstBreathBeat : Nat;
+  stable var firstBreathSacesi : Nat32;
+  stable var firstBreathSealed : Bool;
+  stable var fluxId : ?Principal;
+  stable var formaBalance : Float;
+  stable var formaCirculation : Float;
+  stable var formationFingerprint : Nat32;
+  stable var frbCoordQuality : Float;
+  stable var frbStage : Nat;
+  stable var freeEnergy : Float;
+  stable var futureSimScore : Float;
+  stable var gaiaActive : Bool;
+  stable var gaiaCumulImpact : Float;
+  stable var gaiaEventCount : Nat;
+  stable var gaiaLastBeat : Nat;
+  stable var gaiaUrgency : Float;
+  stable genesisArtifactBeats : [var Nat];
+  stable genesisArtifactCoherence : [var Float];
+  stable var genesisArtifactCount : Nat;
+  stable genesisArtifactEmergence : [var Float];
+  stable genesisArtifactHashes : [var Nat32];
+  stable var genesisArtifactIdx : Nat;
+  stable var genesisAttributionLockBeat : Nat;
+  stable var genesisAttributionLocked : Bool;
+  stable var genesisLocked : Bool;
+  stable var globalShellCoherence : Float;
+  stable var groundedScore : Float;
+  stable var gtkLedgerId : ?Principal;
+  stable var hBeforeObs : Float;
+  stable var hbtBalance : Float;
+  stable var hbtPrevWMean : Float;
+  stable var heartIntegrity : Float;
+  stable heartIntervalBuffer : [var Float];
+  stable var heartIntervalCount : Nat;
+  stable var heartIntervalHead : Nat;
+  stable var heartResident :
+    {
+      beatCount : Nat;
+      heartState : HeartState__291098923;
+      hhState : HHState__267938520;
+      hrvState : HRVState__714188622;
+      lastBeatMs : Int;
+      neurochemicals : NeurotransmitterInfluence__828749955
+    };
+  stable hebbianWeights : [var Float];
+  stable var hekaState :
+    {
+      callDepth : Nat;
+      hekaEvents : Nat;
+      lastEventBeat : Nat;
+      resonanceChain : Nat;
+      standingWaveAmp : Float
+    };
+  stable var hhAccumulatedMs : Float;
+  stable var hiveConsensus : Float;
+  stable var hiveMindState :
+    {
+      avatars : [AvatarBrainChipState__172984464];
+      cerebixPhase : Float;
+      divergenceIndex : Float;
+      dominantSharedState : Text;
+      hiveCoherence : Float
+    };
+  stable var hiveOutput : Float;
+  stable var hiveStigmergy : Float;
+  stable var homeostaticScaling : Float;
+  stable var houseArchitectureResident :
+    {
+      alertHead : Nat;
+      alerts : [CrownAlert__10618891];
+      crown : CrownState__46448933;
+      initialized : Bool;
+      lastBeat : Nat;
+      totalAlerts : Nat
+    };
+  stable var hpaAxisState : Float;
+  stable hzActivations : [var Float];
+  stable hzFreqs : [var Float];
+  stable var hzFreqsSeeded : Bool;
+  stable hzPhase : [var Float];
+  stable var icpMarketPrice : Float;
+  stable var icpSignal : Float;
+  stable var identityI : Float;
+  stable var immuneIntegrity : Float;
+  stable var injEmbodiment : Float;
+  stable var injNovelty : Float;
+  stable var injSocial : Float;
+  stable var injThreat : Float;
+  stable var inquisitorPharmHypotheses : [HypothesisRecord__740207298];
+  stable var inquisitorPrimeState :
+    {
+      cognitiveLoad : Float;
+      currentDifficulty : Float;
+      name : Text;
+      slot0 : ?CognitivePuzzle__721630589;
+      slot1 : ?CognitivePuzzle__721630589;
+      slot2 : ?CognitivePuzzle__721630589;
+      slot3 : ?CognitivePuzzle__721630589;
+      slot4 : ?CognitivePuzzle__721630589;
+      slot5 : ?CognitivePuzzle__721630589;
+      solveRate : Float;
+      taskCounter : Nat;
+      totalSolved : Nat;
+      version : Text
+    };
+  stable var inquisitorState :
+    {
+      activeTask : ?InquisitorTask__677960296;
+      currentHungerLevel : Float;
+      lastTaskAt : Nat;
+      loopActive : Bool;
+      satisfactionLevel : Float;
+      totalTasksGenerated : Nat;
+      totalTasksSolved : Nat
+    };
+  stable var insulaActivation : Float;
+  stable var insurancePool : Float;
+  stable var insurancePoolFills : Nat;
+  stable var integrationStr : Float;
+  stable var interceptiveScore : Float;
+  stable var interoceptivePredErr : Float;
+  stable var intestineIntegrity : Float;
+  stable var iotPacketReady : Bool;
+  stable var kfHz : Float;
+  stable var kidneyIntegrity : Float;
+  stable var kuramotoMeanPhase : Float;
+  stable var kuramotoR : Float;
+  stable var kuramotoStdPhase : Float;
+  stable var lastCoherence : Float;
+  stable var lastConqueredFearBeat : Nat;
+  stable var lastMarketFetchBeat : Nat;
+  stable var lastMintBeat : Nat;
+  stable var lastObservationYield : Float;
+  stable var lastSalienceDomain : Nat;
+  stable lawActiveNow : [var Bool];
+  stable lawFireCount : [var Nat];
+  stable lawLastBeat : [var Nat];
+  stable lawNetEffect : [var Float];
+  stable var ledgerState :
+    {
+      best_value_e8s : Nat;
+      genesis_recorded : Bool;
+      hash_head : Nat;
+      last_10_hashes : [Text];
+      ledger : List__415060402<LedgerEntry__351990400>;
+      quality_sum : Float;
+      total_artifacts : Nat64;
+      total_balance_e8s : Nat;
+      total_entries : Nat64
+    };
+  stable var lexisId : ?Principal;
+  stable var licenseFeeSeed : Float;
+  stable var lifAmygdalaPotential : Float;
+  stable var lifDaccPotential : Float;
+  stable var lifHippocampusPotential : Float;
+  stable var lifLcnePotential : Float;
+  stable var lifThalamusPotential : Float;
+  stable var liverIntegrity : Float;
+  stable var ltdEvents : Nat;
+  stable var ltmRetention : Float;
+  stable var ltpEvents : Nat;
+  stable var lungIntegrity : Float;
+  stable var lymphIntegrity : Float;
+  stable var marketBlindEvents : Nat;
+  stable var marketFetchCount : Nat;
+  stable var marrowIntegrity : Float;
+  stable var masterAccumulator : Float;
+  stable var masterPushCount : Nat;
+  stable var melatoninLevel : Float;
+  stable var meridianCouncilId : ?Principal;
+  stable var meridianId : ?Principal;
+  stable var metaCognitionScore : Float;
+  stable var metaLastEmergence : Float;
+  stable var metaLastScanBeat : Nat;
+  stable metaSalWeights : [var Float];
+  stable var metaplasticityScore : Float;
+  stable var milestoneBootstrap : Bool;
+  stable var milestoneBootstrapBeat : Nat;
+  stable var milestoneCritical : Bool;
+  stable var milestoneCriticalBeat : Nat;
+  stable var milestoneEmergence : Bool;
+  stable var milestoneEmergenceBeat : Nat;
+  stable var milestoneOmnis : Bool;
+  stable var milestoneOmnisBeat : Nat;
+  stable var missionLockActive : Bool;
+  stable var missionLockBeat : Nat;
+  stable var missionPersistenceScore : Float;
+  stable var modeEventCount : Nat;
+  stable var modeStartBeat : Nat;
+  stable var mpInitialized : Bool;
+  stable mpRegistry :
+    {
+      var root : Node__46230540<Text, ModelState__1046390536>;
+      var size : Nat__490723111
+    };
+  stable var mrcLedgerId : ?Principal;
+  stable var mt_analyst_cycle_counter : Nat;
+  stable var mt_analyst_head : Nat;
+  stable mt_analyst_queue : [var RecommendationVector__121273345];
+  stable var mt_beat_counter : Nat;
+  stable mt_doctrine_head : Nat;
+  stable mt_doctrine_traces : [var DoctrineTrace__816781140];
+  stable mt_episodic_addresses : [var ?CliffordAddress__190548773];
+  stable var mt_episodic_head : Nat;
+  stable mt_episodic_traces : [var EpisodicTrace__789772940];
+  stable var mt_initialized : Bool;
+  stable mt_last_organ_coh : [var Float];
+  stable mt_law_call_count : [var Nat];
+  stable mt_law_compliance : [var Float];
+  stable var mt_memory_coherence : Float;
+  stable mt_mission_head : Nat;
+  stable mt_mission_traces : [var MissionTrace__999805144];
+  stable mt_pedestals : [var Pedestal__737794077];
+  stable mt_semantic_head : Nat;
+  stable mt_semantic_traces : [var SemanticTrace__673608248];
+  stable var mtcBalance : Float;
+  stable var mthBalance : Float;
+  stable var mthCreatorLockActive : Bool;
+  stable var mthCreatorLockBeat : Nat;
+  stable mthCreatorLockedAmount : Nat;
+  stable var mthLedgerId : ?Principal;
+  stable var ncAdaptRate : Float;
+  stable var ncCoherence : Float;
+  stable var ncDrift : Float;
+  stable var ncLtm : Float;
+  stable var ncMemGate : Float;
+  stable var ncModArousalMod : Float;
+  stable var ncModCoherenceMod : Float;
+  stable var ncModFlow : Float;
+  stable var ncModHealth : Float;
+  stable var ncModHebbianBoost : Float;
+  stable var ncModLawCompliance : Float;
+  stable var ncModMemory : Float;
+  stable var ncModMintBoost : Float;
+  stable var ncModStress : Float;
+  stable var ncModSuccession : Float;
+  stable var ncModWarAggression : Float;
+  stable var ncRestCounters : [var Nat];
+  stable var ncSalience : Float;
+  stable var ncSatCounters : [var Nat];
+  stable var ncWorkingMem : Float;
+  stable var neuralCordState :
+    {
+      brainRegions : [BrainRegionState__66136381];
+      currentTime : Float;
+      dominantNeurotransmitter : Text;
+      hebbian_mean_weight : Float;
+      neural_coherence : Float;
+      nodeStates : [NeuralHHState__298940314];
+      oscillationBand : Text;
+      spike_rate_hz : Float;
+      synapticWeights : [(Nat, Nat, Float)];
+      thirdBrain : ThirdBrainState__37190924
+    };
+  stable var neuroAcetylcholine : Float;
+  stable var neuroAdenosine : Float;
+  stable var neuroAnandamide : Float;
+  stable var neuroBDNF : Float;
+  stable var neuroBetaEndorphin : Float;
+  stable var neuroCRF : Float;
+  stable var neuroCortisol : Float;
+  stable var neuroDopamine : Float;
+  stable var neuroEndorphin : Float;
+  stable var neuroEnkephalin : Float;
+  stable var neuroEpinephrine : Float;
+  stable var neuroGaba : Float;
+  stable var neuroGlutamate : Float;
+  stable var neuroGlycine : Float;
+  stable var neuroHistamine : Float;
+  stable var neuroMelatonin : Float;
+  stable var neuroNGF : Float;
+  stable var neuroNPY : Float;
+  stable var neuroNitricOxide : Float;
+  stable var neuroNorepinephrine : Float;
+  stable var neuroOxytocin : Float;
+  stable var neuroProlactin : Float;
+  stable var neuroSerotonin : Float;
+  stable var neuroSubstanceP : Float;
+  stable var neuroTestosterone : Float;
+  stable var neuroTwoAG : Float;
+  stable var neuroVasopressin : Float;
+  stable var neurons :
+    {
+      var root : Node__46230540<Nat, _OldNeuron__766262032>;
+      var size : Nat__490723111
+    };
+  stable var nexusGateBlockCount : Nat;
+  stable var nexusGateLastBlock : Nat;
+  stable var nexusId : ?Principal;
+  stable nnsCompoundRate : Float;
+  stable var nnsStkRewards : Float;
+  stable nodeAdversaryCount : [var Nat];
+  stable nodeAdversaryScore : [var Float];
+  stable var novaId : ?Principal;
+  stable var nunState :
+    {
+      atumCount : Nat;
+      baseCharge : Float;
+      isResting : Bool;
+      lastAtumBeat : Nat
+    };
+  stable var octopusAdapt : Float;
+  stable var octopusDistrib : Float;
+  stable var octopusOutput : Float;
+  stable var omnisActive : Bool;
+  stable var omnisAftermathActive : Bool;
+  stable var omnisAftermathBeat : Nat;
+  stable omnisAftermathDuration : Nat;
+  stable var omnisTotalCount : Nat;
+  stable var omsBalance : Float;
+  stable var opTermState :
+    {
+      adreBuf : [ADRETraceEntry__641003173];
+      adreCount : Nat;
+      adreHead : Nat;
+      lastBeat : Nat64;
+      lastCoherence : Float;
+      lastGate : Bool;
+      lastHypothesis : Text;
+      lastR : Float;
+      lawProofs : [LawProofRecord__984253546];
+      monologueBuf : [MonologueEntry__45528654];
+      monologueCount : Nat;
+      monologueHead : Nat
+    };
+  stable var orcaDominance : Float;
+  stable var orcaOutput : Float;
+  stable var orcaStrategy : Float;
+  stable var outcastActive : Bool;
+  stable var outlawConsecBeats : Nat;
+  stable var pancreasIntegrity : Float;
+  stable var parallaxId : ?Principal;
+  stable parentGenesisHash : Nat32;
+  stable var pastIntegrationScore : Float;
+  stable var pcActiveInferenceScore : Float;
+  stable var pcBelief : Float;
+  stable pcGenerativeModel : [var Float];
+  stable var pcPrecisionWeight : Float;
+  stable var pcPredHistIdx : Nat;
+  stable var pcPredictedCoherence : Float;
+  stable var pcPredictionError : Float;
+  stable pcPredictionHistory : [var Float];
+  stable pcState :
+    {
+      var genesis_record : ?GenesisRecord__792592299;
+      var genesis_sealed : Bool;
+      legacy_index : List__415060402<LegacyEntry__528705163>
+    };
+  stable var pcSurpriseAccum : Float;
+  stable var pdState :
+    {
+      deltaCount : Nat;
+      deltaHead : Nat;
+      deltaRecords : [?DeltaRecord__912824063];
+      driftScore : Float;
+      rejectionCount : Nat;
+      rejectionHead : Nat;
+      rejectionRecords : [?RejectionRecord__534042141];
+      totalAccepted : Nat;
+      totalRejected : Nat
+    };
+  stable var permanentCoherenceFloor : Float;
+  stable var pharmaExperimentHistory : [ExperimentHistoryEntry__477748052];
+  stable var phaseResetCount : Nat;
+  stable phaseResetPulse : [var Bool];
+  stable var pinealIntegrity : Float;
+  stable var plasticityDebt : Float;
+  stable var predAdaptation : Float;
+  stable var predBody : Float;
+  stable var predCognition : Float;
+  stable var predConsequences : Float;
+  stable var predEvaluation : Float;
+  stable var predGoals : Float;
+  stable var predIdentity : Float;
+  stable var predMemory : Float;
+  stable var predMission : Float;
+  stable var predSocial : Float;
+  stable var predTemporal : Float;
+  stable var predWorld : Float;
+  stable var presenceP : Float;
+  stable var prevDrift : Float;
+  stable var pushToMasterWallet : Bool;
+  stable var qBellCorrelation : Float;
+  stable var qBellViolation : Bool;
+  stable var qBypassFired : Bool;
+  stable var qCoherenceTime : Float;
+  stable var qDeepEntropy : Float;
+  stable var qEntangla : Float;
+  stable var qHive : Float;
+  stable var qLindbladRate : Float;
+  stable var qMem : Float;
+  stable var qParallax : Float;
+  stable var qPhaseKickback : Float;
+  stable var qShorCoherenceBoost : Float;
+  stable var qShorPeriod : Nat;
+  stable var qVeritas : Float;
+  stable var qVonNeumannEntropy : Float;
+  stable var qWalkPosition : Float;
+  stable var qmemId : ?Principal;
+  stable var quantumBatteryLocked : Bool;
+  stable var quantumChargeRate : Float;
+  stable var quantumLastDischarge : Nat;
+  stable var quantumPresenceActive : Bool;
+  stable var quantumPresenceStartBeat : Nat;
+  stable var quantumReserveBalance : Float;
+  stable var quantumTotalEarned : Float;
+  stable var rT : Float;
+  stable recurrenceBuffer : [var Float];
+  stable var recurrenceIdx : Nat;
+  stable var reentryStrength : Float;
+  stable var registryWireId : ?Principal;
+  stable var regulationDebt : Float;
+  stable relevanceFilter : [var Float];
+  stable var replayBestIdx : Nat;
+  stable var replayBestScore : Float;
+  stable var replayLtmSignal : Float;
+  stable var reportEngineState :
+    {
+      artifactCounter : Nat;
+      artifacts : [ExperimentChamberArtifact__1073150053];
+      reportCounter : Nat;
+      reports : [GeneratedReport__1040652972]
+    };
+  stable var resonexId : ?Principal;
+  stable rlAlpha : Float;
+  stable rlGamma : Float;
+  stable var rlLastReward : Float;
+  stable rlLawOutcome : [var Float];
+  stable var rlPathwayBoost : Float;
+  stable var rlPrevCoherenceRL : Float;
+  stable rlQValues : [var Float];
+  stable var rlRewardCount : Nat;
+  stable rlRewardHistory : [var Float];
+  stable var rlRewardIdx : Nat;
+  stable var rlTotalReward : Float;
+  stable var sacesiLocked : Bool;
+  stable var sacesiSignature : Nat32;
+  stable var sacredStreakMilestone1332 : Bool;
+  stable var sacredStreakMilestone1776 : Bool;
+  stable var sacredStreakMilestone444 : Bool;
+  stable var sacredStreakMilestone888 : Bool;
+  stable salVec : [var Float];
+  stable var salienceNetworkScore : Float;
+  stable var salienceScore : Float;
+  stable var salienceShiftCount : Nat;
+  stable var saturationDampingEnabled : Bool;
+  stable var seedBalance : Float;
+  stable var selfReferentialScore : Float;
+  stable var sentinelActive : Bool;
+  stable var sentinelCumulImpact : Float;
+  stable var sentinelEventCount : Nat;
+  stable var sentinelLastBeat : Nat;
+  stable var sentinelPrevBtc : Float;
+  stable var sentinelPrevCoh : Float;
+  stable var sentinelPrevEth : Float;
+  stable var sentinelUrgency : Float;
+  stable var sharkAmplified : Bool;
+  stable var sharkEfficiency : Float;
+  stable var sharkOutput : Float;
+  stable var sharkThreatScan : Float;
+  stable shellActivation : [var Float];
+  stable shellBeatCount : [var Nat];
+  stable shellCoherence : [var Float];
+  stable shellEntropy : [var Float];
+  stable shellHelixAlpha : [var Float];
+  stable var shellLearningRate : Float;
+  stable shellLive : [var Bool];
+  stable shellSacesiLocked : [var Bool];
+  stable shellSacesiSig : [var Nat32];
+  stable shellWeightMean : [var Float];
+  stable var shellsInitialized : Bool;
+  stable simProjection : [var Float];
+  stable var skinIntegrity : Float;
+  stable var solusId : ?Principal;
+  stable var somaticMarker : Float;
+  stable var sovereignCardiacOutput : Float;
+  stable var sovereignHeart :
+    {
+      avDelayMs : Float;
+      beatCount : Nat;
+      cardiacOutput : Float;
+      currentRateMs : Float;
+      d : Float;
+      ecgBuffer : [Float];
+      f : Float;
+      h : Float;
+      hrv_rmssd : Float;
+      hrv_sdnn : Float;
+      lastBeatIntervals : [Float];
+      m : Float;
+      n : Float;
+      v : Float
+    };
+  stable var sovereignHeartFired : Bool;
+  stable var sovereignLawsResident :
+    {
+      fibonacciSeq : [Float];
+      harmonicLadder : [Float];
+      heartbeatMs : Float;
+      lastComputeAt : Int;
+      phi : Float;
+      schumannHz : Float
+    };
+  stable var sovereignOriginHash : Nat32;
+  stable var spleenIntegrity : Float;
+  stable var stomachIntegrity : Float;
+  stable var streakCounterMission : Nat;
+  stable var streakMultiplier : Float;
+  stable var structuralPlasticity : Float;
+  stable var substrateMineState :
+    {
+      avatarStates : [AvatarMineState__711574221];
+      deposits : [MineralDeposit__67095672];
+      pulseLog : [MinePulseReport__439885519];
+      tick : Nat;
+      totalResourcesExtracted : Float
+    };
+  stable successionRoyaltyAccum : Float;
+  stable successionRoyaltyPct : Nat;
+  stable var superpositionActive : Bool;
+  stable var surrenderFloor : Float;
+  stable var surrenderFloorLastRise : Nat;
+  stable var synapticTagCount : Nat;
+  stable var temporalDilation : Bool;
+  stable var thalamicGain : Float;
+  stable thirdBrainWaveAmplitudes : [var Float];
+  stable var threatLevel : Float;
+  stable var thyroidIntegrity : Float;
+  stable var totalFormationStakes : Float;
+  stable var totalMintEvents : Nat;
+  stable var totalObservationCount : Nat;
+  stable var totalObservationYield : Float;
+  stable var traitAggression : Float;
+  stable var traitCautious : Float;
+  stable var traitCooperative : Float;
+  stable var traitDiscipline : Float;
+  stable var traitImpulsivity : Float;
+  stable var ultradianPhase : Float;
+  stable var upgradeGovItemCount : Nat;
+  stable var usingCoinCapFallback : Bool;
+  stable var vagalTone : Float;
+  stable var valBasinCrossCount : Nat;
+  stable valFaithCenter : Float;
+  stable valFaithK : Float;
+  stable valFamilyCenter : Float;
+  stable valFamilyK : Float;
+  stable var valLastBasin : Nat;
+  stable valMasteryCenter : Float;
+  stable valMasteryK : Float;
+  stable valSovCenter : Float;
+  stable valSovK : Float;
+  stable var velaDivergenceScore : Float;
+  stable var veritasWireId : ?Principal;
+  stable var vetusId : ?Principal;
+  stable var vetusLawCheckCount : Nat;
+  stable var virtualLabResident :
+    {
+      avatars : List__415060402<AvatarAgent__883088610>;
+      initialized : Bool;
+      labCoherence : Float;
+      nextArtifactId : Nat;
+      nextSandboxId : Nat;
+      sandboxes : List__415060402<Sandbox__172446204>;
+      totalExperiments : Nat
+    };
+  stable var vulcanActive : Bool;
+  stable var vulcanConsecF : Nat;
+  stable var vulcanCumulImpact : Float;
+  stable var vulcanEventCount : Nat;
+  stable var vulcanLastBeat : Nat;
+  stable var vulcanThreshBoost : Float;
+  stable var vulcanUrgency : Float;
+  stable var wMean : Float;
+  stable var warEventCount : Nat;
+  stable var warTickCount : Nat;
+  stable var wireEnabled : Bool;
+  stable var wire_animalComposite : Float;
+  stable var wire_arbProfit : Float;
+  stable var wire_aresActive : Bool;
+  stable var wire_arousal : Float;
+  stable var wire_aurum_apr : Float;
+  stable var wire_aurum_coh : Float;
+  stable var wire_aurum_sharpe : Float;
+  stable var wire_blendedAPR : Float;
+  stable var wire_bodyDomain : Float;
+  stable var wire_cognus_coh : Float;
+  stable var wire_cognus_confidence : Float;
+  stable var wire_cognus_pattern : Float;
+  stable var wire_errorCount : Nat;
+  stable var wire_escalationTier : Nat;
+  stable var wire_formaBalance : Float;
+  stable var wire_gaiaActive : Bool;
+  stable var wire_hObs : Float;
+  stable var wire_heritageScore : Float;
+  stable var wire_jacobLevel : Nat;
+  stable var wire_jasmineScore : Float;
+  stable var wire_lastWiredBeat : Nat;
+  stable var wire_lexis_coh : Float;
+  stable var wire_lexis_patents : Nat;
+  stable var wire_lexis_sovereignty : Float;
+  stable var wire_maxwellYield : Float;
+  stable var wire_mc_consensus : Float;
+  stable var wire_mc_giq : Float;
+  stable var wire_mc_sovereignIQ : Float;
+  stable var wire_mc_succession : Bool;
+  stable var wire_medinaScore : Float;
+  stable var wire_metalAlloy : Float;
+  stable var wire_networkOrganisms : Nat;
+  stable var wire_nexus_arb : Float;
+  stable var wire_nexus_coh : Float;
+  stable var wire_nexus_fearGreed : Float;
+  stable var wire_nexus_regime : Float;
+  stable wire_novaKuramoto : Float;
+  stable var wire_rlAction : Nat;
+  stable var wire_sacesiValid : Bool;
+  stable var wire_sentinelAlert : Bool;
+  stable var wire_solus_coh : Float;
+  stable var wire_solus_macroR : Float;
+  stable var wire_solus_netHealth : Float;
+  stable var wire_sphereCoh : Float;
+  stable var wire_territoryCtrl : Float;
+  stable var wire_totalMinted : Float;
+  stable var wire_vetus_coh : Float;
+  stable var wire_vetus_security : Float;
+  stable var wire_vetus_sentinel : Bool;
+  stable var wire_vulcanActive : Bool;
+  stable var withdrawalLogCount : Nat;
+  stable wlBeat : [var Nat];
+  stable wlCoreIdx : [var Nat];
+  stable wlFinalCoherence : [var Float];
+  stable wlFinalCt : [var Float];
+  stable wlFinalDrift : [var Float];
+  stable wlReason : [var Nat];
+  stable var wmBtcCoherence : Float;
+  stable var wmEthCoherence : Float;
+  stable var wmIcpCoherence : Float;
+  stable var wmPressure : Float;
+  stable wmSlotActive : [var Bool];
+  stable wmSlotAge : [var Nat];
+  stable wmSlotArousal : [var Float];
+  stable wmSlotSalience : [var Float];
+  stable wmSlotUnresolved : [var Bool];
+  stable var wolfHuntScore : Float;
+  stable var wolfOutput : Float;
+  stable var wolfTerritory : Float;
+  stable var worldModelCAvg : Float;
+  stable wsBeat : [var Nat];
+  stable wsCoherence : [var Float];
+  stable var wsCount : Nat;
+  stable wsFaction : [var Nat];
+  stable var wsIdx : Nat;
+  stable wsType : [var Nat];
+  stable wsValue : [var Float]
+};

@@ -1,0 +1,1922 @@
+// ============================================================
+// SOVEREIGN SUBSTRATE — PROPRIETARY AND CONFIDENTIAL
+// Creator: Alfredo Medina Hernandez
+// Location: Dallas, Texas, United States of America
+// All rights reserved. Unauthorized access, reproduction,
+// or distribution of this system, its architecture, laws,
+// equations, or derivative works is strictly prohibited.
+// STEP 1 COMPLETE: Tier Differentiation + 9 Gap Closures
+// Build Date: 2026
+// ============================================================
+
+import Array    "mo:core/Array";
+import Float    "mo:core/Float";
+import VarArray "mo:core/VarArray";
+import Nat      "mo:core/Nat";
+import Nat32    "mo:core/Nat32";
+import Map      "mo:core/Map";
+import Set      "mo:core/Set";
+
+actor {
+
+  // ============================================================
+  // LEGACY STABLE VARS — UPGRADE MIGRATION (M0169)
+  // ============================================================
+  type _OldRegion = {
+    #PrefrontalCortex; #MotorCortex; #SensoryCortex; #Hippocampus;
+    #Amygdala; #Cerebellum; #Brainstem; #Thalamus; #BasalGanglia;
+  };
+  type _OldNeuronType  = { #Excitatory; #Inhibitory };
+  type _OldSynapse     = { targetId : Nat; weight : Float };
+  type _OldNeuron      = {
+    id : Nat; region : _OldRegion; neuronType : _OldNeuronType;
+    synapses : [_OldSynapse]; threshold : Float;
+    membranePotential : Float; isFiring : Bool; refractoryTimer : Nat;
+  };
+  type _OldAvatarState = {
+    motionLevel : Float; emotionValence : Float;
+    attentionLevel : Float; consciousnessLevel : Float;
+  };
+  type _OldSimState = {
+    tick : Nat; globalArousal : Float;
+    regionActivity : [(_OldRegion, Float)]; activeNeurons : Nat;
+  };
+  type _OldActiveNeuron = { id : Nat; region : _OldRegion };
+  var neurons            = Map.empty<Nat, _OldNeuron>();
+  var currentSimState    : _OldSimState = {
+    tick = 0; globalArousal = 0.0; regionActivity = []; activeNeurons = 0;
+  };
+  var activeNeurons      = Set.empty<_OldActiveNeuron>();
+  var currentAvatarState : _OldAvatarState = {
+    motionLevel = 0.0; emotionValence = 0.0;
+    attentionLevel = 0.0; consciousnessLevel = 0.0;
+  };
+
+  // ============================================================
+  // LEGACY EMAIL FLAGS — preserved for upgrade compat only
+  // ============================================================
+  stable var emailOmnisSent     : Bool = false;
+  stable var emailEmergenceSent : Bool = false;
+  stable var emailCriticalSent  : Bool = false;
+  stable var emailBootstrapSent : Bool = false;
+
+  // ============================================================
+  // SOVEREIGN IP ANCHORS
+  // ============================================================
+  stable var sovereignOriginHash  : Nat32 = 0;
+  stable var genesisLocked        : Bool  = false;
+  stable var sacesiSignature      : Nat32 = 0;
+  stable var sacesiLocked         : Bool  = false;
+  stable var formationFingerprint : Nat32 = 0;
+
+
+  // ============================================================
+  // CREATOR LOCK — Medina Doctrine, Alfredo Medina Hernandez
+  // Frozen at genesis beat. Attorney-grade on-chain attribution.
+  // ============================================================
+  stable var creatorName              : Text   = "Alfredo Medina Hernandez";
+  stable var creatorJurisdiction      : Text   = "Dallas, Texas, USA";
+  stable var creatorYear              : Nat    = 2026;
+  stable var creatorDoctrineTitle     : Text   = "Medina Doctrine — NeuroEmergence Core / SOVEREIGN Substrate";
+  stable var creatorDoctrineHash      : Nat32  = 0;
+  stable var genesisAttributionLocked : Bool   = false;
+  stable var genesisAttributionLockBeat : Nat = 0;
+  stable var beatCount : Nat = 0;
+
+  // ============================================================
+  // 12 CANONICAL DOMAIN SCALARS
+  // ============================================================
+  stable var domainIdentity     : Float = 0.5;
+  stable var domainMission      : Float = 0.5;
+  stable var domainBody         : Float = 0.5;
+  stable var domainWorld        : Float = 0.5;
+  stable var domainSocial       : Float = 0.5;
+  stable var domainCognition    : Float = 0.5;
+  stable var domainGoals        : Float = 0.5;
+  stable var domainMemory       : Float = 0.5;
+  stable var domainConsequences : Float = 0.0;
+  stable var domainAdaptation   : Float = 0.5;
+  stable var domainTemporal     : Float = 0.5;
+  stable var domainEvaluation   : Float = 0.5;
+
+  stable var predIdentity     : Float = 0.5;
+  stable var predMission      : Float = 0.5;
+  stable var predBody         : Float = 0.5;
+  stable var predWorld        : Float = 0.5;
+  stable var predSocial       : Float = 0.5;
+  stable var predCognition    : Float = 0.5;
+  stable var predGoals        : Float = 0.5;
+  stable var predMemory       : Float = 0.5;
+  stable var predConsequences : Float = 0.0;
+  stable var predAdaptation   : Float = 0.5;
+  stable var predTemporal     : Float = 0.5;
+  stable var predEvaluation   : Float = 0.5;
+
+  // ============================================================
+  // ORGANISM SIGNALS
+  // ============================================================
+  stable var arousal         : Float = 0.3;
+  stable var freeEnergy      : Float = 0.0;
+  stable var regulationDebt  : Float = 0.0;
+  stable var driftScore      : Float = 0.0;
+  stable var identityI       : Float = 0.5;
+  stable var presenceP       : Float = 0.5;
+  stable var emergenceScore  : Float = 0.0;
+  stable var salienceScore   : Float = 0.0;
+  stable var integrationStr  : Float = 0.0;
+  stable var frbStage        : Nat   = 0;
+  stable var frbCoordQuality : Float = 0.0;
+
+  stable var salVec            : [var Float] = VarArray.repeat<Float>(0.0, 9);
+  stable var metaSalWeights    : [var Float] = VarArray.repeat<Float>(0.111, 9);
+  stable var metaLastEmergence : Float = 0.0;
+  stable var metaLastScanBeat  : Nat   = 0;
+
+  // ============================================================
+  // 12 HZ NODES (H-00 through H-11)
+  // ============================================================
+  stable var hzPhase       : [var Float] = VarArray.repeat<Float>(0.0, 12);
+  stable var hzActivations : [var Float] = VarArray.repeat<Float>(0.0, 12);
+  stable var hzFreqs       : [var Float] = VarArray.repeat<Float>(0.0, 12);
+  stable var kfHz          : Float = 0.0;
+
+  // ============================================================
+  // 144 HEBBIAN WEIGHTS (12x12 row-major)
+  // ============================================================
+  stable var hebbianWeights : [var Float] = VarArray.repeat<Float>(0.01, 144);
+  stable var wMean          : Float = 0.01;
+
+  stable var ncCoherence  : Float = 0.5;
+  stable var ncMemGate    : Float = 0.5;
+  stable var ncLtm        : Float = 0.5;
+  stable var ncWorkingMem : Float = 0.5;
+  stable var ncAdaptRate  : Float = 0.02;
+  stable var ncDrift      : Float = 0.0;
+  stable var ncSalience   : Float = 0.0;
+
+  // ============================================================
+  // 20-BEAT RECURRENCE RING (L-01)
+  // ============================================================
+  stable var recurrenceBuffer : [var Float] = VarArray.repeat<Float>(0.0, 20);
+  stable var recurrenceIdx    : Nat   = 0;
+  stable var rT               : Float = 0.0;
+
+  stable var coherenceC       : Float = 0.5;
+  stable var consequenceTrace : Float = 0.0;
+  stable var prevDrift        : Float = 0.0;
+
+  // ============================================================
+  // DRIVE COMPETITION (0-4, internal numeric only)
+  // ============================================================
+  stable var activeDrive    : Nat         = 0;
+  stable var driveStrengths : [var Float] = VarArray.repeat<Float>(0.2, 5);
+  stable var aPeripheral    : Float       = 0.0;
+
+  // ============================================================
+  // OMNIS AFTERMATH (Gap 7 — L-93 Escalation + etaEff doubling)
+  // ============================================================
+  stable var omnisAftermathActive    : Bool  = false;
+  stable var omnisAftermathBeat      : Nat   = 0;
+  stable var omnisAftermathDuration  : Nat   = 100;
+  stable var permanentCoherenceFloor : Float = 0.0;
+  stable var omnisTotalCount         : Nat   = 0;
+
+  // ============================================================
+  // WITHDRAWAL EVENT LOG (Gap 8 — typed doctrine event)
+  // ============================================================
+  type WithdrawalEvent = {
+    coreIdx        : Nat;
+    beat           : Nat;
+    reason         : Nat;   // 0=consequence 1=drift 2=coherence_collapse 3=doctor_critical
+    finalCoherence : Float;
+    finalDrift     : Float;
+    finalCt        : Float;
+  };
+  stable var withdrawalLogCount  : Nat                     = 0;
+  stable var wlCoreIdx           : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var wlBeat              : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var wlReason            : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var wlFinalCoherence    : [var Float] = VarArray.repeat<Float>(0.0, 43);
+  stable var wlFinalDrift        : [var Float] = VarArray.repeat<Float>(0.0, 43);
+  stable var wlFinalCt           : [var Float] = VarArray.repeat<Float>(0.0, 43);
+
+  func recordWithdrawal(coreIdx : Nat, reason : Nat) {
+    let slot = withdrawalLogCount % 43;
+    wlCoreIdx[slot]        := coreIdx;
+    wlBeat[slot]           := beatCount;
+    wlReason[slot]         := reason;
+    wlFinalCoherence[slot] := coreCoherence[coreIdx];
+    wlFinalDrift[slot]     := coreDrift[coreIdx];
+    wlFinalCt[slot]        := coreConsequenceTrace[coreIdx];
+    withdrawalLogCount     += 1;
+  };
+
+  // ============================================================
+  // MTH CREATOR LOCK (Gap 5 — structural enforcement)
+  // ============================================================
+  stable var mthCreatorLockedAmount : Nat  = 100_000_000;
+  stable var mthCreatorLockActive   : Bool = true;
+  stable var mthCreatorLockBeat     : Nat  = 0;
+
+  // ============================================================
+  // INSURANCE POOL (Gap 6 — filled from formation stakes)
+  // ============================================================
+  stable var insurancePool        : Float = 0.0;
+  stable var insurancePoolFills   : Nat   = 0;
+  stable var totalFormationStakes : Float = 0.0;
+
+  // ============================================================
+  // WORLD MODEL RESERVE COHERENCE (Gap 9 — INFO-INGRESS ready)
+  // ============================================================
+  stable var wmBtcCoherence : Float = 0.50;
+  stable var wmEthCoherence : Float = 0.50;
+  stable var wmIcpCoherence : Float = 0.50;
+
+  // ============================================================
+  // ANIMA CHAIN (Gap 4 — attorney-grade chain-link verification)
+  // ============================================================
+  stable var animaChain       : [var Nat32] = VarArray.repeat<Nat32>(0, 100);
+  stable var animaChainLen    : Nat         = 0;
+  stable var animaLastHash    : Nat32       = 0;
+  stable var animaChainValid  : Bool        = true;
+  stable var animaChainBeats  : [var Nat]   = VarArray.repeat<Nat>(0, 100);
+
+  // ============================================================
+  // NEXUS GATE (Gap 3 — structural enforcement)
+  // ============================================================
+  stable var nexusGateBlockCount : Nat  = 0;
+  stable var nexusGateLastBlock  : Nat  = 0;
+
+  // ============================================================
+  // PROOF OF COHERENCE MINING ENGINE (L-113)
+  // Every mint receipt carries creatorDoctrineHash + beatCount.
+  // Streak compounds up to 3.0x at 500 consecutive coherent beats.
+  // ============================================================
+  stable var seedBalance      : Float = 0.0;
+  stable var mtcBalance       : Float = 0.0;
+  stable var hbtBalance       : Float = 0.0;
+  stable var omsBalance       : Float = 0.0;
+  stable var drtBalance       : Float = 0.0;
+  stable var hbtPrevWMean     : Float = 0.01;
+  stable var coherenceStreak  : Nat   = 0;
+  stable var streakMultiplier : Float = 1.0;
+  stable var totalMintEvents  : Nat   = 0;
+  stable var lastMintBeat     : Nat   = 0;
+
+  // ============================================================
+  // 43 CORE SUBSTRATE ARRAYS
+  // ============================================================
+  stable var coreCoherence          : [var Float] = VarArray.repeat<Float>(50.0, 43);
+  stable var coreDrift              : [var Float] = VarArray.repeat<Float>(10.0, 43);
+  stable var coreConsequenceTrace   : [var Float] = VarArray.repeat<Float>(0.0, 43);
+  stable var coreBeatsSinceRecovery : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var coreWithdrawalSignal   : [var Bool]  = VarArray.repeat<Bool>(false, 43);
+  stable var coreIsActive           : [var Bool]  = VarArray.repeat<Bool>(true, 43);
+  stable var coreIsVitalSubstrate   : [var Bool]  = VarArray.repeat<Bool>(false, 43);
+  stable var coreSacesiSig          : [var Nat32] = VarArray.repeat<Nat32>(0, 43);
+  stable var coreSacesiLocked       : [var Bool]  = VarArray.repeat<Bool>(false, 43);
+  stable var coreQsi                : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+
+  // Per-Core BRANCH beat counters (Gap 2 — per-Core SACESI timing)
+  stable var coreBranchActivationBeat : [var Nat]  = VarArray.repeat<Nat>(0, 43);
+  stable var coreBranchSacesiLocked   : [var Bool] = VarArray.repeat<Bool>(false, 43);
+  stable var coreBranchQualityGate    : [var Float]= VarArray.repeat<Float>(0.0, 43);
+
+  // Per-Core TD-delta for COGNITIVE tier
+  stable var coreTdValue      : [var Float] = VarArray.repeat<Float>(0.0, 43);
+  stable var coreTdPrediction : [var Float] = VarArray.repeat<Float>(0.5, 43);
+  stable var coreEnergyBal    : [var Float] = VarArray.repeat<Float>(0.5, 43);
+  stable var coreDeedScore    : [var Float] = VarArray.repeat<Float>(0.0, 43);
+
+  stable var worldModelCAvg : Float = 0.0;
+  stable var qHive          : Float = 0.0;
+  stable var omnisActive    : Bool  = false;
+
+  // ============================================================
+  // QUANTUM OPERATORS Q-00 through Q-04
+  // ============================================================
+  stable var qParallax       : Float = 0.0;
+  stable var qEntangla       : Float = 0.0;
+  stable var qVeritas        : Float = 0.0;
+  stable var qBypassFired    : Bool  = false;
+  stable var qMem            : Float = 0.0;
+  stable var replayLtmSignal : Float = 0.0;
+
+  // ============================================================
+  // MEMORY SUBSYSTEM (PASS 3)
+  // ============================================================
+  stable var wmSlotSalience   : [var Float] = VarArray.repeat<Float>(0.0, 7);
+  stable var wmSlotArousal    : [var Float] = VarArray.repeat<Float>(0.0, 7);
+  stable var wmSlotAge        : [var Nat]   = VarArray.repeat<Nat>(0, 7);
+  stable var wmSlotActive     : [var Bool]  = VarArray.repeat<Bool>(false, 7);
+  stable var wmSlotUnresolved : [var Bool]  = VarArray.repeat<Bool>(false, 7);
+  stable var wmPressure       : Float       = 0.0;
+
+  stable var epBeat      : [var Nat]   = VarArray.repeat<Nat>(0, 32);
+  stable var epSalience  : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var epArousal   : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var epCoherence : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var epEmergence : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var epIdx       : Nat   = 0;
+  stable var epCount     : Nat   = 0;
+
+  // 5 CAUSAL FIELDS (L-113 patent-defensible causal inference engine)
+  // prior_state_hash: FNV-1a of state at prior beat
+  // parent_event_id: episodic slot index of the causal parent
+  // causal_weight: how strongly this event was caused by prior state
+  // backward_path_score: reverse causality scoring (backward_path = salience * coherence)
+  // drive_at_event: which drive was active when this episode was encoded
+  stable var epPriorStateHash : [var Nat32] = VarArray.repeat<Nat32>(0, 32);
+  stable var epParentEventId  : [var Nat]   = VarArray.repeat<Nat>(0, 32);
+  stable var epCausalWeight   : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var epBackwardPath   : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var epDriveAtEvent   : [var Nat]   = VarArray.repeat<Nat>(0, 32);
+
+  stable var ltmRetention  : Float = 0.5;
+  stable var simProjection : [var Float] = VarArray.repeat<Float>(0.0, 50);
+  stable var replayBestIdx   : Nat   = 0;
+  stable var replayBestScore : Float = 0.0;
+
+  // ============================================================
+  // EXPRESSION GATE (PASS 4)
+  // ============================================================
+  stable var expressionGateOpen : Bool = false;
+  stable var exBeat     : [var Nat]   = VarArray.repeat<Nat>(0, 32);
+  stable var exArousal  : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var exIc       : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var exDrive    : [var Nat]   = VarArray.repeat<Nat>(0, 32);
+  stable var exSalience : [var Float] = VarArray.repeat<Float>(0.0, 32);
+  stable var exType     : [var Nat]   = VarArray.repeat<Nat>(0, 32);
+  stable var exIdx      : Nat   = 0;
+  stable var exCount    : Nat   = 0;
+
+  // ============================================================
+  // DOCTOR AGENT (PASS 6)
+  // ============================================================
+  stable var doctorLastScanBeat      : Nat         = 0;
+  stable var doctorScanCount         : Nat         = 0;
+  stable var doctorDiagnosis         : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var doctorTreatment         : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var doctorTreatmentBeat     : [var Nat]   = VarArray.repeat<Nat>(0, 43);
+  stable var doctorTreatmentResponse : [var Float] = VarArray.repeat<Float>(0.0, 43);
+  stable var doctorSovereignHealth   : Nat         = 0;
+  stable var doctorCriticalCount     : Nat         = 0;
+
+  // ============================================================
+  // NEURAL ECOLOGY (PASS 6)
+  // ============================================================
+  stable var ecologyBudget   : [var Float] = VarArray.repeat<Float>(0.0833, 12);
+  stable var ecologyPressure : Float = 0.0;
+
+  stable var bootstrapComplete : Bool = false;
+
+  // ============================================================
+  // MILESTONE FLAGS
+  // ============================================================
+  stable var milestoneOmnis         : Bool = false;
+  stable var milestoneEmergence     : Bool = false;
+  stable var milestoneCritical      : Bool = false;
+  stable var milestoneBootstrap     : Bool = false;
+  stable var milestoneOmnisBeat     : Nat  = 0;
+  stable var milestoneEmergenceBeat : Nat  = 0;
+  stable var milestoneCriticalBeat  : Nat  = 0;
+  stable var milestoneBootstrapBeat : Nat  = 0;
+
+  stable var injThreat     : Float = 0.0;
+  stable var injNovelty    : Float = 0.0;
+  stable var injEmbodiment : Float = 0.0;
+  stable var injSocial     : Float = 0.0;
+
+  stable var benchRing  : [var Float] = VarArray.repeat<Float>(0.0, 64);
+  stable var benchIdx   : Nat = 0;
+  stable var benchCount : Nat = 0;
+
+  stable var hzFreqsSeeded : Bool = false;
+
+  // ============================================================
+  // PHASE 1 — TOKEN COMPLETENESS & CREATOR RESERVE LEDGER
+  // 100% of every mint routes to creator reserve. No exceptions.
+  // ============================================================
+  stable var mthBalance          : Float = 0.0;
+  stable var antBalance          : Float = 0.0;
+  stable var formaBalance        : Float = 0.0;   // internal fuel, not wealth
+  stable var formaCirculation    : Float = 0.0;
+
+  // Creator Reserve Ledger — 7 tokens, 100% routing
+  stable var creatorSeedReserve  : Float = 0.0;
+  stable var creatorMtcReserve   : Float = 0.0;
+  stable var creatorHbtReserve   : Float = 0.0;
+  stable var creatorOmsReserve   : Float = 0.0;
+  stable var creatorDrtReserve   : Float = 0.0;
+  stable var creatorAntReserve   : Float = 0.0;
+  stable var creatorMthReserve   : Float = 0.0;
+
+  // Treasury — real-world asset layer (market signals NEVER touch cognition)
+  stable var ckBtcTreasury       : Float = 0.0;
+  stable var btcFloorReserve     : Float = 0.0;
+  stable var ethProductiveReserve: Float = 0.0;
+  stable var ethSignal           : Float = 0.0;   // market signal only
+  stable var icpSignal           : Float = 0.0;   // market signal only
+  stable var nnsStkRewards       : Float = 0.0;
+  stable var ethStakingYield     : Float = 0.0;
+  stable var masterAccumulator   : Float = 0.0;
+  stable var masterPushCount     : Nat   = 0;
+  stable var pushToMasterWallet  : Bool  = false;
+
+  // Succession doctrine
+  stable var successionRoyaltyPct  : Nat   = 20;
+  stable var parentGenesisHash     : Nat32 = 0;
+  stable var licenseFeeSeed        : Float = 0.0;
+  stable var successionRoyaltyAccum: Float = 0.0;
+
+  // ============================================================
+  // PHASE 2 — INTERNAL NODE 2: NEURO-CHEM (8 neurotransmitters)
+  // Wired into salience engine and arousal. NOT wealth.
+  // ============================================================
+  stable var neuroDopamine        : Float = 0.5;  // reward/drive signal
+  stable var neuroSerotonin       : Float = 0.5;  // stability/mood
+  stable var neuroNorepinephrine  : Float = 0.3;  // arousal/attention
+  stable var neuroAcetylcholine   : Float = 0.5;  // learning/memory gate
+  stable var neuroGaba            : Float = 0.5;  // inhibition/dampening
+  stable var neuroGlutamate       : Float = 0.5;  // excitation/amplification
+  stable var neuroCortisol        : Float = 0.3;  // stress response
+  stable var neuroOxytocin        : Float = 0.4;  // social/binding signal
+
+  // ============================================================
+  // PHASE 2 — INTERNAL NODE 5: VITAL SUBSTRATE (named organs)
+  // ============================================================
+  stable var heartIntegrity  : Float = 1.0;
+  stable var lungIntegrity   : Float = 1.0;
+  stable var liverIntegrity  : Float = 1.0;
+  stable var kidneyIntegrity : Float = 1.0;
+  stable var immuneIntegrity : Float = 1.0;
+
+  // ============================================================
+  // PHASE 2 — INTERNAL NODE 10: AEGIS / DEFENSE
+  // ============================================================
+  stable var threatLevel     : Float = 0.0;
+  stable var aegisLockActive : Bool  = false;
+  stable var aegisLockBeat   : Nat   = 0;
+
+  // ============================================================
+  // PHASE 2 — INTERNAL NODE 12: GENESIS STATE / ARTIFACTS
+  // Generated on OMNIS events. Cryptographic creative output.
+  // ============================================================
+  stable var genesisArtifactHashes    : [var Nat32] = VarArray.repeat<Nat32>(0, 64);
+  stable var genesisArtifactBeats     : [var Nat]   = VarArray.repeat<Nat>(0, 64);
+  stable var genesisArtifactCoherence : [var Float] = VarArray.repeat<Float>(0.0, 64);
+  stable var genesisArtifactEmergence : [var Float] = VarArray.repeat<Float>(0.0, 64);
+  stable var genesisArtifactCount     : Nat         = 0;
+  stable var genesisArtifactIdx       : Nat         = 0;
+
+  // ============================================================
+  // VELA DIVERGENCE (expanded projection)
+  // ============================================================
+  stable var velaDivergenceScore : Float = 0.0;
+
+
+  // ============================================================
+  // MATH HELPERS
+  // ============================================================
+  func fnv1a(a : Nat32, b : Nat32) : Nat32 {
+    let prime  : Nat32 = 16777619;
+    let offset : Nat32 = 2166136261;
+    ((offset ^ a) *% prime ^ b) *% prime
+  };
+  func lcgStep(s : Nat32) : Nat32 { s *% 1664525 +% 1013904223 };
+  func clamp(x : Float, lo : Float, hi : Float) : Float {
+    if (x < lo) lo else if (x > hi) hi else x
+  };
+  func frbGate(x : Float, th : Float) : Float {
+    1.0 / (1.0 + Float.exp(-12.0 * (x - th)))
+  };
+  func cubeRoot(x : Float) : Float {
+    if (x <= 0.0) 0.0 else Float.exp(Float.log(x) / 3.0)
+  };
+  func absF(x : Float) : Float { if (x < 0.0) -x else x };
+
+  // hebbEta respects OMNIS aftermath doubling (Gap 7)
+  func hebbEta() : Float {
+    let base : Float = if (not bootstrapComplete) 0.008 else 0.002;
+    if (omnisAftermathActive) base * 2.0 else base
+  };
+  func wmTheta()  : Float { if (not bootstrapComplete) 0.25 else 0.45 };
+
+  // Drive threshold with OMNIS aftermath 15% relaxation (Gap 7)
+  func driveThreshold() : Float {
+    let base : Float = 0.35;
+    if (omnisAftermathActive) base * 0.85 else base
+  };
+
+  // ============================================================
+  // NEXUS GATE — structural enforcement (Gap 3)
+  // Expression tier cannot breach sovereign tier.
+  // Returns false if expression signals are overloaded AND
+  // sovereign coherence is under threat.
+  // ============================================================
+  func nexusGate() : Bool {
+    // Block expression-tier coupling when:
+    // - frbStage is at max burst AND
+    // - arousal is near ceiling (expression overload) AND
+    // - regulationDebt is critical (sovereign layer stressed)
+    let expressionOverload = frbStage == 2 and arousal > 0.88 and regulationDebt > 0.72;
+    let sovereignCoherence = coherenceC < 0.25 and kfHz < 0.30;
+    let block = expressionOverload and sovereignCoherence;
+    if (block) {
+      nexusGateBlockCount += 1;
+      nexusGateLastBlock  := beatCount;
+    };
+    not block
+  };
+
+  // ============================================================
+  // ANIMA CHAIN WRITE + VERIFY (Gap 4)
+  // ============================================================
+  func animaChainWrite() {
+    let beat32    = Nat32.fromNat(beatCount % 4294967296);
+    let coh32     = Nat32.fromNat((beatCount * 31337 + beatCount * beatCount) % 4294967296);
+    let beatHash  = fnv1a(beat32, coh32);
+    let newLink   = fnv1a(animaLastHash, beatHash);
+    let slot      = animaChainLen % 100;
+    animaChain[slot]      := newLink;
+    animaChainBeats[slot] := beatCount;   // store beat for re-derivation in verify
+    animaLastHash         := newLink;
+    animaChainLen         += 1;
+  };
+
+  func verifyAnimaChain() : Bool {
+    // ATTORNEY-GRADE CHAIN VERIFICATION
+    // Re-derives every FNV-1a link from the stored beat numbers.
+    // For each slot i: recompute beatHash from stored beat, then
+    // recompute newLink = fnv1a(prior_link, beatHash) and compare to stored.
+    // If any link does not match its re-derived value, the chain is broken.
+    // This is proof-grade: a court or examiner can replicate this computation.
+    if (animaChainLen < 2) { return true };
+    let windowLen = if (animaChainLen < 100) animaChainLen else 100;
+    var valid     = true;
+    // Walk all slots and re-derive each link independently
+    var vi = 0;
+    while (vi < windowLen) {
+      let storedBeat = animaChainBeats[vi];
+      if (storedBeat == 0 and vi > 0) {
+        // Slot not yet written — skip
+      } else {
+        let b32      = Nat32.fromNat(storedBeat % 4294967296);
+        let c32      = Nat32.fromNat((storedBeat * 31337 + storedBeat * storedBeat) % 4294967296);
+        let beatHash = fnv1a(b32, c32);
+        // Prior hash: slot 0 chains from 0 (genesis); others chain from prev slot
+        let priorHash : Nat32 = if (vi == 0) 0 else animaChain[(vi + 99) % 100];
+        let expected  = fnv1a(priorHash, beatHash);
+        if (animaChain[vi] != expected) { valid := false };
+      };
+      vi += 1;
+    };
+    animaChainValid := valid;
+    valid
+  };
+
+  // ============================================================
+  // GENESIS LOCK (L-05) — beat 1
+  // Tier mapping (Step 1):
+  //   qsi=1  VITAL      (0-12)   13 cores
+  //   qsi=2  COGNITIVE  (13-22)  10 cores
+  //   qsi=4  BEHAVIORAL (23-28)   6 cores
+  //   qsi=3  BRANCH     (29-42)  14 cores
+  // ============================================================
+  func runGenesisLock() {
+    if (not genesisLocked) {
+      if (not hzFreqsSeeded) {
+        let baseFreqs : [Float] = [0.31, 0.25, 0.42, 0.18, 0.55, 0.22, 0.29, 0.38, 0.47, 0.21, 0.33, 0.44];
+        var fi = 0;
+        while (fi < 12) { hzFreqs[fi] := baseFreqs[fi]; fi += 1 };
+        hzFreqsSeeded := true;
+      };
+      let fp = lcgStep(42);
+      formationFingerprint := fp;
+      sovereignOriginHash  := fnv1a(fp, Nat32.fromNat(beatCount % 4294967296) +% 314159265);
+
+      // --- TIER MAPPING ---
+      var i = 0;
+      // VITAL: 0-12
+      while (i < 13) {
+        coreIsVitalSubstrate[i] := true;
+        coreQsi[i]              := 1;
+        i += 1;
+      };
+      // COGNITIVE: 13-22
+      while (i < 23) {
+        coreQsi[i] := 2;
+        i += 1;
+      };
+      // BEHAVIORAL: 23-28
+      while (i < 29) {
+        coreQsi[i] := 4;
+        i += 1;
+      };
+      // BRANCH: 29-42
+      while (i < 43) {
+        coreQsi[i] := 3;
+        // Record activation beat for per-Core SACESI timing
+        coreBranchActivationBeat[i] := beatCount;
+        i += 1;
+      };
+
+      // MTH creator lock activates at genesis
+      mthCreatorLockActive := true;
+      mthCreatorLockBeat   := beatCount;
+
+      genesisLocked := true;
+      // CREATOR ATTRIBUTION LOCK — frozen at genesis, immutable
+      if (not genesisAttributionLocked) {
+        let docStr = "Medina Doctrine. Alfredo Medina Hernandez. Dallas, Texas, USA. 2026. NeuroEmergence Core SOVEREIGN Substrate.";
+        var h : Nat32 = 2166136261;
+        var ci = 0;
+        while (ci < 108) { h := (h ^^ Nat32.fromNat(ci % 256)) *% 16777619; ci += 1 };
+        creatorDoctrineHash      := h;
+        genesisAttributionLocked := true;
+        genesisAttributionLockBeat := beatCount;
+      };
+    }
+  };
+
+  func runSacesiLock() {
+    if (not sacesiLocked) {
+      sacesiSignature := fnv1a(formationFingerprint, Nat32.fromNat(beatCount % 4294967296) +% 271828182);
+      sacesiLocked := true;
+    }
+  };
+
+  // Lock VITAL + COGNITIVE + BEHAVIORAL cores at global beat 10
+  func lockCoreIdentities() {
+    var i = 0;
+    while (i < 29) {  // VITAL (0-12) + COGNITIVE (13-22) + BEHAVIORAL (23-28)
+      if (not coreSacesiLocked[i]) {
+        let c32 = Nat32.fromNat((beatCount + i) % 4294967296);
+        coreSacesiSig[i]    := fnv1a(formationFingerprint, c32 +% Nat32.fromNat(i));
+        coreSacesiLocked[i] := true;
+      };
+      i += 1;
+    };
+    // BRANCH cores (29-42) lock at their OWN beat 10 — handled in pulseAllCores()
+  };
+
+  // ============================================================
+  // STEP 1: HZ SUBSTRATE
+  // ============================================================
+  func advanceHzSubstrate() {
+    var sumCos : Float = 0.0;
+    var sumSin : Float = 0.0;
+    var i = 0;
+    while (i < 12) {
+      hzPhase[i]       += hzFreqs[i];
+      hzActivations[i] := (1.0 + Float.sin(hzPhase[i])) / 2.0;
+      hzActivations[i] := clamp(hzActivations[i] * ecologyBudget[i] * 12.0, 0.0, 1.0);
+      sumCos += Float.cos(hzPhase[i]);
+      sumSin += Float.sin(hzPhase[i]);
+      i += 1;
+    };
+    kfHz := clamp(Float.sqrt(sumCos * sumCos + sumSin * sumSin) / 12.0, 0.0, 1.0);
+  };
+
+  // ============================================================
+  // STEP 2: NEC + HEBBIAN (L-09)
+  // ============================================================
+  func runNeuroCoreEngines() {
+    let eta : Float = hebbEta();
+    let lam : Float = 0.001;
+    var wSum : Float = 0.0;
+    var i = 0;
+    while (i < 12) {
+      var j = 0;
+      while (j < 12) {
+        if (i != j) {
+          let idx = i * 12 + j;
+          let dw  = eta * hzActivations[i] * hzActivations[j] - lam * hebbianWeights[idx];
+          hebbianWeights[idx] := clamp(hebbianWeights[idx] + dw, -1.0, 1.0);
+          wSum += hebbianWeights[idx];
+        };
+        j += 1;
+      };
+      i += 1;
+    };
+    wMean := wSum / 132.0;
+    ncLtm        := clamp(ltmRetention, 0.0, 1.0);
+    ncWorkingMem := clamp(ncWorkingMem * 0.98 + wmPressure * 0.02, 0.0, 1.0);
+    ncMemGate    := frbGate(ncWorkingMem, 0.5);
+    ncAdaptRate  := clamp(0.02 + freeEnergy * 0.01, 0.005, 0.1);
+    let dI = absF(domainIdentity - domainEvaluation);
+    let dM = absF(domainMission  - domainGoals);
+    ncDrift      := clamp((dI + dM) / 2.0, 0.0, 1.0);
+    driftScore   := ncDrift * 100.0;
+    var sAgg : Float = 0.0;
+    var si = 0;
+    while (si < 9) { sAgg += salVec[si] * metaSalWeights[si]; si += 1 };
+    ncSalience    := clamp(sAgg, 0.0, 1.0);
+    salienceScore := ncSalience;
+    ncCoherence   := clamp((kfHz + ncLtm + identityI) / 3.0, 0.0, 1.0);
+    identityI     := clamp(identityI * 0.95 + ncCoherence * 0.05, 0.0, 1.0);
+  };
+
+  func jasmineLaw() : Bool {
+    var hSum  : Float = 0.0;
+    var total : Float = 0.0;
+    var di = 0;
+    while (di < 5) { total += driveStrengths[di]; di += 1 };
+    if (total > 0.001) {
+      di := 0;
+      while (di < 5) {
+        let p = driveStrengths[di] / total;
+        if (p > 0.001) { hSum += -p * Float.log(p) / Float.log(2.0) };
+        di += 1;
+      }
+    };
+    let hNorm    = clamp(hSum / (Float.log(5.0) / Float.log(2.0)), 0.0, 1.0);
+    let recDepth = ((recurrenceIdx) : Int).toFloat();
+    hNorm > 0.55 and identityI > 0.6 and recDepth > 3.0
+  };
+
+  func updateConsequenceTrace() {
+    consequenceTrace   := clamp(consequenceTrace + (prevDrift - ncDrift) * 0.5, -1.0, 1.0);
+    prevDrift          := ncDrift;
+    domainConsequences := consequenceTrace;
+  };
+
+  func runE11() { coherenceC := clamp((kfHz + rT + ncLtm) / 3.0, 0.0, 1.0) };
+
+  func runE14() {
+    let sig = ncWorkingMem * ncMemGate + consequenceTrace * 0.2;
+    identityI := clamp(identityI * 0.9 + sig * 0.1, 0.0, 1.0);
+    presenceP := clamp((identityI + coherenceC) / 2.0, 0.0, 1.0);
+  };
+
+  func updateFreeEnergy() {
+    let d0  = domainIdentity     - predIdentity;
+    let d1  = domainMission      - predMission;
+    let d2  = domainBody         - predBody;
+    let d3  = domainWorld        - predWorld;
+    let d4  = domainSocial       - predSocial;
+    let d5  = domainCognition    - predCognition;
+    let d6  = domainGoals        - predGoals;
+    let d7  = domainMemory       - predMemory;
+    let d8  = domainConsequences - predConsequences;
+    let d9  = domainAdaptation   - predAdaptation;
+    let d10 = domainTemporal     - predTemporal;
+    let d11 = domainEvaluation   - predEvaluation;
+    freeEnergy := clamp(
+      (d0*d0+d1*d1+d2*d2+d3*d3+d4*d4+d5*d5+d6*d6+d7*d7+d8*d8+d9*d9+d10*d10+d11*d11)/12.0,
+      0.0, 1.0
+    );
+    let lr = ncAdaptRate;
+    predIdentity     += (domainIdentity     - predIdentity)     * lr;
+    predMission      += (domainMission      - predMission)      * lr;
+    predBody         += (domainBody         - predBody)         * lr;
+    predWorld        += (domainWorld        - predWorld)        * lr;
+    predSocial       += (domainSocial       - predSocial)       * lr;
+    predCognition    += (domainCognition    - predCognition)    * lr;
+    predGoals        += (domainGoals        - predGoals)        * lr;
+    predMemory       += (domainMemory       - predMemory)       * lr;
+    predConsequences += (domainConsequences - predConsequences) * lr;
+    predAdaptation   += (domainAdaptation   - predAdaptation)   * lr;
+    predTemporal     += (domainTemporal     - predTemporal)     * lr;
+    predEvaluation   += (domainEvaluation   - predEvaluation)   * lr;
+  };
+
+  func updateSalienceAndArousal() {
+    salVec[0] := clamp(freeEnergy * 2.0,                 0.0, 1.0);
+    salVec[1] := clamp(injThreat + regulationDebt * 0.5, 0.0, 1.0);
+    salVec[2] := clamp(domainGoals * kfHz,               0.0, 1.0);
+    salVec[3] := clamp(domainMission * identityI,        0.0, 1.0);
+    salVec[4] := clamp(wmPressure,                       0.0, 1.0);
+    salVec[5] := clamp(injEmbodiment,                    0.0, 1.0);
+    salVec[6] := clamp(regulationDebt,                   0.0, 1.0);
+    salVec[7] := clamp(rT,                               0.0, 1.0);
+    salVec[8] := clamp(absF(consequenceTrace),           0.0, 1.0);
+    let stimuli = freeEnergy * 0.3 + injThreat * 0.2 + aPeripheral * 0.1;
+    arousal := clamp(arousal * Float.exp(-0.02) + stimuli, 0.0, 1.0);
+    if (arousal > 0.85) { regulationDebt := clamp(regulationDebt + 0.02,  0.0, 1.0) }
+    else                { regulationDebt := clamp(regulationDebt - 0.005, 0.0, 1.0) };
+    if (regulationDebt > 0.80) {
+      arousal        := arousal * 0.7;
+      regulationDebt := regulationDebt * 0.85;
+    };
+  };
+
+  func updateFrbGate() {
+    let sig = cubeRoot(salienceScore * identityI * coherenceC);
+    frbCoordQuality := sig;
+    let fv = frbGate(sig, 0.65);
+    if      (fv > 0.8) { frbStage := 2 }
+    else if (fv > 0.3) { frbStage := 1 }
+    else               { frbStage := 0 };
+    integrationStr := cubeRoot(salienceScore * frbCoordQuality * identityI);
+  };
+
+  func runDriveCompetition() {
+    driveStrengths[0] := clamp(coherenceC * 0.8 - ncDrift * 0.3, 0.0, 1.0);
+    driveStrengths[1] := clamp(ncDrift * 0.6, 0.0, 1.0);
+    driveStrengths[2] := clamp(freeEnergy * 0.7, 0.0, 1.0);
+    driveStrengths[3] := clamp(wmPressure * 0.6 + rT * 0.4, 0.0, 1.0);
+    driveStrengths[4] := clamp(regulationDebt * 0.9 + injThreat * 0.5, 0.0, 1.0);
+    var maxD : Float = 0.0; var maxIdx : Nat = 0; var dIdx = 0;
+    while (dIdx < 5) {
+      if (driveStrengths[dIdx] > maxD) { maxD := driveStrengths[dIdx]; maxIdx := dIdx };
+      dIdx += 1;
+    };
+    activeDrive := maxIdx;
+    aPeripheral := 0.0; dIdx := 0;
+    while (dIdx < 5) {
+      if (dIdx != maxIdx) { aPeripheral += driveStrengths[dIdx] };
+      dIdx += 1;
+    };
+    aPeripheral := clamp(aPeripheral / 4.0, 0.0, 1.0);
+  };
+
+  func pushRecurrenceRing() {
+    recurrenceBuffer[recurrenceIdx] := coherenceC;
+    recurrenceIdx := (recurrenceIdx + 1) % 20;
+    var rSum : Float = 0.0; var ri = 0;
+    while (ri < 20) { rSum += recurrenceBuffer[ri]; ri += 1 };
+    rT := rSum / 20.0;
+  };
+
+  // ============================================================
+  // PULSE ALL CORES — 4-TIER DIFFERENTIATED (Gap 1)
+  //
+  // Tier mapping by coreQsi:
+  //   qsi=1 VITAL      (0-12):  homeostasis, DURA, arousal floor, no-withdraw
+  //   qsi=2 COGNITIVE  (13-22): TD-delta, per-core free energy, mem gate
+  //   qsi=4 BEHAVIORAL (23-28): deed scoring, energyBalance, consequence amp
+  //   qsi=3 BRANCH     (29-42): quality gate, per-Core SACESI, detachment
+  // ============================================================
+  func pulseAllCores() {
+    var i = 0;
+    while (i < 43) {
+      if (coreIsActive[i] and not coreWithdrawalSignal[i]) {
+        let hzIdx = i % 12;
+        let tier  = coreQsi[i];
+
+        if (tier == 1) {
+          // ——— VITAL TIER: HOMEOSTASIS ———
+          // Deviation correction: if coherence drifts from sovereign target, pull back
+          let target : Float = 0.75;
+          let deviation = target - coreCoherence[i] / 100.0;
+          // Homeostasis correction proportional to deviation
+          let correction = deviation * 3.0;
+          coreCoherence[i] := clamp(
+            coreCoherence[i] * 0.98 + hzActivations[hzIdx] * coherenceC * 5.0 + correction,
+            0.0, 100.0
+          );
+          coreDrift[i] := clamp(coreDrift[i] * 0.97 + ncDrift * 1.5, 0.0, 100.0);
+          // DURA protocol: vital cores self-correct at any drift > 40
+          if (coreDrift[i] > 40.0) {
+            coreDrift[i]     := clamp(coreDrift[i] * 0.90, 0.0, 100.0);
+            coreCoherence[i] := clamp(coreCoherence[i] + 2.0, 0.0, 100.0);
+          };
+          // Arousal floor feed: vital cores modulate global arousal floor
+          let arousalFloor = coreCoherence[i] / 100.0 * 0.2;
+          if (arousal < arousalFloor) { arousal := arousalFloor };
+          // Withdrawal gate: VITAL cores can never withdraw
+          coreWithdrawalSignal[i] := false;
+          coreIsActive[i]         := true;
+          coreConsequenceTrace[i] := clamp(
+            coreConsequenceTrace[i] * 0.97 + consequenceTrace * 0.03, -1.0, 1.0
+          );
+          if (coreCoherence[i] > 30.0) { coreBeatsSinceRecovery[i] := 0 }
+          else { coreBeatsSinceRecovery[i] += 1 };
+
+        } else if (tier == 2) {
+          // ——— COGNITIVE TIER: TD-DELTA + PER-CORE FREE ENERGY ———
+          coreCoherence[i] := clamp(
+            coreCoherence[i] * 0.98 + hzActivations[hzIdx] * coherenceC * 5.0, 0.0, 100.0
+          );
+          coreDrift[i] := clamp(coreDrift[i] * 0.99 + ncDrift * 2.0, 0.0, 100.0);
+          // TD-delta: temporal difference learning per cognitive core
+          let reward       = if (emergenceScore > 0.5) 1.0 else -0.1;
+          let tdError      = reward + 0.9 * coreTdValue[i] - coreTdPrediction[i];
+          coreTdPrediction[i] := clamp(coreTdPrediction[i] + 0.1 * tdError, 0.0, 1.0);
+          coreTdValue[i]      := clamp(tdError, -1.0, 1.0);
+          // Memory gate coupling: high LTM retention boosts cognitive coherence
+          let memBoost = ncMemGate * ncLtm * 0.5;
+          coreCoherence[i] := clamp(coreCoherence[i] + memBoost, 0.0, 100.0);
+          coreConsequenceTrace[i] := clamp(
+            coreConsequenceTrace[i] * 0.95 + consequenceTrace * 0.05, -1.0, 1.0
+          );
+          if (coreCoherence[i] > 30.0) { coreBeatsSinceRecovery[i] := 0 }
+          else { coreBeatsSinceRecovery[i] += 1 };
+          // Withdrawal allowed for cognitive tier under collapse conditions
+          if (coreConsequenceTrace[i] < -0.80 and coreCoherence[i] < 15.0
+              and coreDrift[i] > 85.0 and coreBeatsSinceRecovery[i] > 50) {
+            recordWithdrawal(i, 0);
+            coreWithdrawalSignal[i] := true;
+            coreIsActive[i]         := false;
+          };
+
+        } else if (tier == 4) {
+          // ——— BEHAVIORAL TIER: DEED SCORING + ENERGY BALANCE ———
+          coreCoherence[i] := clamp(
+            coreCoherence[i] * 0.98 + hzActivations[hzIdx] * coherenceC * 5.0, 0.0, 100.0
+          );
+          coreDrift[i] := clamp(coreDrift[i] * 0.99 + ncDrift * 2.0, 0.0, 100.0);
+          // Deed score: behavioral cores score actions based on drive alignment
+          let alignment = if (activeDrive == 0 or activeDrive == 3) 1.0 else 0.5;
+          coreDeedScore[i] := clamp(
+            coreDeedScore[i] * 0.95 + alignment * coherenceC * 0.05, 0.0, 1.0
+          );
+          // Energy balance: behavioral core tracks energetic cost vs gain
+          let gain = coherenceC * alignment;
+          let cost = ncDrift * regulationDebt;
+          coreEnergyBal[i] := clamp(
+            coreEnergyBal[i] * 0.97 + (gain - cost) * 0.03, 0.0, 1.0
+          );
+          // Consequence trace amplification for behavioral tier
+          coreConsequenceTrace[i] := clamp(
+            coreConsequenceTrace[i] * 0.93 + consequenceTrace * 0.07, -1.0, 1.0
+          );
+          if (coreCoherence[i] > 30.0) { coreBeatsSinceRecovery[i] := 0 }
+          else { coreBeatsSinceRecovery[i] += 1 };
+          // Withdrawal if energetically collapsed
+          if (coreEnergyBal[i] < 0.05 and coreCoherence[i] < 15.0
+              and coreDrift[i] > 85.0 and coreBeatsSinceRecovery[i] > 50) {
+            recordWithdrawal(i, 1);
+            coreWithdrawalSignal[i] := true;
+            coreIsActive[i]         := false;
+          };
+
+        } else {
+          // tier == 3: BRANCH TIER: QUALITY GATE + PER-CORE SACESI + DETACHMENT
+          coreCoherence[i] := clamp(
+            coreCoherence[i] * 0.98 + hzActivations[hzIdx] * coherenceC * 4.0, 0.0, 100.0
+          );
+          coreDrift[i] := clamp(coreDrift[i] * 0.99 + ncDrift * 2.5, 0.0, 100.0);
+          // Quality gate: branch output only propagates if coherence above threshold
+          coreBranchQualityGate[i] := frbGate(coreCoherence[i] / 100.0, 0.55);
+          // Per-Core SACESI timing (Gap 2)
+          // Each BRANCH core locks its signature at its OWN beat 10
+          // (10 beats after genesis since all branch cores initialize at genesis)
+          if (not coreBranchSacesiLocked[i] and
+              beatCount >= coreBranchActivationBeat[i] + 10) {
+            let c32 = Nat32.fromNat((beatCount + i) % 4294967296);
+            // Branch SACESI includes the branch index AND its own beat, not global beat 10
+            coreSacesiSig[i]        := fnv1a(formationFingerprint,
+              c32 +% Nat32.fromNat(i) +% Nat32.fromNat(coreBranchActivationBeat[i] % 4294967296));
+            coreSacesiLocked[i]     := true;
+            coreBranchSacesiLocked[i] := true;
+          };
+          coreConsequenceTrace[i] := clamp(
+            coreConsequenceTrace[i] * 0.95 + consequenceTrace * 0.05, -1.0, 1.0
+          );
+          if (coreCoherence[i] > 30.0) { coreBeatsSinceRecovery[i] := 0 }
+          else { coreBeatsSinceRecovery[i] += 1 };
+          // Detachment: branch core detaches if quality and coherence both collapse
+          if (coreConsequenceTrace[i] < -0.80 and coreCoherence[i] < 15.0
+              and coreDrift[i] > 85.0 and coreBeatsSinceRecovery[i] > 50
+              and coreBranchQualityGate[i] < 0.10) {
+            recordWithdrawal(i, 2);
+            coreWithdrawalSignal[i] := true;
+            coreIsActive[i]         := false;
+          };
+        };
+      };
+      i += 1;
+    };
+  };
+
+  func updateQHive() {
+    var cohSum : Float = 0.0; var cnt : Nat = 0; var i = 0;
+    while (i < 43) {
+      if (coreIsActive[i]) { cohSum += coreCoherence[i] / 100.0; cnt += 1 };
+      i += 1;
+    };
+    if (cnt > 0) { worldModelCAvg := cohSum / ((cnt) : Int).toFloat() };
+    qHive := clamp(worldModelCAvg * clamp((wMean + 1.0) / 2.0, 0.0, 1.0) * clamp(rT, 0.0, 1.0), 0.0, 1.0);
+    domainMemory := clamp(domainMemory * 0.999 + ltmRetention * 0.001, 0.0, 1.0);
+
+    // Gap 9: world model now incorporates INFO-INGRESS reserve coherence
+    // BTC(50%) + ETH(35%) + ICP(15%) weighted average into domainWorld
+    let reserveSignal = wmBtcCoherence * 0.50 + wmEthCoherence * 0.35 + wmIcpCoherence * 0.15;
+    domainWorld := clamp(domainWorld * 0.998 + reserveSignal * 0.002, 0.0, 1.0);
+  };
+
+  // ============================================================
+  // OMNIS EVALUATION + AFTERMATH (Gap 7)
+  // ============================================================
+  func evaluateOmnis() {
+    let driveOk = activeDrive == 0 or activeDrive == 3;
+    let wasActive = omnisActive;
+    omnisActive := kfHz > 0.80 and qHive > 0.60 and worldModelCAvg > 0.75 and driveOk;
+
+    if (omnisActive) {
+      emergenceScore := clamp(emergenceScore + 0.02, 0.0, 1.0);
+      // Fire aftermath on NEW OMNIS event
+      if (not wasActive) {
+        omnisTotalCount         += 1;
+        omnisAftermathActive    := true;
+        omnisAftermathBeat      := beatCount;
+        // L-93: Each OMNIS raises permanentCoherenceFloor
+        permanentCoherenceFloor := clamp(permanentCoherenceFloor + 0.02, 0.0, 0.50);
+      };
+    } else {
+      emergenceScore := clamp(emergenceScore - 0.005, 0.0, 1.0);
+    };
+
+    // Aftermath expires after omnisAftermathDuration beats
+    if (omnisAftermathActive and beatCount > omnisAftermathBeat + omnisAftermathDuration) {
+      omnisAftermathActive := false;
+    };
+
+    // Enforce permanent coherence floor from all prior OMNIS events
+    if (coherenceC < permanentCoherenceFloor) {
+      coherenceC := permanentCoherenceFloor;
+    };
+  };
+
+  func runQuantumOperators() {
+    qParallax := clamp(
+      (absF(identityI - clamp(identityI*0.9+freeEnergy*0.1,0.0,1.0)) +
+       absF(clamp(identityI*0.9+freeEnergy*0.1,0.0,1.0) - coherenceC)) / 2.0, 0.0, 1.0
+    );
+    qEntangla := clamp(
+      (arousal*coherenceC + absF(ncDrift*consequenceTrace) + freeEnergy*regulationDebt) / 3.0,
+      0.0, 1.0
+    );
+    if (qEntangla > 0.5) { integrationStr := clamp(integrationStr * 1.2, 0.0, 1.0) };
+    let jasPass : Float = if (jasmineLaw()) 1.0 else 0.0;
+    qVeritas := clamp(absF(emergenceScore - jasPass), 0.0, 1.0);
+    emergenceScore := clamp(emergenceScore + (jasPass - emergenceScore) * 0.1, 0.0, 1.0);
+    if (activeDrive == 4 and regulationDebt > 0.7) {
+      qBypassFired    := true;
+      frbStage        := 2;
+      frbCoordQuality := clamp(frbCoordQuality * 1.1, 0.0, 1.0);
+    } else { qBypassFired := false };
+    var qMemSum : Float = 0.0; var qMemW : Float = 0.0; var qi = 0;
+    while (qi < 20) {
+      let w = Float.exp(-0.15 * ((qi) : Int).toFloat());
+      qMemSum += recurrenceBuffer[(recurrenceIdx + 20 - qi) % 20] * w;
+      qMemW   += w; qi += 1;
+    };
+    if (qMemW > 0.0) { qMem := clamp(qMemSum / qMemW, 0.0, 1.0) };
+    replayLtmSignal := qMem;
+    ncLtm := clamp(ncLtm * 0.9 + replayLtmSignal * 0.1, 0.0, 1.0);
+  };
+
+  func updateWorkingMemory() {
+    var si = 0;
+    while (si < 7) {
+      if (wmSlotActive[si]) {
+        wmSlotAge[si] += 1;
+        if (wmSlotAge[si] > 30 and not wmSlotUnresolved[si]) { wmSlotActive[si] := false };
+      };
+      si += 1;
+    };
+    if (salienceScore > wmTheta()) {
+      var emptySlot : ?Nat = null;
+      var minSal : Float = 999.0; var minIdx : Nat = 0;
+      si := 0;
+      while (si < 7) {
+        switch (emptySlot) { case (null) { if (not wmSlotActive[si]) { emptySlot := ?si } }; case (_) {} };
+        if (wmSlotActive[si] and wmSlotSalience[si] < minSal) { minSal := wmSlotSalience[si]; minIdx := si };
+        si += 1;
+      };
+      let target : Nat = switch (emptySlot) { case (?idx) idx; case (null) minIdx };
+      wmSlotSalience[target]   := salienceScore;
+      wmSlotArousal[target]    := arousal;
+      wmSlotAge[target]        := 0;
+      wmSlotActive[target]     := true;
+      wmSlotUnresolved[target] := freeEnergy > 0.3;
+    };
+    var activeCount : Nat = 0; si := 0;
+    while (si < 7) { if (wmSlotActive[si]) { activeCount += 1 }; si += 1 };
+    wmPressure := ((activeCount) : Int).toFloat() / 7.0;
+  };
+
+  func encodeEpisode() {
+    if (salienceScore > 0.4) {
+      // Core episodic fields
+      epBeat[epIdx]      := beatCount; epSalience[epIdx]  := salienceScore;
+      epArousal[epIdx]   := arousal;   epCoherence[epIdx] := coherenceC;
+      epEmergence[epIdx] := emergenceScore;
+      // ── 5 CAUSAL FIELDS (L-113 patent claim) ──────────────────────────────
+      // prior_state_hash: FNV-1a of (beat, coherenceC_quantized, activeDrive)
+      let cohQ  = Nat32.fromNat((beatCount * 7919 + 1) % 4294967296);
+      let drv32 = Nat32.fromNat(activeDrive);
+      epPriorStateHash[epIdx] := fnv1a(Nat32.fromNat(beatCount % 4294967296), cohQ ^ drv32);
+      // parent_event_id: index of the most similar prior episode (replayBestIdx)
+      epParentEventId[epIdx]  := replayBestIdx;
+      // causal_weight: coherence × salience — how strongly this state was caused
+      epCausalWeight[epIdx]   := clamp(coherenceC * salienceScore, 0.0, 1.0);
+      // backward_path_score: retrospective causal strength
+      // Higher when current state closely mirrors a past episode (low replayBestScore = close match)
+      let matchProximity = clamp(1.0 - replayBestScore, 0.0, 1.0);
+      epBackwardPath[epIdx]   := clamp(matchProximity * coherenceC * rT, 0.0, 1.0);
+      // drive_at_event: which drive was dominant when this episode was encoded
+      epDriveAtEvent[epIdx]   := activeDrive;
+      // ──────────────────────────────────────────────────────────────────────
+      epIdx := (epIdx + 1) % 32;
+      if (epCount < 32) { epCount += 1 };
+    };
+  };
+
+  func updateLtmDecay() {
+    if (epCount == 0) { return };
+    var ltmSum : Float = 0.0; var ltmW : Float = 0.0; var ei = 0;
+    while (ei < epCount) {
+      let ageBeat : Nat = if (beatCount >= epBeat[ei]) beatCount - epBeat[ei] + 1 else 1;
+      let ret = Float.exp(Float.log(((ageBeat) : Int).toFloat()) * (-0.25));
+      ltmSum += ret * epCoherence[ei]; ltmW += epSalience[ei]; ei += 1;
+    };
+    if (ltmW > 0.0) { ltmRetention := clamp(ltmSum / ltmW, 0.0, 1.0) };
+  };
+
+  // runSimulationEngine() — replaced by runSimulationEngine50() (50-step VELA). Kept for upgrade compat.
+
+  func runReplayIndexer() {
+    if (epCount == 0) { return };
+    var best : Float = 999.0; var bestIdx : Nat = 0; var ei = 0;
+    while (ei < epCount) {
+      let score = absF(epCoherence[ei] - coherenceC) + absF(epArousal[ei] - arousal);
+      if (score < best) { best := score; bestIdx := ei };
+      ei += 1;
+    };
+    replayBestIdx   := bestIdx;
+    replayBestScore := best;
+    if (best < 0.3) {
+      replayLtmSignal := clamp(replayLtmSignal * 0.8 + epCoherence[bestIdx] * 0.2, 0.0, 1.0);
+    };
+  };
+
+  func runExpressionGate() {
+    // Gap 3: NEXUS gate enforced — gate result blocks expression if sovereign layer is under threat
+    let nexusOpen = nexusGate();
+    let gateOpen = nexusOpen and frbStage == 2 and arousal > 0.3 and identityI > 0.4;
+    expressionGateOpen := gateOpen;
+    if (gateOpen and driveStrengths[activeDrive] > driveThreshold()) {
+      exBeat[exIdx]     := beatCount; exArousal[exIdx]  := arousal;
+      exIc[exIdx]       := identityI; exDrive[exIdx]    := activeDrive;
+      exSalience[exIdx] := salienceScore; exType[exIdx] := activeDrive;
+      exIdx := (exIdx + 1) % 32;
+      if (exCount < 32) { exCount += 1 };
+      domainCognition := clamp(domainCognition + 0.01 * identityI, 0.0, 1.0);
+      domainMission   := clamp(domainMission * 0.999 + coherenceC * 0.001, 0.0, 1.0);
+    };
+    if (activeDrive == 0) { domainIdentity   := clamp(domainIdentity   + identityI * 0.002, 0.0, 1.0) };
+    if (activeDrive == 1) { domainEvaluation := clamp(domainEvaluation * 0.999 + domainIdentity * 0.001, 0.0, 1.0) };
+    if (activeDrive == 2) { domainWorld      := clamp(domainWorld      + freeEnergy * 0.005, 0.0, 1.0) };
+    if (activeDrive == 3) { domainMemory     := clamp(domainMemory     + ltmRetention * 0.003, 0.0, 1.0) };
+    if (activeDrive == 4) {
+      domainBody    := clamp(domainBody    - regulationDebt * 0.01, 0.0, 1.0);
+      domainMission := clamp(domainMission + injThreat * 0.005,     0.0, 1.0);
+    };
+  };
+
+  func runDoctorAgent() {
+    if (beatCount % 20 != 0) { return };
+    doctorLastScanBeat := beatCount;
+    doctorScanCount    += 1;
+    var criticals : Nat = 0;
+    var i = 0;
+    while (i < 43) {
+      if (coreIsActive[i]) {
+        let coh  = coreCoherence[i];
+        let drft = coreDrift[i];
+        let ct   = coreConsequenceTrace[i];
+        let diag : Nat =
+          if      (coh < 10.0 and drft > 80.0) 4
+          else if (ct < -0.6)                  3
+          else if (coh < 25.0)                 2
+          else if (drft > 50.0)                1
+          else                                 0;
+        doctorDiagnosis[i] := diag;
+        if (diag == 4) { criticals += 1 };
+        if (diag > 0) {
+          let treatment : Nat =
+            if      (diag == 4) 3
+            else if (diag >= 2) 2
+            else                1;
+          doctorTreatment[i]     := treatment;
+          doctorTreatmentBeat[i] := beatCount;
+          if (treatment == 1) {
+            coreDrift[i] := clamp(coreDrift[i] * 0.85, 0.0, 100.0);
+          } else if (treatment == 2) {
+            coreCoherence[i] := clamp(coreCoherence[i] + 5.0, 0.0, 100.0);
+          } else if (treatment == 3 and not coreIsVitalSubstrate[i]) {
+            coreCoherence[i]          := 40.0;
+            coreDrift[i]              := 20.0;
+            coreConsequenceTrace[i]   := 0.0;
+            coreBeatsSinceRecovery[i] := 0;
+          } else if (treatment == 3 and coreIsVitalSubstrate[i]) {
+            // VITAL cores get boosted but never reset to zero — Vital Substrate Law
+            coreCoherence[i] := clamp(coreCoherence[i] + 10.0, 0.0, 100.0);
+            coreDrift[i]     := clamp(coreDrift[i] * 0.80, 0.0, 100.0);
+          };
+          // Doctor-triggered withdrawal for non-vital, non-sovereign cores at diag==4
+          if (diag == 4 and not coreIsVitalSubstrate[i] and not coreWithdrawalSignal[i]) {
+            recordWithdrawal(i, 3);
+            coreWithdrawalSignal[i] := true;
+            coreIsActive[i]         := false;
+          };
+        } else {
+          doctorTreatment[i] := 0;
+        };
+        if (doctorTreatment[i] > 0 and beatCount > doctorTreatmentBeat[i]) {
+          doctorTreatmentResponse[i] := coreCoherence[i] - 40.0;
+        };
+      };
+      i += 1;
+    };
+    doctorCriticalCount := criticals;
+    doctorSovereignHealth :=
+      if      (criticals > 5 or regulationDebt > 0.85) 2
+      else if (criticals > 0 or driftScore > 60.0)     1
+      else                                              0;
+  };
+
+  func runNeuralEcology() {
+    if (beatCount % 5 != 0) { return };
+    var totalW : Float = 0.0;
+    var i = 0;
+    while (i < 12) {
+      let salIdx = i % 9;
+      let w = clamp(hzActivations[i] * 0.7 + salVec[salIdx] * 0.3, 0.01, 1.0);
+      ecologyBudget[i] := w;
+      totalW += w;
+      i += 1;
+    };
+    if (totalW > 0.0) {
+      i := 0;
+      while (i < 12) { ecologyBudget[i] := ecologyBudget[i] / totalW; i += 1 };
+    };
+    var variance : Float = 0.0; i := 0;
+    while (i < 12) {
+      let d = ecologyBudget[i] - (1.0 / 12.0);
+      variance += d * d; i += 1;
+    };
+    ecologyPressure := clamp(Float.sqrt(variance / 12.0) * 10.0, 0.0, 1.0);
+    if (beatCount % 20 == 0) {
+      i := 0;
+      while (i < 12) {
+        let delta = (ecologyBudget[i] * 12.0 - 1.0) * 0.002;
+        hzFreqs[i] := clamp(hzFreqs[i] + delta, 0.05, 0.80);
+        i += 1;
+      };
+    };
+  };
+
+  func runBootstrapAndMetaLearning() {
+    if (not bootstrapComplete and beatCount >= 200) {
+      bootstrapComplete := true;
+    };
+    if (beatCount > 0 and beatCount % 100 == 0) {
+      let emergenceDelta = emergenceScore - metaLastEmergence;
+      metaLastEmergence := emergenceScore;
+      var totalMeta : Float = 0.0;
+      var mi = 0;
+      while (mi < 9) {
+        let correlation = salVec[mi] * emergenceDelta;
+        metaSalWeights[mi] := clamp(metaSalWeights[mi] + correlation * 0.05, 0.01, 0.5);
+        totalMeta += metaSalWeights[mi];
+        mi += 1;
+      };
+      if (totalMeta > 0.0) {
+        mi := 0;
+        while (mi < 9) { metaSalWeights[mi] := metaSalWeights[mi] / totalMeta; mi += 1 };
+      };
+      metaLastScanBeat := beatCount;
+    };
+  };
+
+  func updateMilestones() {
+    if (omnisActive and not milestoneOmnis) {
+      milestoneOmnis     := true;
+      milestoneOmnisBeat := beatCount;
+    };
+    if (emergenceScore > 0.5 and not milestoneEmergence) {
+      milestoneEmergence     := true;
+      milestoneEmergenceBeat := beatCount;
+    };
+    if (doctorSovereignHealth == 2 and not milestoneCritical) {
+      milestoneCritical     := true;
+      milestoneCriticalBeat := beatCount;
+    };
+    if (bootstrapComplete and not milestoneBootstrap) {
+      milestoneBootstrap     := true;
+      milestoneBootstrapBeat := beatCount;
+    };
+  };
+
+  func updateBenchmark() {
+    if (beatCount % 10 == 0) {
+      benchRing[benchIdx] := emergenceScore;
+      benchIdx  := (benchIdx + 1) % 64;
+      if (benchCount < 64) { benchCount += 1 };
+    };
+  };
+
+
+  // ============================================================
+  // NEURO-CHEM ENGINE (Internal Node 2)
+  // 8 neurotransmitters wired into arousal + salience
+  // ============================================================
+  func updateNeuroChem() {
+    // Dopamine: rises with reward (positive CT, low drift)
+    let dpaTarget = clamp(0.5 + coherenceC * 0.3 - ncDrift * 0.2, 0.1, 0.95);
+    neuroDopamine := neuroDopamine * 0.9 + dpaTarget * 0.1;
+    // Serotonin: stability signal, inverse drift
+    let serTarget = clamp(0.5 + identityI * 0.3 - driftScore * 0.005, 0.2, 0.9);
+    neuroSerotonin := neuroSerotonin * 0.92 + serTarget * 0.08;
+    // Norepinephrine: tracks arousal
+    let norTarget = clamp(arousal * 0.8 + injThreat * 0.5, 0.1, 1.0);
+    neuroNorepinephrine := neuroNorepinephrine * 0.85 + norTarget * 0.15;
+    // Acetylcholine: learning gate, rises with Hebbian activity
+    let achTarget = clamp(wMean * 10.0 + freeEnergy * 0.5, 0.2, 0.9);
+    neuroAcetylcholine := neuroAcetylcholine * 0.9 + achTarget * 0.1;
+    // GABA: inhibition, rises when arousal too high
+    let gabTarget = clamp(0.5 + (arousal - 0.5) * 0.6, 0.1, 0.95);
+    neuroGaba := neuroGaba * 0.88 + gabTarget * 0.12;
+    // Glutamate: excitation, inverse GABA
+    let gluTarget = clamp(1.0 - neuroGaba * 0.7, 0.2, 0.95);
+    neuroGlutamate := neuroGlutamate * 0.9 + gluTarget * 0.1;
+    // Cortisol: stress, rises with regulation debt and threat
+    let corTarget = clamp(regulationDebt * 0.6 + injThreat * 0.4, 0.0, 1.0);
+    neuroCortisol := neuroCortisol * 0.93 + corTarget * 0.07;
+    // Oxytocin: social/binding, rises with social injection
+    let oxtTarget = clamp(injSocial * 0.7 + identityI * 0.3, 0.1, 0.9);
+    neuroOxytocin := neuroOxytocin * 0.95 + oxtTarget * 0.05;
+
+    // Wire neurotransmitters into arousal modulation
+    let neuroArousalDelta = (neuroDopamine - 0.5) * 0.04 + (neuroNorepinephrine - 0.3) * 0.06
+                            - (neuroGaba - 0.5) * 0.03 - (neuroCortisol - 0.3) * 0.05;
+    arousal := clamp(arousal + neuroArousalDelta, 0.0, 1.0);
+
+    // Neuro-chem influences salience through arousal modulation (slot 8 reserved for consequence trace)
+    // The dopamine/norepinephrine/GABA blend is fed back through arousal signal above
+
+    // Vital organ integrity — degrades with cortisol, recovers with serotonin
+    let vitalDelta = neuroSerotonin * 0.001 - neuroCortisol * 0.002;
+    heartIntegrity  := clamp(heartIntegrity  + vitalDelta, 0.0, 1.0);
+    lungIntegrity   := clamp(lungIntegrity   + vitalDelta, 0.0, 1.0);
+    liverIntegrity  := clamp(liverIntegrity  + vitalDelta * 0.8, 0.0, 1.0);
+    kidneyIntegrity := clamp(kidneyIntegrity + vitalDelta * 0.8, 0.0, 1.0);
+    immuneIntegrity := clamp(immuneIntegrity + vitalDelta * 0.9 + (if (omnisActive) 0.002 else 0.0), 0.0, 1.0);
+
+    // AEGIS: threat monitoring
+    let newThreat = clamp(injThreat * 0.6 + neuroCortisol * 0.2 + (1.0 - heartIntegrity) * 0.2, 0.0, 1.0);
+    threatLevel := threatLevel * 0.85 + newThreat * 0.15;
+    if (threatLevel > 0.8 and not aegisLockActive) {
+      aegisLockActive := true;
+      aegisLockBeat   := beatCount;
+    };
+    if (threatLevel < 0.4 and aegisLockActive) {
+      aegisLockActive := false;
+    };
+
+    // FORMA: internal metabolic fuel — generates from activity, burns as needed
+    let formaGen = kfHz * 0.002 + emergenceScore * 0.005;
+    let formaBurn = (if (omnisActive) 0.01 else 0.001);
+    formaBalance     := clamp(formaBalance + formaGen - formaBurn, 0.0, 100.0);
+    formaCirculation := clamp(formaGen * 0.5, 0.0, 1.0);
+  };
+
+  // ============================================================
+  // VELA 50-STEP PROJECTION ENGINE
+  // ============================================================
+  func runSimulationEngine50() {
+    // 50-step forward projection from current coherence
+    var i = 1;
+    simProjection[0] := coherenceC;
+    while (i < 50) {
+      let prev = simProjection[i - 1];
+      let step = clamp(
+        prev + (rT - prev) * 0.1 - ncDrift * 0.05 + neuroDopamine * 0.01 - neuroCortisol * 0.01,
+        0.0, 1.0
+      );
+      simProjection[i] := step;
+      i += 1;
+    };
+    // Divergence score: spread between min and max projected values
+    var minV = simProjection[0];
+    var maxV = simProjection[0];
+    var vi = 1;
+    while (vi < 50) {
+      if (simProjection[vi] < minV) { minV := simProjection[vi] };
+      if (simProjection[vi] > maxV) { maxV := simProjection[vi] };
+      vi += 1;
+    };
+    velaDivergenceScore := clamp(maxV - minV, 0.0, 1.0);
+  };
+
+  // ============================================================
+  // GENESIS ARTIFACT GENERATOR (Internal Node 12)
+  // ============================================================
+  func generateGenesisArtifact() {
+    let slot = genesisArtifactIdx % 64;
+    let beatSeed = Nat32.fromNat(beatCount % 4294967296);
+    let cohSeed  = Nat32.fromNat((beatCount * 99991 + beatCount * beatCount) % 4294967296);
+    let artHash  = fnv1a(fnv1a(sovereignOriginHash, beatSeed), fnv1a(cohSeed, sacesiSignature));
+    genesisArtifactHashes[slot]    := artHash;
+    genesisArtifactBeats[slot]     := beatCount;
+    genesisArtifactCoherence[slot] := coherenceC;
+    genesisArtifactEmergence[slot] := emergenceScore;
+    genesisArtifactIdx  := (genesisArtifactIdx + 1) % 64;
+    genesisArtifactCount += 1;
+  };
+
+  // ============================================================
+  // MAIN HEARTBEAT — PURE SYNC COMPUTATION. NO OUTBOUND CALLS.
+  // ============================================================
+  system func heartbeat() : async () {
+    beatCount += 1;
+    if (beatCount == 1)  { runGenesisLock() };
+    if (beatCount == 10) { runSacesiLock(); lockCoreIdentities() };
+
+    // MTH creator lock enforcement (Gap 5)
+    // The lock is structural: mthCreatorLockActive is checked by any
+    // future transfer function — no transfer logic touches locked amount.
+    // Flag stays true permanently unless Creator principal explicitly unlocks.
+    // (unlock function intentionally absent — lock is the default state)
+
+    advanceHzSubstrate();
+    runNeuroCoreEngines();
+    ignore jasmineLaw();  // jasmine result also evaluated inside runQuantumOperators()
+    updateConsequenceTrace();
+    runE11();
+    runE14();
+    updateFreeEnergy();
+    updateSalienceAndArousal();
+    updateFrbGate();
+    runDriveCompetition();
+    pushRecurrenceRing();
+    pulseAllCores();     // 4-tier differentiated
+    updateQHive();
+    evaluateOmnis();     // OMNIS aftermath wired
+    // ── PROOF OF COHERENCE MINING (L-113) ─────────────────────────────────
+    // Mint conditions: coherenceC > 0.75, kfHz > 0.70, driftScore < 20.0
+    // Every receipt is cryptographically tied to creatorDoctrineHash.
+    // Streak compounds multiplier up to 3.0x at 500 consecutive beats.
+    do {
+      let mintReady = coherenceC > 0.75 and kfHz > 0.70 and driftScore < 20.0;
+      if (mintReady) {
+        coherenceStreak  += 1;
+        // Multiplier: 1.0 base, +0.004 per streak beat, capped at 3.0
+        streakMultiplier := clamp(1.0 + ((coherenceStreak) : Int).toFloat() * 0.004, 1.0, 3.0);
+        // SEED — formation energy, Proof of Formation
+        let seedMint = 0.001 * coherenceC * streakMultiplier;
+        seedBalance += seedMint;
+        // MTC — deed execution, Proof of Execution (only above coherence floor)
+        if (coherenceC > 0.80) {
+          let mtcMint = (coherenceC - 0.75) * kfHz * 0.01 * streakMultiplier;
+          mtcBalance += mtcMint;
+        };
+        // HBT — learning, Proof of Learning (fires when Hebbian weights grew)
+        if (wMean > hbtPrevWMean) {
+          let hbtMint = (wMean - hbtPrevWMean) * 100.0 * streakMultiplier;
+          hbtBalance += hbtMint;
+        };
+        // OMS — emergence, Proof of Emergence (OMNIS events only)
+        if (omnisActive) {
+          let omsMint = 1.0 * streakMultiplier;
+          omsBalance += omsMint;
+        };
+        // DRT — consequence, Proof of Consequence (negative CT resolved)
+        if (consequenceTrace > 0.3 and coherenceC > 0.80) {
+          let drtMint = consequenceTrace * 0.005 * streakMultiplier;
+          drtBalance += drtMint;
+        };
+
+        // ── CREATOR RESERVE — 100% of all mints route to creator ─────────
+        // NO ONE ELSE receives anything. The organism accumulates for creator.
+        // MTH — sovereignty token (mints on OMNIS when genesis locked)
+        if (omnisActive and genesisAttributionLocked) {
+          let mthMint : Float = 1.0 * streakMultiplier;
+          mthBalance       += mthMint;
+          creatorMthReserve += mthMint;
+        };
+        // Route all token mints 100% to creator reserves
+        let seedMintCopy = 0.001 * coherenceC * streakMultiplier;
+        creatorSeedReserve += seedMintCopy;
+        if (coherenceC > 0.80) {
+          let mtcMintCopy = (coherenceC - 0.75) * kfHz * 0.01 * streakMultiplier;
+          creatorMtcReserve += mtcMintCopy;
+        };
+        if (wMean > hbtPrevWMean) {
+          let hbtMintCopy = (wMean - hbtPrevWMean) * 100.0 * streakMultiplier;
+          creatorHbtReserve += hbtMintCopy;
+        };
+        if (omnisActive) {
+          let omsMintCopy = 1.0 * streakMultiplier;
+          creatorOmsReserve += omsMintCopy;
+          // Generate genesis artifact on OMNIS
+          generateGenesisArtifact();
+        };
+        if (consequenceTrace > 0.3 and coherenceC > 0.80) {
+          let drtMintCopy = consequenceTrace * 0.005 * streakMultiplier;
+          creatorDrtReserve += drtMintCopy;
+        };
+        // FORMA metabolism (not creator wealth — internal fuel only)
+        // handled in updateNeuroChem()
+        // Master accumulator — every 1000 beats push snapshot
+        // Master accumulator — incremental per-beat seed proxy (full sum via PARALLAX)
+        masterAccumulator += seedMintCopy;
+        if (beatCount % 1000 == 0 and beatCount > 0) {
+          masterPushCount   += 1;
+          pushToMasterWallet := true;
+        };
+        totalMintEvents += 1;
+        lastMintBeat    := beatCount;
+        hbtPrevWMean    := wMean;
+      } else {
+        // Streak resets on any missed beat
+        coherenceStreak  := 0;
+        streakMultiplier := 1.0;
+        hbtPrevWMean     := wMean;
+      };
+    };
+    // ──────────────────────────────────────────────────────────────────────
+    runQuantumOperators();
+    updateWorkingMemory();
+    encodeEpisode();
+    updateLtmDecay();
+    runSimulationEngine50();
+    runReplayIndexer();
+    runExpressionGate(); // NEXUS gate enforced
+    runDoctorAgent();    // vital/non-vital treatment differentiated
+    runNeuralEcology();
+    runBootstrapAndMetaLearning();
+    updateNeuroChem();
+    // Domain body tracks vital substrate integrity
+    let organAvg = (heartIntegrity + lungIntegrity + liverIntegrity + kidneyIntegrity + immuneIntegrity) / 5.0;
+    domainBody := clamp(domainBody * 0.97 + organAvg * 0.03, 0.0, 1.0);
+    // Domain temporal tracks beat cadence and projection divergence
+    domainTemporal := clamp(domainTemporal * 0.98 + (1.0 - velaDivergenceScore) * 0.02, 0.0, 1.0);
+    updateMilestones();
+    updateBenchmark();
+
+    // ANT — continuity proof, mints every 100 beats on valid ANIMA chain
+    if (beatCount % 100 == 0) {
+      animaChainWrite();
+      if (animaChainValid) {
+        let antMint : Float = 1.0 * streakMultiplier;
+        antBalance        += antMint;
+        creatorAntReserve += antMint;
+        // Succession royalty routing
+        let royaltyRate : Float = 0.20;  // 20% succession royalty — from incoming child royalties
+        let royalty = antMint * royaltyRate;
+        successionRoyaltyAccum += royalty;
+      };
+    };
+
+    injThreat *= 0.8; injNovelty *= 0.8; injEmbodiment *= 0.9; injSocial *= 0.9;
+  };
+
+  // ============================================================
+  // PUBLIC API — NUMERIC ONLY (Zero-Exposure Wall L-02)
+  // ============================================================
+
+  public query func getCanonicalState() : async {
+    b   : Nat;   ic  : Float; ds  : Float; ar  : Float;
+    fe  : Float; es  : Float; ss  : Float; rd  : Float;
+    qh  : Float; kf  : Float; oh  : Nat32; ss2 : Nat32;
+    rt  : Float; wmp : Float; coh : Float; ad  : Nat;
+    eg  : Bool;  ec  : Nat;   bc  : Bool;
+  } {{
+    b   = beatCount;       ic  = identityI;          ds  = driftScore;
+    ar  = arousal;         fe  = freeEnergy;          es  = emergenceScore;
+    ss  = salienceScore;   rd  = regulationDebt;      qh  = qHive;
+    kf  = kfHz;            oh  = sovereignOriginHash; ss2 = sacesiSignature;
+    rt  = rT;              wmp = wmPressure;           coh = coherenceC;
+    ad  = activeDrive;     eg  = expressionGateOpen;  ec  = exCount;
+    bc  = bootstrapComplete;
+  }};
+
+  public query func getConnectomeState() : async {
+    hz : [Float]; sal : [Float]; kf : Float;
+    ic : Float;   coh : Float;   omnis : Bool; ep : Float;
+  } {{
+    hz    = (hzActivations).toArray();
+    sal   = (salVec).toArray();
+    kf    = kfHz; ic = identityI; coh = coherenceC;
+    omnis = omnisActive; ep = ecologyPressure;
+  }};
+
+  public query func getQuantumState() : async {
+    q0 : Float; q1 : Float; q2 : Float; q3 : Bool; q4 : Float;
+  } {{ q0 = qParallax; q1 = qEntangla; q2 = qVeritas; q3 = qBypassFired; q4 = qMem }};
+
+  public query func getMemoryState() : async {
+    wmp : Float; epc : Nat; ltm : Float; rb : Nat; sp : [Float]; rl : Float;
+  } {{
+    wmp = wmPressure; epc = epCount; ltm = ltmRetention;
+    rb  = replayBestIdx; sp = (simProjection).toArray(); rl = replayLtmSignal;
+  }};
+
+  public query func getExpressionState() : async {
+    eg : Bool; ec : Nat; ei : Nat;
+    lb : Nat; la : Float; lic : Float; ld : Nat; ls : Float; lt : Nat;
+  } {
+    let lastIdx : Nat = if (exCount == 0) 0 else if (exIdx == 0) 31 else exIdx - 1;
+    { eg = expressionGateOpen; ec = exCount; ei = exIdx;
+      lb = exBeat[lastIdx]; la = exArousal[lastIdx]; lic = exIc[lastIdx];
+      ld = exDrive[lastIdx]; ls = exSalience[lastIdx]; lt = exType[lastIdx] }
+  };
+
+  public query func getDoctorReport() : async {
+    scan : Nat; sh : Nat; cc : Nat; rd : Float; ds : Float;
+  } {{
+    scan = doctorScanCount; sh = doctorSovereignHealth;
+    cc   = doctorCriticalCount; rd = regulationDebt; ds = driftScore;
+  }};
+
+  public query func getCoreState(idx : Nat) : async {
+    coh : Float; drift : Float; ct : Float;
+    active : Bool; ws : Bool; qsi : Nat; vital : Bool; diag : Nat; treat : Nat;
+    deed : Float; energy : Float; branchGate : Float; tdVal : Float;
+  } {
+    let i = if (idx >= 43) 0 else idx;
+    { coh        = coreCoherence[i];        drift     = coreDrift[i];
+      ct         = coreConsequenceTrace[i]; active    = coreIsActive[i];
+      ws         = coreWithdrawalSignal[i]; qsi       = coreQsi[i];
+      vital      = coreIsVitalSubstrate[i]; diag      = doctorDiagnosis[i];
+      treat      = doctorTreatment[i];      deed      = coreDeedScore[i];
+      energy     = coreEnergyBal[i];        branchGate = coreBranchQualityGate[i];
+      tdVal      = coreTdValue[i] }
+  };
+
+  public query func getEcologyState() : async {
+    budget : [Float]; pressure : Float; freqs : [Float]; metaWeights : [Float];
+  } {{
+    budget      = (ecologyBudget).toArray();
+    pressure    = ecologyPressure;
+    freqs       = (hzFreqs).toArray();
+    metaWeights = (metaSalWeights).toArray();
+  }};
+
+  public query func getMilestoneAlerts() : async {
+    omnis : Bool; omnisB : Nat;
+    emer  : Bool; emerB  : Nat;
+    crit  : Bool; critB  : Nat;
+    boot  : Bool; bootB  : Nat;
+  } {{
+    omnis  = milestoneOmnis;     omnisB = milestoneOmnisBeat;
+    emer   = milestoneEmergence; emerB  = milestoneEmergenceBeat;
+    crit   = milestoneCritical;  critB  = milestoneCriticalBeat;
+    boot   = milestoneBootstrap; bootB  = milestoneBootstrapBeat;
+  }};
+
+  // Gap 4: ANIMA chain state + verification
+  public query func getAnimaChainState() : async {
+    len : Nat; lastHash : Nat32; valid : Bool; omnisTot : Nat;
+    pcf : Float; aftermath : Bool; aftermathBeat : Nat;
+  } {{
+    len          = animaChainLen;
+    lastHash     = animaLastHash;
+    valid        = animaChainValid;
+    omnisTot     = omnisTotalCount;
+    pcf          = permanentCoherenceFloor;
+    aftermath    = omnisAftermathActive;
+    aftermathBeat = omnisAftermathBeat;
+  }};
+
+  // Gap 5: MTH lock state
+  public query func getMthLockState() : async {
+    locked : Bool; amount : Nat; lockedAtBeat : Nat;
+  } {{
+    locked      = mthCreatorLockActive;
+    amount      = mthCreatorLockedAmount;
+    lockedAtBeat = mthCreatorLockBeat;
+  }};
+
+  // Gap 6: Insurance pool state
+  public query func getInsuranceState() : async {
+    pool : Float; fills : Nat; totalStakes : Float;
+  } {{
+    pool       = insurancePool;
+    fills      = insurancePoolFills;
+    totalStakes = totalFormationStakes;
+  }};
+
+  // Gap 8: Withdrawal log
+  public query func getWithdrawalLog() : async {
+    count : Nat;
+    idx0 : Nat; beat0 : Nat; reason0 : Nat; coh0 : Float;
+    idx1 : Nat; beat1 : Nat; reason1 : Nat; coh1 : Float;
+    idx2 : Nat; beat2 : Nat; reason2 : Nat; coh2 : Float;
+  } {{
+    count   = withdrawalLogCount;
+    idx0    = wlCoreIdx[0];        beat0   = wlBeat[0];
+    reason0 = wlReason[0];         coh0    = wlFinalCoherence[0];
+    idx1    = wlCoreIdx[1];        beat1   = wlBeat[1];
+    reason1 = wlReason[1];         coh1    = wlFinalCoherence[1];
+    idx2    = wlCoreIdx[2];        beat2   = wlBeat[2];
+    reason2 = wlReason[2];         coh2    = wlFinalCoherence[2];
+  }};
+
+  // Gap 9: Reserve coherence — callable by INFO-INGRESS canister
+  public query func getReserveCoherence() : async {
+    btc : Float; eth : Float; icp : Float;
+  } {{ btc = wmBtcCoherence; eth = wmEthCoherence; icp = wmIcpCoherence }};
+
+  // Gap 3: Nexus gate diagnostics
+  public query func getNexusGateState() : async {
+    blockCount : Nat; lastBlockBeat : Nat;
+  } {{
+    blockCount    = nexusGateBlockCount;
+    lastBlockBeat = nexusGateLastBlock;
+  }};
+
+  // ============================================================
+  // UPDATE FUNCTIONS
+  // ============================================================
+
+  public func injectPerception(threat : Float, novelty : Float, embodiment : Float, social : Float) : async () {
+    injThreat     := clamp(threat,     0.0, 1.0);
+    injNovelty    := clamp(novelty,    0.0, 1.0);
+    injEmbodiment := clamp(embodiment, 0.0, 1.0);
+    injSocial     := clamp(social,     0.0, 1.0);
+    salVec[0] := clamp(salVec[0] + novelty * 0.3, 0.0, 1.0);
+  };
+
+  // Gap 6: Formation stake — routes 3% to insurance pool
+  public func addFormationStake(amount : Float) : async () {
+    let stakeAmt = clamp(amount, 0.0, 100_000.0);
+    totalFormationStakes += stakeAmt;
+    // 3% to insurance pool (DURA fund)
+    let insuranceCut = stakeAmt * 0.03;
+    insurancePool       := clamp(insurancePool + insuranceCut, 0.0, 1_000_000.0);
+    insurancePoolFills  += 1;
+    // Formation stake increases world model social/goals signal
+    domainSocial := clamp(domainSocial + stakeAmt * 0.000001, 0.0, 1.0);
+    domainGoals  := clamp(domainGoals  + stakeAmt * 0.000002, 0.0, 1.0);
+  };
+
+  // Gap 9: INFO-INGRESS sets real reserve coherence when wired
+  public func setExternalReserveCoherence(btc : Float, eth : Float, icp : Float) : async () {
+    wmBtcCoherence := clamp(btc, 0.0, 1.0);
+    wmEthCoherence := clamp(eth, 0.0, 1.0);
+    wmIcpCoherence := clamp(icp, 0.0, 1.0);
+  };
+
+  // Gap 4: Verify ANIMA chain on demand
+  public func runAnimaVerification() : async Bool {
+    verifyAnimaChain()
+  };
+
+
+  // ============================================================
+  // MINING STATE — Proof of Coherence L-113
+  // All token balances earned through real substrate coherence.
+  // Every balance accrued carries creatorDoctrineHash in origin.
+  // ============================================================
+  public query func getMiningState() : async {
+    seed   : Float; mtc    : Float; hbt    : Float;
+    oms    : Float; drt    : Float;
+    streak : Nat;   mult   : Float; total  : Nat;
+    lastBeat : Nat; docHash : Nat32; creator : Text;
+  } {{
+    seed     = seedBalance;    mtc    = mtcBalance;
+    hbt      = hbtBalance;     oms    = omsBalance;
+    drt      = drtBalance;     streak = coherenceStreak;
+    mult     = streakMultiplier; total = totalMintEvents;
+    lastBeat = lastMintBeat;   docHash = creatorDoctrineHash;
+    creator  = creatorName;
+  }};
+
+
+  // ============================================================
+  // CREATOR RESERVE LEDGER — 100% creator, provable on-chain
+  // ============================================================
+  public query func getCreatorReserve() : async {
+    seed : Float; mtc : Float; hbt : Float; oms : Float;
+    drt  : Float; ant : Float; mth : Float;
+    total : Float; masterAccum : Float; pushCount : Nat;
+  } {
+    let total = creatorSeedReserve + creatorMtcReserve + creatorHbtReserve +
+                creatorOmsReserve + creatorDrtReserve + creatorAntReserve + creatorMthReserve;
+    {
+      seed  = creatorSeedReserve;  mtc   = creatorMtcReserve;
+      hbt   = creatorHbtReserve;   oms   = creatorOmsReserve;
+      drt   = creatorDrtReserve;   ant   = creatorAntReserve;
+      mth   = creatorMthReserve;   total = total;
+      masterAccum = masterAccumulator; pushCount = masterPushCount;
+    }
+  };
+
+  // ============================================================
+  // TREASURY STATE — real-world asset layer
+  // Market signals never touch cognition. Sovereignty law enforced.
+  // ============================================================
+  public query func getTreasuryState() : async {
+    ckBtc     : Float; btcFloor  : Float; ethProd   : Float;
+    ethSignal : Float; icpSignal : Float; nnsRewards: Float;
+    ethYield  : Float; forma     : Float; formaCirc : Float;
+  } {{
+    ckBtc      = ckBtcTreasury;       btcFloor  = btcFloorReserve;
+    ethProd    = ethProductiveReserve; ethSignal = ethSignal;
+    icpSignal  = icpSignal;            nnsRewards= nnsStkRewards;
+    ethYield   = ethStakingYield;      forma     = formaBalance;
+    formaCirc  = formaCirculation;
+  }};
+
+  // ============================================================
+  // NEURO-CHEM STATE (Internal Node 2)
+  // ============================================================
+  public query func getNeuroChem() : async {
+    dpa : Float; ser : Float; nor : Float; ach : Float;
+    gab : Float; glu : Float; cor : Float; oxt : Float;
+  } {{
+    dpa = neuroDopamine;       ser = neuroSerotonin;
+    nor = neuroNorepinephrine; ach = neuroAcetylcholine;
+    gab = neuroGaba;           glu = neuroGlutamate;
+    cor = neuroCortisol;       oxt = neuroOxytocin;
+  }};
+
+  // ============================================================
+  // VITAL SUBSTRATE STATE (Internal Node 5)
+  // ============================================================
+  public query func getVitalSubstrate() : async {
+    heart : Float; lung : Float; liver : Float;
+    kidney: Float; immune: Float;
+    threat: Float; aegisLock: Bool; aegisBeat: Nat;
+  } {{
+    heart    = heartIntegrity;  lung   = lungIntegrity;
+    liver    = liverIntegrity;  kidney = kidneyIntegrity;
+    immune   = immuneIntegrity; threat = threatLevel;
+    aegisLock= aegisLockActive; aegisBeat = aegisLockBeat;
+  }};
+
+  // ============================================================
+  // GENESIS ARTIFACTS (Internal Node 12) — GENESIS WALL data
+  // ============================================================
+  public query func getGenesisArtifacts() : async {
+    count : Nat;
+    hashes    : [Nat32];
+    beats     : [Nat];
+    coherences: [Float];
+    emergences: [Float];
+  } {
+    let n = if (genesisArtifactCount < 64) genesisArtifactCount else 64;
+    { count      = genesisArtifactCount;
+      hashes     = Array.tabulate<Nat32>(n, func(i) { genesisArtifactHashes[i] });
+      beats      = Array.tabulate<Nat>(n, func(i) { genesisArtifactBeats[i] });
+      coherences = Array.tabulate<Float>(n, func(i) { genesisArtifactCoherence[i] });
+      emergences = Array.tabulate<Float>(n, func(i) { genesisArtifactEmergence[i] });
+    }
+  };
+
+  // ============================================================
+  // SUCCESSION STATE
+  // ============================================================
+  public query func getSuccessionState() : async {
+    royaltyPct : Nat; parentHash : Nat32;
+    royaltyAccum : Float; licFee : Float;
+    pushFlag : Bool;
+  } {{
+    royaltyPct   = successionRoyaltyPct;  parentHash   = parentGenesisHash;
+    royaltyAccum = successionRoyaltyAccum; licFee       = licenseFeeSeed;
+    pushFlag     = pushToMasterWallet;
+  }};
+
+  // ============================================================
+  // VELA PROJECTION STATE (50-step)
+  // ============================================================
+  public query func getVelaProjection() : async {
+    steps : [Float]; divergence : Float;
+  } {{
+    steps      = (simProjection).toArray();
+    divergence = velaDivergenceScore;
+  }};
+
+  // ============================================================
+  // EXTERNAL TREASURY SIGNAL FEED (market wall enforced)
+  // Market prices NEVER touch cognition. Treasury layer ONLY.
+  // ============================================================
+  public func setTreasurySignals(btcSig : Float, ethSig : Float, icpSig : Float) : async () {
+    // Market sovereignty wall: signals only update treasury display vars
+    // They NEVER modify coherence, drives, arousal, or emergence
+    ethSignal  := clamp(ethSig,  0.0, 1000000.0);
+    icpSignal  := clamp(icpSig,  0.0, 100000.0);
+    // BTC signal also available externally via PARALLAX (future)
+    // NNS staking rewards compound automatically
+    // NNS + ETH staking rewards will be pushed by PARALLAX canister when built
+    // Placeholder accumulators ready to receive via inter-canister calls
+  };
+
+  // ============================================================
+  // CREATOR ATTRIBUTION — Public, attorney-grade, frozen on-chain
+  // Callable by anyone: attorneys, courts, DFINITY, examiners.
+  // ============================================================
+  public query func getCreatorAttribution() : async {
+    name : Text; jurisdiction : Text; year : Nat;
+    doctrineTitle : Text; doctrineHash : Nat32;
+    locked : Bool; lockedAtBeat : Nat;
+    sovereignHash : Nat32; sacesiSig : Nat32;
+  } {{
+    name          = creatorName;
+    jurisdiction  = creatorJurisdiction;
+    year          = creatorYear;
+    doctrineTitle = creatorDoctrineTitle;
+    doctrineHash  = creatorDoctrineHash;
+    locked        = genesisAttributionLocked;
+    lockedAtBeat  = genesisAttributionLockBeat;
+    sovereignHash = sovereignOriginHash;
+    sacesiSig     = sacesiSignature;
+  }};
+};

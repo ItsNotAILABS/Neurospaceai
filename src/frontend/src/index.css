@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Self-hosted JetBrains Mono (preferred — avoids FOUT on repeat visits) */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: local("JetBrains Mono"), url("/assets/fonts/JetBrainsMono.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: 0.04 0.01 220;
+  --foreground: 0.82 0.03 220;
+  --card: 0.065 0.012 220;
+  --card-foreground: 0.78 0.03 220;
+  --popover: 0.065 0.012 220;
+  --popover-foreground: 0.78 0.03 220;
+  --primary: 0.72 0.18 50;
+  --primary-foreground: 0.04 0.01 220;
+  --secondary: 0.12 0.02 220;
+  --secondary-foreground: 0.72 0.04 220;
+  --muted: 0.1 0.015 220;
+  --muted-foreground: 0.45 0.03 220;
+  --accent: 0.55 0.18 240;
+  --accent-foreground: 0.04 0.01 220;
+  --destructive: 0.55 0.22 25;
+  --destructive-foreground: 0.95 0.01 220;
+  --border: 0.18 0.02 220;
+  --input: 0.12 0.02 220;
+  --ring: 0.72 0.18 50;
+  --radius: 0px;
+  /* 3D Lab Tokens — phi-proportioned, data-driven */
+  --lab-chamber-bg: 0.02 0.008 220;
+  --lab-chamber-border: 0.12 0.018 220;
+  --lab-panel-bg: 0.055 0.01 220;
+  --lab-panel-header: 0.15 0.025 220;
+
+  /* Kuramoto Brain Node Colors (Phase Representation) */
+  --node-phase-0: 0.55 0.22 240;
+  --node-phase-45: 0.58 0.2 250;
+  --node-phase-90: 0.62 0.18 260;
+  --node-phase-135: 0.6 0.2 270;
+  --node-phase-180: 0.58 0.22 280;
+  --node-phase-225: 0.56 0.24 290;
+  --node-phase-270: 0.54 0.25 300;
+  --node-phase-315: 0.52 0.23 310;
+
+  /* Emergence Signal (R ≥ 0.87) */
+  --emergence-glow: 0.65 0.28 280;
+  --emergence-intense: 0.75 0.3 280;
+
+  /* Avatar Team Colors */
+  --avatar-nexus: 0.6 0.22 240;
+  --avatar-cognus: 0.58 0.2 260;
+  --avatar-lexis: 0.56 0.24 280;
+  --avatar-aurum: 0.68 0.24 45;
+  --avatar-solus: 0.55 0.22 270;
+  --avatar-vetus: 0.52 0.2 250;
+  --avatar-veritas: 0.59 0.22 265;
+  --avatar-upgrade: 0.61 0.23 275;
+
+  /* Material Sandbox */
+  --material-dirt: 0.35 0.14 50;
+  --material-soft-metal: 0.65 0.12 220;
+  --material-hard-metal: 0.25 0.08 220;
+  --material-crystalline: 0.8 0.28 270;
+
+  /* Phi-Ratio Spacing (CSS units mapped to PHI multiples) */
+  --spacing-1: 0.618rem;
+  --spacing-phi: 1rem;
+  --spacing-2phi: 1.618rem;
+  --spacing-3phi: 2.618rem;
+  --spacing-5phi: 4.236rem;
+  --spacing-8phi: 6.854rem;
+
+  /* 873ms Heartbeat */
+  --pulse-duration: 873ms;
+  --pulse-easing: cubic-bezier(0.4, 0, 0.6, 1);
+
+  --pharma-primary: 0.55 0.22 170;
+  --pharma-primary-intense: 0.65 0.28 170;
+  --pharma-secondary: 0.45 0.18 165;
+  --pharma-accent: 0.62 0.24 175;
+  --pharma-glow: 0.68 0.26 172;
+  --pharma-surface-light: 0.08 0.01 180;
+  --pharma-surface-mid: 0.12 0.015 180;
+  --pharma-text-primary: 0.85 0.02 180;
+  --pharma-text-secondary: 0.55 0.04 180;
+  --pharma-border: 0.22 0.03 175;
+  --pharma-button-bg: 0.48 0.2 168;
+  --pharma-button-hover: 0.55 0.24 170;
+  --pharma-neon-teal: 0 0 8px oklch(0.62 0.26 172 / 0.6), 0 0 20px
+    oklch(0.62 0.26 172 / 0.2);
+}
+
+* {
+  border-color: oklch(var(--border));
+}
+
+body {
+  background: oklch(var(--background));
+  color: oklch(var(--foreground));
+  font-family: "JetBrains Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.05 0.008 220);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.22 0.04 220);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.35 0.06 200);
+}
+
+/* ── Scrollbar hide utility ──────────────────────────────────────── */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+.lab-pulse {
+  animation: lab-pulse var(--pulse-duration) var(--pulse-easing) infinite;
+}
+
+.lab-bloom {
+  animation: lab-bloom var(--pulse-duration) var(--pulse-easing) infinite;
+}
+
+.lab-emergence {
+  animation: lab-emergence calc(var(--pulse-duration) * 2) var(--pulse-easing)
+    infinite;
+}
+
+.node-phase {
+  animation: node-phase-shift calc(var(--pulse-duration) * 10) linear infinite;
+}
+
+/* ── Lab Animations ──────────────────────────────────────────────────────── */
+@keyframes lab-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.15);
+  }
+}
+
+@keyframes lab-bloom {
+  0%,
+  100% {
+    filter: blur(0px) drop-shadow(0 0 2px oklch(var(--primary)));
+  }
+  50% {
+    filter: blur(1px) drop-shadow(0 0 8px oklch(var(--primary)));
+  }
+}
+
+@keyframes lab-emergence {
+  0% {
+    opacity: 0;
+    filter: drop-shadow(0 0 0px oklch(var(--emergence-glow)));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px oklch(var(--emergence-intense)));
+  }
+  100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 6px oklch(var(--emergence-glow)));
+  }
+}
+
+@keyframes node-phase-shift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* ── Terminal animations ─────────────────────────────────────────── */
+@keyframes terminal-cursor {
+  0%,
+  49.9% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes terminal-scan {
+  0% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}
+
+@keyframes data-stream {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.animate-terminal-cursor {
+  animation: terminal-cursor 1s step-end infinite;
+}
+
+.animate-terminal-scan {
+  animation: terminal-scan 2s ease-in-out infinite;
+}
+
+/* Skeleton shimmer — left-to-right sweep over dark base */
+.skeleton-stream {
+  background: linear-gradient(
+    90deg,
+    oklch(0.1 0.015 220) 0%,
+    oklch(0.16 0.03 210) 40%,
+    oklch(0.1 0.015 220) 100%
+  );
+  background-size: 200% 100%;
+  animation: data-stream 2.4s linear infinite;
+}
+
+/* ── Text selection ──────────────────────────────────────────────── */
+::selection {
+  background: oklch(0.72 0.22 195 / 0.25);
+  color: oklch(0.95 0.05 200);
+}
