@@ -230,3 +230,104 @@ This lets Earth teams understand the mission during sparse windows and audit the
 - NASA AI medical support report: https://ntrs.nasa.gov/citations/20240000754
 - NASA Human Factors and Behavioral Performance: https://www.nasa.gov/hrp/human-factors-and-behavioral-performance/
 - NASA AI Strategy: https://www.nasa.gov/wp-content/uploads/2025/11/nasa-ai-strategy-official.pdf
+
+## Human–AI–robot entanglement
+
+Here, “entangled” means operationally coupled: the human, AI, robot, habitat, and mission state continuously influence one another through observations, goals, controls, and receipts. It does not claim quantum entanglement between minds and machines.
+
+NASA's Human Exploration Telerobotics program, ESA/DLR's Surface Avatar experiments, NASA's Astrobee work, and JPL's supervised-telerobotics research establish the practical pattern: combine direct teleoperation, haptic feedback, task delegation, supervised autonomy, and autonomous execution.
+
+### Five control modes
+
+The system should move between modes according to latency, risk, and confidence:
+
+1. **Direct control:** the human drives joint, arm, rover, or camera motion.
+2. **Shared control:** the AI stabilizes motion, avoids hazards, and respects force/position limits while the human chooses intent.
+3. **Supervisory control:** the human specifies a goal; the robot plans and executes within a bounded envelope.
+4. **Delegated autonomy:** the robot performs a verified task, reports progress, and requests help on ambiguity.
+5. **Collective mode:** one human supervises multiple robots while AI allocates attention and coordinates the team.
+
+A human can always escalate to a more direct mode when the task becomes uncertain. The AI can recommend escalation but must not silently seize authority.
+
+### Remote-control routing
+
+- Earth to lunar surface: supervisory control and task delegation are usually more appropriate than raw joystick control.
+- Lunar orbit to lunar surface: lower-latency telepresence can support direct or shared control, as demonstrated by the Surface Avatar pattern.
+- Habitat to nearby robot: direct, haptic, and shared control are practical for dexterous work.
+- Earth to deep-space vehicle: send goals, constraints, plans, and evidence requests; do not assume continuous teleoperation.
+- Robot to robot: agents exchange task state, maps, confidence, and resource claims, never opaque commands alone.
+
+### The handoff packet
+
+Every transition between human and robot control should generate a handoff receipt:
+
+- operator identity and role;
+- robot identity and software/model version;
+- control mode;
+- mission intent;
+- target and constraints;
+- local map/state;
+- link latency and quality;
+- AI assumptions;
+- predicted hazards;
+- authority expiration;
+- stop/recovery behavior;
+- accepted, rejected, or modified by whom;
+- outcome and evidence digest.
+
+This is the practical bridge between Neurospace memory, KILN provenance, and telerobotics.
+
+### AI that helps the human
+
+The AI should help by:
+
+- turning high-level intent into candidate robot tasks;
+- previewing actions in a digital twin;
+- stabilizing fine motor control;
+- predicting reachability and collision;
+- summarizing multiple robot states;
+- highlighting disagreement and uncertainty;
+- preserving a replayable history;
+- learning operator preferences only with consent;
+- returning control cleanly after autonomy.
+
+The AI must not optimize for obedience, engagement, or dependency. Its objective is safe, legible human capability.
+
+### Robotics research stack
+
+Build the prototype as six layers:
+
+- **Embodiment:** rover, arm, humanoid, drone, or simulated robot.
+- **Perception:** cameras, depth, force, inertial, thermal, and event streams.
+- **World model:** geometry, objects, hazards, task state, and uncertainty.
+- **Intent compiler:** human language, gesture, haptic input, and symbols to typed goals.
+- **Shared autonomy:** constraint handling, local planning, assistance, and recovery.
+- **Mission memory:** control handoffs, observations, decisions, and outcomes.
+
+The public console should show the same mission state that the robot uses, with private crew data separated from public verification data.
+
+### The first Neurospace demonstration
+
+Build a two-robot remote workcell:
+
+- one human operator;
+- one AI mission copilot;
+- one mobile rover;
+- one dexterous arm or humanoid simulator;
+- delayed and degraded links;
+- camera, depth, force, and telemetry streams;
+- direct/shared/supervisory/delegated modes;
+- injected failures;
+- complete handoff receipts;
+- public replay and verification.
+
+Success means the human completes more useful work with lower cognitive load, catches AI errors, can reclaim control immediately, and can explain afterward why each action happened.
+
+### Research references
+
+- NASA Human Exploration Telerobotics: https://www.nasa.gov/space-technology-mission-directorate/tdm/human-exploration-telerobotics-het/
+- ESA/DLR Surface Avatar: https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Orbiting_astronaut_oversees_robot_team_on_Earth
+- ESA 2025 astronaut robot-team training: https://www.esa.int/ESA_Multimedia/Images/2025/08/Training_robots_from_space
+- NASA/JPL supervised telerobotics: https://robotics.jpl.nasa.gov/what-we-do/research-tasks/steler-supervised-telerobotics-laboratory/
+- NASA Astrobee and remote robotics: https://www.nasa.gov/centers-and-facilities/johnson/25-years-of-space-station-technology-driving-exploration/
+- ESA exoskeleton and haptic control: https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/The_ESA_Exoskeleton
