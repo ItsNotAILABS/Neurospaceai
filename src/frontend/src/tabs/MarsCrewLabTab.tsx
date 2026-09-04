@@ -1,11 +1,7 @@
 import { useMemo, useState } from "react";
 import IntelligenceNetworkPanel from "../components/IntelligenceNetworkPanel";
+import { createNeurospaceMind } from "../lib/neurospace-ai-sdk";
 import {
-  createMarsScenario,
-  electRoverLeader,
-  enqueueEarthMessage,
-  injectFault,
-  stepMarsScenario,
   type MarsScenarioState,
   type ScenarioFault,
 } from "../lib/mars-crew/scenario";
@@ -22,8 +18,9 @@ const formatHours = (seconds: number) =>
   `${(seconds / 3600).toFixed(2)} h`;
 
 export default function MarsCrewLabTab() {
+  const [sdk] = useState(() => createNeurospaceMind(42));
   const [scenario, setScenario] = useState<MarsScenarioState>(() =>
-    createMarsScenario(42),
+    sdk.getScenario(),
   );
 
   const leader = scenario.rovers.find((rover) => rover.leader);
@@ -38,11 +35,12 @@ export default function MarsCrewLabTab() {
   }, [scenario]);
 
   function step(hours: number) {
-    setScenario((current) => stepMarsScenario(current, hours * 3600));
+    setScenario(sdk.step(hours).scenario);
   }
 
   function reset() {
-    setScenario(createMarsScenario(42));
+    sdk.reset(42);
+    setScenario(sdk.getScenario());
   }
 
   return (
@@ -142,7 +140,7 @@ export default function MarsCrewLabTab() {
           <h2 className="text-sm font-semibold uppercase tracking-widest text-white">Rover swarm</h2>
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <span>leader: {leader?.id ?? "none"}</span>
-            <button type="button" onClick={() => setScenario((current) => electRoverLeader(current))} className="rounded border border-cyan-300/30 px-2 py-1 text-cyan-100">
+            <button type="button" onClick={() => setScenario(sdk.electRoverLeader())} className="rounded border border-cyan-300/30 px-2 py-1 text-cyan-100">
               ELECT LEADER
             </button>
           </div>
@@ -170,12 +168,12 @@ export default function MarsCrewLabTab() {
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-white">Inject a fault</h2>
           <div className="flex flex-wrap gap-2">
             {FAULTS.map((fault) => (
-              <button key={fault} type="button" onClick={() => setScenario((current) => injectFault(current, fault))} className="rounded-lg border border-amber-300/25 px-3 py-2 text-xs text-amber-100">
+              <button key={fault} type="button" onClick={() => setScenario(sdk.injectFault(fault))} className="rounded-lg border border-amber-300/25 px-3 py-2 text-xs text-amber-100">
                 {fault}
               </button>
             ))}
           </div>
-          <button type="button" onClick={() => setScenario((current) => enqueueEarthMessage(current, "GROUND: prioritize science target ALPHA", "science"))} className="mt-4 w-full rounded-lg border border-white/15 px-3 py-2 text-xs text-slate-300">
+          <button type="button" onClick={() => setScenario(sdk.sendEarthMessage("GROUND: prioritize science target ALPHA", "science"))} className="mt-4 w-full rounded-lg border border-white/15 px-3 py-2 text-xs text-slate-300">
             QUEUE DELAYED EARTH MESSAGE
           </button>
         </div>
