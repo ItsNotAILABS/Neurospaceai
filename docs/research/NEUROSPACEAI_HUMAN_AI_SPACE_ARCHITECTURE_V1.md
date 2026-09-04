@@ -331,3 +331,45 @@ Success means the human completes more useful work with lower cognitive load, ca
 - NASA/JPL supervised telerobotics: https://robotics.jpl.nasa.gov/what-we-do/research-tasks/steler-supervised-telerobotics-laboratory/
 - NASA Astrobee and remote robotics: https://www.nasa.gov/centers-and-facilities/johnson/25-years-of-space-station-technology-driving-exploration/
 - ESA exoskeleton and haptic control: https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/The_ESA_Exoskeleton
+
+## Long-term program roadmap
+
+This is a decade-scale direction with short feedback loops.
+
+### Horizon 1 — Ground truth and simulation
+
+Build the browser console, symbol compiler, evidence receipts, memory boundaries, robot simulator, delayed network emulator, digital twin, and public replay pages.
+
+Deliverable: anyone can reproduce a human–AI–robot mission scenario and inspect every decision.
+
+### Horizon 2 — Physical workcells
+
+Connect the system to safe terrestrial robots, telepresence hardware, haptic interfaces, cameras, force sensors, and simulated spacecraft environments.
+
+Deliverable: a human can switch between direct control, shared autonomy, and task delegation with measurable gains in safety and workload.
+
+### Horizon 3 — Distributed field robotics
+
+Test rover teams, inspection robots, agricultural or industrial workcells, and remote operations with real packet loss, latency, weather, faults, and maintenance constraints.
+
+Deliverable: robust human supervision of multiple robots with graceful degradation and verifiable handoffs.
+
+### Horizon 4 — Space-analog and orbital research
+
+Use HERA/CHAPEA-style habitat analogs, parabolic or field experiments, space robotics testbeds, and orbital robotics opportunities. Validate crew memory, local mission control, medical decision support, and robot coordination under isolation and delay.
+
+Deliverable: evidence about human performance and trust, not just a compelling demo.
+
+### Horizon 5 — Flight-qualified partnerships
+
+Only after safety cases, formal interfaces, hardware qualification, cybersecurity review, human-factors evidence, and mission-specific certification should any component approach a real spacecraft or habitat.
+
+Deliverable: modular flight software or payload components with bounded authority, independent safety systems, and auditable operations.
+
+### Permanent principles
+
+- Preserve a clean separation between research prototype, operational system, and flight-qualified component.
+- Keep the human as an accountable participant with consent, privacy, and override.
+- Let each generation inherit verified memory without inheriting unsupported claims.
+- Prefer open interfaces, reproducible tests, and public evidence.
+- Design for people who are tired, isolated, delayed from Earth, and working with imperfect machines.
