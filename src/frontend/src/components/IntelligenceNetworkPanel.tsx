@@ -3,9 +3,13 @@ import {
   createIntelligenceNetwork,
   makeFusionNode,
   makeMeasurementNode,
-  stepIntelligenceNetwork,
   type IntelligenceNetwork,
 } from "../lib/mars-crew/intelligence-network";
+import {
+  createUnifiedMind,
+  stepUnifiedMind,
+  type UnifiedMind,
+} from "../lib/mars-crew/unified-mind";
 
 function makeDemoNetwork(): IntelligenceNetwork {
   const perceptionA = makeMeasurementNode("camera-visible", "targetConfidence", 0.72, 0.04);
@@ -22,28 +26,32 @@ function makeDemoNetwork(): IntelligenceNetwork {
 }
 
 export default function IntelligenceNetworkPanel() {
-  const [network, setNetwork] = useState<IntelligenceNetwork>(() => makeDemoNetwork());
+  const [mind, setMind] = useState<UnifiedMind>(() =>
+    createUnifiedMind(makeDemoNetwork()),
+  );
   const [lastProduced, setLastProduced] = useState(0);
   const [lastRejected, setLastRejected] = useState(0);
 
   function stepNetwork() {
-    setNetwork((current) => {
-      const result = stepIntelligenceNetwork(current, 1);
-      setLastProduced(result.produced.length);
-      setLastRejected(result.rejected.length);
-      return result.network;
+    setMind((current) => {
+      const result = stepUnifiedMind(current, 1);
+      setLastProduced(result.networkResult.produced.length);
+      setLastRejected(result.networkResult.rejected.length);
+      return result.mind;
     });
   }
+
+  const network = mind.network;
 
   return (
     <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/[0.04] p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-sm font-semibold uppercase tracking-widest text-white">
-            Mathematical intelligence network
+            Unified computational mind
           </h2>
           <p className="mt-1 text-xs text-slate-400">
-            Photon/MESIE measurements → Bayesian state estimate → mission decision
+            Photon/MESIE specialists → global workspace → mission decision
           </p>
         </div>
         <button
@@ -76,14 +84,29 @@ export default function IntelligenceNetworkPanel() {
         {[
           ["time", `${network.timeS.toFixed(1)} s`],
           ["energy", `${network.energySpentJ.toFixed(1)} J`],
-          ["produced", String(lastProduced)],
-          ["rejected", String(lastRejected)],
+          ["coherence", mind.state.globalCoherence.toFixed(3)],
+          ["approval", mind.state.humanApprovalRequired ? "REQUIRED" : "READY"],
         ].map(([label, value]) => (
           <div key={label} className="rounded-lg border border-white/10 bg-black/20 p-3">
             <div className="text-[10px] uppercase tracking-wider text-slate-500">{label}</div>
             <div className="mt-1 font-mono text-sm text-white">{value}</div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+          <div className="text-[10px] uppercase tracking-wider text-slate-500">dominant workspace</div>
+          <div className="mt-1 font-mono text-sm text-cyan-100">{mind.state.dominantVariable ?? "none"}</div>
+        </div>
+        <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+          <div className="text-[10px] uppercase tracking-wider text-slate-500">prediction error</div>
+          <div className="mt-1 font-mono text-sm text-cyan-100">{mind.state.predictionError.toFixed(4)}</div>
+        </div>
+        <div className="rounded-lg border border-white/10 bg-black/20 p-3">
+          <div className="text-[10px] uppercase tracking-wider text-slate-500">workspace capacity</div>
+          <div className="mt-1 font-mono text-sm text-cyan-100">{mind.state.workspace.length} / 8</div>
+        </div>
       </div>
 
       <div className="mt-4 space-y-2">
