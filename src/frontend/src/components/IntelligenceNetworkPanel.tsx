@@ -86,6 +86,8 @@ export default function IntelligenceNetworkPanel() {
           ["energy", `${network.energySpentJ.toFixed(1)} J`],
           ["coherence", mind.state.globalCoherence.toFixed(3)],
           ["approval", mind.state.humanApprovalRequired ? "REQUIRED" : "READY"],
+          ["produced", String(lastProduced)],
+          ["rejected", String(lastRejected)],
         ].map(([label, value]) => (
           <div key={label} className="rounded-lg border border-white/10 bg-black/20 p-3">
             <div className="text-[10px] uppercase tracking-wider text-slate-500">{label}</div>
