@@ -275,7 +275,7 @@ export function stepMarsScenario(
       dtSeconds,
       0.001,
     );
-    const measurement = updateScalar(prediction.estimate, {
+    const measurement = updateScalar(prediction, {
       value: member.healthSignal,
       variance: 0.02,
     });
