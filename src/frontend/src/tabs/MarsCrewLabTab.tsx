@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import IntelligenceNetworkPanel from "../components/IntelligenceNetworkPanel";
 import {
   createMarsScenario,
   electRoverLeader,
@@ -85,6 +86,8 @@ export default function MarsCrewLabTab() {
           </div>
         ))}
       </div>
+
+      <IntelligenceNetworkPanel />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
