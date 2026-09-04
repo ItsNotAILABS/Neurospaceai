@@ -56,6 +56,7 @@ const ConnectionsTab = lazy(() => import("./tabs/ConnectionsTab"));
 const Connectome3D = lazy(() => import("./tabs/Connectome3D"));
 const DoctorTab = lazy(() => import("./tabs/DoctorTab"));
 const OverviewTab = lazy(() => import("./tabs/OverviewTab"));
+const SymbolRegistryTab = lazy(() => import("./tabs/SymbolRegistryTab"));
 
 // WING 3: ENGINEERING
 const DeploymentTab = lazy(() => import("./tabs/DeploymentTab"));
@@ -167,6 +168,7 @@ const WINGS: WingConfig[] = [
       { id: "connectome", label: "CONNECTOME", short: "CTM" },
       { id: "doctor", label: "DOCTOR", short: "DOC" },
       { id: "overview", label: "OVERVIEW", short: "OVW" },
+      { id: "symbols", label: "SYMBOLS", short: "SYM" },
     ],
   },
   {
@@ -960,6 +962,7 @@ export default function App() {
               {activeTabId === "overview" && (
                 <OverviewTab onNavigate={() => {}} />
               )}
+              {activeTabId === "symbols" && <SymbolRegistryTab />}
 
               {/* WING 2: ENGINEERING */}
               {activeTabId === "deployment" && (
