@@ -1,0 +1,50 @@
+{
+  "schema": "kiln.project.v1",
+  "projectId": "neurospaceai",
+  "kiln": "ItsNotAILABS/KILN",
+  "repository": "ItsNotAILABS/Neurospaceai",
+  "sourceLineage": "FreddyCreates/BRAIN-AI-",
+  "workspace": "neurospaceai-deep-lab",
+  "lane": "neuroemergence",
+  "runtime": {
+    "frontend": "src/frontend",
+    "backend": "src/backend",
+    "backendPlatform": "Internet Computer / Motoko",
+    "localCommands": [
+      "pnpm install --prefer-offline",
+      "pnpm typecheck",
+      "pnpm build",
+      "mops check --fix",
+      "mops build",
+      "pnpm bindgen"
+    ]
+  },
+  "workSurfaces": [
+    "src/backend",
+    "src/frontend",
+    "docs",
+    "docs/research-papers",
+    "docs/external"
+  ],
+  "capabilities": [
+    "cognition",
+    "memory",
+    "brain-atlas",
+    "doctrine",
+    "simulation",
+    "economics",
+    "icp-canisters",
+    "react-console"
+  ],
+  "sideEffects": [
+    "github-push",
+    "canister-deploy",
+    "external-workflow"
+  ],
+  "approvalRequired": true,
+  "privacy": {
+    "sourceCode": "repository-controlled",
+    "workspaceMemory": "account-scoped",
+    "researchData": "explicit-consent-required"
+  }
+}
