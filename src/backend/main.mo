@@ -7853,10 +7853,6 @@ actor {
     ReportEngine.getPublishableReports(reportEngineState)
   };
 
-};
-
-
-
   // Canonical Latin/Sanskrit symbol and evidence receipts for public research clients.
   public query func getNeurospaceSymbols() : async [SymbolRegistry.Symbol] {
     SymbolRegistry.list()
