@@ -77,15 +77,26 @@ function seededRandom(seed: number): () => number {
 /** Knuth's exact Poisson sampler for small and moderate photon counts. */
 export function poissonSample(mean: number, seed = 1): number {
   assertFiniteNonNegative(mean, "mean");
+  if (mean === 0) return 0;
   const random = seededRandom(seed);
+
+  // Exact Knuth sampling is stable for sparse photon arrivals. For bright
+  // scenes, use the Poisson normal approximation to avoid O(mean) work.
+  if (mean > 100) {
+    const u1 = Math.max(random(), Number.MIN_VALUE);
+    const u2 = Math.max(random(), Number.MIN_VALUE);
+    const gaussian = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+    return Math.max(0, Math.round(mean + Math.sqrt(mean) * gaussian));
+  }
+
   const limit = Math.exp(-mean);
   let product = 1;
   let count = 0;
-  while (product > limit && count < 1_000_000) {
+  do {
     product *= Math.max(random(), Number.MIN_VALUE);
     count += 1;
-  }
-  return Math.max(0, count - 1);
+  } while (product > limit);
+  return count - 1;
 }
 
 const spectralResponse: Record<RetinalChannel, (wavelengthNm: number) => number> = {
