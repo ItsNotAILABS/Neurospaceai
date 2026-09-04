@@ -55,6 +55,7 @@ import HiveMind "./hive_mind";
   import BrainRouting "./brain_routing";
   import SubstrateMine "./substrate_mine";
   import ReportEngine "./report_engine";
+  import SymbolRegistry "symbol_registry";
 
 
 actor {
@@ -7855,3 +7856,14 @@ actor {
 };
 
 
+
+  // Canonical Latin/Sanskrit symbol and evidence receipts for public research clients.
+  public query func getNeurospaceSymbols() : async [SymbolRegistry.Symbol] {
+    SymbolRegistry.list()
+  };
+
+  public query func compileNeurospaceSymbol(id : Text, args : [Text]) : async ?SymbolRegistry.CompiledSymbol {
+    SymbolRegistry.compile(id, args)
+  };
+
+};
