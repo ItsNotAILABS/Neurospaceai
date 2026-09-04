@@ -81,3 +81,13 @@ Latin governance: ORIGO, RATIO, MEMORIA, REGISTRUM.
 Sanskrit rule and knowledge: SUTRA, SAMJNA, PARIBHASHA, PRAMANA, SMRTI.
 
 Future families may include Greek geometry, Babylonian sexagesimal time, Maya calendrical cycles, and modern physics terms, each with independent sources and tests.
+## Runtime surfaces
+
+The current implementation is additive and upgrade-safe:
+
+- frontend: `src/frontend/src/lib/neurospace/symbol-registry.ts` and the Research → Symbols console;
+- canister module: `src/backend/symbol_registry.mo`;
+- public query: `getNeurospaceSymbols()`;
+- compiler query: `compileNeurospaceSymbol(id, args)`.
+
+These surfaces intentionally return symbol metadata and compiled receipts only. They do not grant a symbol permission to mutate state or perform an external side effect.
